@@ -81,8 +81,6 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  # get /course/{course_id}.tar.gz
-
 definitions:
   Course:
     description: Course object.
