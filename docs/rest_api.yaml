@@ -1,0 +1,136 @@
+swagger: '2.0'
+info:
+  version: '0.1.0'
+  title: Chel
+  description: Chel's REST API
+  termsOfService: ''
+  contact:
+    name: APSet Team
+    url: http://support.bigdatauniversity.com
+    email: support@bigdatauniversity.com
+  license:
+    name: All rights reserved
+host: chel.bigdatauniversity.com
+basePath: /
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /courses:
+    get:
+      summary: List all courses.
+      description: >-
+        This API retrieve all courses that have been published at Big Data
+        University.
+      operationId: list_courses
+      responses:
+        200:
+          description: Collection of course objects.
+        # 422:
+        #   description: Invalid parameters.
+        #   schema:
+        #     $ref: '#/definitions/Error'
+        500:
+          description: Internal server error.
+          schema:
+            $ref: '#/definitions/Error'
+
+  /course/{course_id}:
+    get:
+      summary: Retrieve an existing course.
+      description: This API returns a single existing course object.
+      operationId: retrieve_course
+      parameters:
+        - $ref: '#/parameters/path_course_id'
+      responses:
+        200:
+          description: Course object.
+          schema:
+            $ref: '#/definitions/Course'
+        404:
+          description: Course not found.
+          schema:
+            $ref: '#/definitions/Error'
+        # 422:
+        #   description: Invalid parameters.
+        #   schema:
+        #     $ref: '#/definitions/Error'
+        500:
+          description: Internal server error.
+          schema:
+            $ref: '#/definitions/Error'
+
+  # get /course/{course_id}.tar.gz
+
+definitions:
+  Course:
+    description: Course object.
+    type: object
+    properties:
+      id: # course-v1:<org>:<course>:<run>
+        type: string
+        description: Unique identifier for course.
+
+      organization:
+        type: string
+        description: Organization code.
+      display_organization:
+        type: string
+        description: Organization display name.
+
+
+      display_name:
+        type: string
+        description: Display name.
+      short_description:
+        type: string
+        description: Short description.
+      language:
+        type: string
+        description: Language code.
+      updates:
+        description: Colection of update objectss
+        type: array
+        items:
+          description: Update object.
+          type: object
+          properties:
+            content:
+              type: string
+              format: html
+              description: Update message
+            date:
+              type: string
+            id:
+              type: integer
+            state:
+              type: string
+
+  Error:
+    description: Error details
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+        description: Error code
+      message:
+        type: string
+        description: Error message
+      description:
+        type: string
+        description: Error details
+
+parameters:
+  path_course_id:
+    name: course_id
+    in: path
+    description: Unique identifier for course.
+    required: true
+    type: string
