@@ -27,6 +27,9 @@ paths:
         This API retrieve all courses that have been published at Big Data
         University.
       operationId: list_courses
+      parameters:
+        - $ref: '#/parameters/query_page'
+        - $ref: '#/parameters/query_per_page'
       responses:
         200:
           description: Collection of course objects.
@@ -36,6 +39,10 @@ paths:
               $ref: '#/definitions/Course'
         401:
           description: Unauthorized.
+          schema:
+            $ref: '#/definitions/Error'
+        422:
+          description: Invalid parameters.
           schema:
             $ref: '#/definitions/Error'
         500:
@@ -167,3 +174,17 @@ parameters:
       - .json
       - .tar.gz
       - .tgz
+
+  query_page:
+    name: page
+    in: query
+    description: Result page number.
+    type: integer
+    format: int32
+
+  query_per_page:
+    name: per_page
+    in: query
+    description: Number of results per page.
+    type: integer
+    format: int32
