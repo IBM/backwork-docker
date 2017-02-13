@@ -34,6 +34,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Course'
+        401:
+          description: Unauthorized.
+          schema:
+            $ref: '#/definitions/Error'
         500:
           description: Internal server error.
           schema:
@@ -53,6 +57,10 @@ paths:
           description: Course object.
           schema:
             $ref: '#/definitions/Course'
+        401:
+          description: Unauthorized.
+          schema:
+            $ref: '#/definitions/Error'
         404:
           description: Course not found.
           schema:
