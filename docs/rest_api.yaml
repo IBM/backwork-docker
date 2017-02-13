@@ -30,6 +30,10 @@ paths:
       responses:
         200:
           description: Collection of course objects.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Course'
         # 422:
         #   description: Invalid parameters.
         #   schema:
