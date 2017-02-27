@@ -1,0 +1,13 @@
+version: '2'
+services:
+  heart:
+    image: apset-docker.artifactory.swg-devops.com/bigdatauniversity/course-dev.chell.heart
+    ports:
+      - "3000:3000"
+    environment:
+      - DEBUG=heart:*
+      - CHELL_ACCESS_KEY
+      - CHELL_SECRET_KEY
+
+    volumes:
+      - ./heart:/srv/heart

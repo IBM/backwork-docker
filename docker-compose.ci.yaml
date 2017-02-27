@@ -1,0 +1,9 @@
+version: '2'
+services:
+  heart:
+    build: ./heart
+    image: $REPO:$TAG
+    environment:
+      - DEBUG=heart:*
+      - CHELL_ACCESS_KEY=access
+      - CHELL_SECRET_KEY=secret

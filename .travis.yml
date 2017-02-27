@@ -1,0 +1,31 @@
+language: bash
+services: docker
+
+env:
+  - |
+    BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} # Branch name
+    PR_SHA=${TRAVIS_PULL_REQUEST_SHA::8}                 #
+    COMMIT_SHA=${TRAVIS_COMMIT::8}                       #
+    COMMIT=${PR_SHA:-$COMMIT_SHA}                        # Commit hash (XXXXXXXX)
+    BUILD=$(printf "%04d\n" $TRAVIS_BUILD_NUMBER)        # Build number (0000)
+    TAG=$BRANCH-$COMMIT-$BUILD                           # Docker tag (branch-XXXXXXXX-0000)
+    RELEASE=$TRAVIS_TAG                                  # New release indicated by Git tag (X.Y.Z)
+    REPO=${REGISTRY_HOST:-docker.io}/bigdatauniversity/course-dev.chell.heart
+
+before_install:
+  - if [ -n "$RELEASE" ]; then export TAG=$RELEASE; fi
+  # Ensure TAG doesn't have any slashes (`/`)
+  - export TAG=$(echo $TAG | sed 's;/;_;g')
+  - env | sort | egrep "REPO|TAG|REGISTRY" | egrep -vi "password|token"
+  - docker-compose -f docker-compose.ci.yaml build
+  - docker images
+
+script:
+  - docker-compose -f docker-compose.ci.yaml run --rm heart npm test
+
+after_success:
+  - if [ -n "$RELEASE" ]; then ci/push.sh; fi
+
+notifications:
+  slack:
+    secure: UqtImHNIrVVZYHw/31SxgdoDbLcbAvrENn38LFr65kNJuaklF6JnNZU5vXDdOskc0z8m87FIXlbHkqDXQkJWSAU98PtetMkFsL4zgfa6dwR9FU6l/ZTKEtjCocNqjRwzXZPxRbxyoIfFZa9ctmk1JkMOIuzv83T3wcwDTxtg3S5Xqo1svducPmhzU/xHw4j81Ukj6ZKzliPitSJ4JBUpXVU+tc6W1t02rP/asQoHdoLAG4OYHrKf70mLM2K+UgkJCpKuE+2q+gsj/lnfTC+yq4LCS1ZdnjEsldNTh+LuiwrmbtLwgTq2ir8w+GzTS77dOwCpPWpg0Opj1cljGu+hTN0UuGdOJaTu+qwrXT+zCDuzsUCh/KTaiF7G49FPCCMe3OFFnbtC2/7AY6KKBbivKibV36AmzEO3DRoOfOJUBcSoPBbQSPY6toab8/xEMc/Cy9Udz/UPg5hf7rJ8iJR0BUKLSX+dhN5ZWchds8fN4c22Vki0Jpg55py++xeam4Z53EE+lUqVKPjt2hH/8/ovgy63Pm6CFzMPZu1FbuQK9rBMxkkWip/IvuDDm7/Mwx8rKT8b4xnTSJ/PzeBr6AoccVGt8SKgYi81n3mHsUOWyi6hTmgE3cz6kFi8+omoMqUdogejTKs3QpFrMKJCfizMA9TY9sEiz+VNEH5MaozWi78=
