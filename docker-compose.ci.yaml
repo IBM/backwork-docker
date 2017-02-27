@@ -7,3 +7,7 @@ services:
       - DEBUG=heart:*
       - CHELL_ACCESS_KEY=access
       - CHELL_SECRET_KEY=secret
+
+      - COMPANION_CUBE_URL=https://cc.example.com
+      - COMPANION_CUBE_ACCESS_KEY=access
+      - COMPANION_CUBE_SECRET_KEY=secret

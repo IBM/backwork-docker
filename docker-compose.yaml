@@ -9,5 +9,9 @@ services:
       - CHELL_ACCESS_KEY
       - CHELL_SECRET_KEY
 
+      - COMPANION_CUBE_URL
+      - COMPANION_CUBE_ACCESS_KEY
+      - COMPANION_CUBE_SECRET_KEY
+
     volumes:
       - ./heart:/srv/heart

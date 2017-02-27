@@ -13,6 +13,8 @@ var index = require('./routes/index'),
 
 const config = require('/.config');
 
+let CompanionCube = require('./lib/companion_cube');
+
 passport.use(new Strategy(function(username, password, cb) {
   if (username === config.auth.accessKey && password === config.auth.secretKey) {
     cb(null, { user: true });
@@ -55,5 +57,7 @@ app.use(function(err, req, res, next) {
     stack: req.app.get('env') === 'development' ? err : {}
   });
 });
+
+app.local.companionCube = new CompanionCube(config.companionCube);
 
 module.exports = app;
