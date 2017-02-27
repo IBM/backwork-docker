@@ -17,11 +17,11 @@ before_install:
   # Ensure TAG doesn't have any slashes (`/`)
   - export TAG=$(echo $TAG | sed 's;/;_;g')
   - env | sort | egrep "REPO|TAG|REGISTRY" | egrep -vi "password|token"
-  - docker-compose -f docker-compose.ci.yaml build
+  - docker-compose -f ci/docker-compose.yaml build
   - docker images
 
 script:
-  - docker-compose -f docker-compose.ci.yaml run --rm heart npm test
+  - docker-compose -f ci/docker-compose.yaml run --rm heart npm test
 
 after_success:
   - if [ -n "$RELEASE" ]; then ci/push.sh; fi

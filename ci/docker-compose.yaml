@@ -1,7 +1,7 @@
 version: '2'
 services:
   heart:
-    build: ./heart
+    build: ../heart
     image: $REPO:$TAG
     environment:
       - DEBUG=heart:*
