@@ -1,4 +1,4 @@
-# Chel
+# Chell
 
 Global course catalog service.
 
@@ -8,4 +8,4 @@ Please refer to [LICENSE](LICENSE).
 
 ## Authors
 
-*   Emerging Technologies Team, IBM Analytics Platform Services <mailto:imcloud@ca.ibm.com>
+*   Partner Ecosystem Team, IBM Digital Business Group <mailto:imcloud@ca.ibm.com>

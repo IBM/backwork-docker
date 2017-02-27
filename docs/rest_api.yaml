@@ -1,16 +1,16 @@
 swagger: '2.0'
 info:
   version: '0.1.0'
-  title: Chel
-  description: Chel's REST API
+  title: Chell
+  description: Chell's REST API
   termsOfService: ''
   contact:
-    name: APSet Team
+    name: Partner Ecosystem Team, IBM Digital Business Group
     url: http://support.bigdatauniversity.com
     email: support@bigdatauniversity.com
   license:
     name: All rights reserved
-host: chel.bigdatauniversity.com
+host: chell.bigdatauniversity.com
 basePath: /
 schemes:
   - https
@@ -50,7 +50,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /course/{course_id}{format}:
+  /courses/{course_id}{format}:
     get:
       summary: Retrieve an existing course.
       description: This API returns a single existing course object.
