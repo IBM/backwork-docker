@@ -1,8 +1,6 @@
 'use strict';
 
-const nock = require('nock'),
-      Path = require('path'),
-      BasicClient = require('.');
+const BasicClient = require('.');
 
 let url = 'https://chell.example.com',
     accessKey = 'access',
