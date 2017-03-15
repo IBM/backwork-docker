@@ -1,17 +1,16 @@
 version: '2'
 services:
-  heart:
-    image: apset-docker.artifactory.swg-devops.com/bigdatauniversity/course-dev.chell.heart
+  chell:
+    image: apset-docker.artifactory.swg-devops.com/bigdatauniversity/course-dev.chell
     ports:
       - "3000:3000"
     environment:
-      - DEBUG=heart:*
+      - DEBUG=chell:*
       - CHELL_ACCESS_KEY
       - CHELL_SECRET_KEY
 
       - COMPANION_CUBE_URL
       - COMPANION_CUBE_ACCESS_KEY
       - COMPANION_CUBE_SECRET_KEY
-
     volumes:
-      - ./heart:/srv/heart
+      - ./app:/srv/chell

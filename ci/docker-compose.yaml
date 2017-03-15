@@ -1,10 +1,10 @@
 version: '2'
 services:
-  heart:
-    build: ../heart
+  chell:
+    build: ../app
     image: $REPO:$TAG
     environment:
-      - DEBUG=heart:*
+      - DEBUG=chell:*
       - CHELL_ACCESS_KEY=access
       - CHELL_SECRET_KEY=secret
 

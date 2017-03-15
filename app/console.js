@@ -4,7 +4,7 @@ const repl = require('repl'),
       url = require('url');
 
 let replServer = repl.start({
-  prompt: 'heart> '
+  prompt: 'chell> '
 });
 
 const config = require('./config'),
