@@ -10,7 +10,7 @@ env:
     BUILD=$(printf "%04d\n" $TRAVIS_BUILD_NUMBER)        # Build number (0000)
     TAG=$BRANCH-$COMMIT-$BUILD                           # Docker tag (branch-XXXXXXXX-0000)
     RELEASE=$TRAVIS_TAG                                  # New release indicated by Git tag (X.Y.Z)
-    REPO=${REGISTRY_HOST:-docker.io}/bigdatauniversity/course-dev.chell.heart
+    REPO=${REGISTRY_HOST:-docker.io}/bigdatauniversity/course-dev.chell
 
 before_install:
   - if [ -n "$RELEASE" ]; then export TAG=$RELEASE; fi
@@ -21,7 +21,7 @@ before_install:
   - docker images
 
 script:
-  - docker-compose -f ci/docker-compose.yaml run --rm heart npm test
+  - docker-compose -f ci/docker-compose.yaml run --rm chell npm test
 
 after_success:
   - if [ -n "$RELEASE" ]; then ci/push.sh; fi
