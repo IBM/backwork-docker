@@ -2,6 +2,28 @@
 
 Global course catalog service.
 
+## Bootstrap
+
+If the image specified in `docker-compose.yml` isn't available, you must
+bootstrap the project with the following commands.
+
+```shell
+REPO=apset-docker.artifactory.swg-devops.com/bigdatauniversity/course-dev.chell \
+  TAG=latest \
+  docker-compose -f ci/docker-compose.yaml build
+
+docker-compose run --rm chell npm install
+```
+
+The first command will build the image, and the second one will install the
+NPM packages locally for development.
+
+## Development
+
+```shell
+docker-compose up; docker-compose down
+```
+
 ## License
 
 Please refer to [LICENSE](LICENSE).
