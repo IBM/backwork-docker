@@ -11,3 +11,10 @@ services:
       - COMPANION_CUBE_URL=https://cc.example.com
       - COMPANION_CUBE_ACCESS_KEY=access
       - COMPANION_CUBE_SECRET_KEY=secret
+
+      - MONGO_URI=mongodb://mongo/chell
+    links:
+      - mongo
+
+  mongo:
+    image: mongo:3.4

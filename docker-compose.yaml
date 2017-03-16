@@ -1,4 +1,6 @@
 version: '2'
+volumes:
+  mongo-data:
 services:
   chell:
     image: apset-docker.artifactory.swg-devops.com/bigdatauniversity/course-dev.chell
@@ -12,5 +14,14 @@ services:
       - COMPANION_CUBE_URL
       - COMPANION_CUBE_ACCESS_KEY
       - COMPANION_CUBE_SECRET_KEY
+
+      - MONGO_URI=mongodb://mongo/chell
+    links:
+      - mongo
     volumes:
       - ./app:/srv/chell
+
+  mongo:
+    image: mongo:3.4
+    volumes:
+      - mongo-data:/data/db

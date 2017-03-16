@@ -8,8 +8,7 @@ let replServer = repl.start({
 });
 
 const config = require('./config'),
-      CompanionCube = require('./lib/companion_cube');
+      models = require('./models');
 
 replServer.context.config = config;
-
-replServer.context.companionCube = new CompanionCube(config.companionCube);
+replServer.context.models = models;

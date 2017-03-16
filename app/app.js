@@ -1,21 +1,26 @@
 'use strict';
 
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const express = require('express'),
+      cookieParser = require('cookie-parser'),
+      bodyParser = require('body-parser'),
 
-var passport = require('passport'),
-    Strategy = require('passport-http').BasicStrategy;
+      path = require('path'),
+      logger = require('morgan'),
 
-var index = require('./routes/index'),
-    courses = require('./routes/courses'),
-    versions = require('./routes/versions');
+      passport = require('passport'),
+      Strategy = require('passport-http').BasicStrategy,
 
-const config = require('./config');
+      api = require('./routes/api'),
 
-let CompanionCube = require('./lib/companion_cube');
+      models = require('./models'),
+
+      index = require('./routes/index'),
+      courses = require('./routes/courses'),
+      versions = require('./routes/versions'),
+
+      config = require('./config');
+
+models.init(config.mongoURI);
 
 passport.use(new Strategy(function(username, password, cb) {
   if (username === config.auth.accessKey && password === config.auth.secretKey) {
@@ -27,14 +32,13 @@ passport.use(new Strategy(function(username, password, cb) {
   }
 }));
 
-var app = express();
+const app = express();
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 app.use(passport.initialize());
-app.use(passport.authenticate('basic', { session: false }));
 app.use(logger('[:date[iso]] :method :url :status :res[content-length] (:response-time ms)'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -42,6 +46,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
+app.use('/api', passport.authenticate('basic', { session: false }), api);
+
 app.use('/', index);
 app.use('/courses', courses);
 app.use('/versions', versions);
@@ -66,7 +72,5 @@ app.use(function(err, req, res, next) {
     stack: req.app.get('env') === 'development' ? err : {}
   });
 });
-
-app.locals.companionCube = new CompanionCube(config.companionCube);
 
 module.exports = app;
