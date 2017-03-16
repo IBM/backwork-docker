@@ -10,7 +10,8 @@ var passport = require('passport'),
     Strategy = require('passport-http').BasicStrategy;
 
 var index = require('./routes/index'),
-    courses = require('./routes/courses');
+    courses = require('./routes/courses'),
+    versions = require('./routes/versions');
 
 const config = require('./config');
 
@@ -43,6 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 app.use('/', index);
 app.use('/courses', courses);
+app.use('/versions', versions);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

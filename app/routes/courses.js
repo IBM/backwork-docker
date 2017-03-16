@@ -13,4 +13,6 @@ router.get('/', function(req, res, next) {
   res.status(501).send({ message: 'Not Implemented' });
 });
 
+// POST /courses ?
+
 module.exports = router;
