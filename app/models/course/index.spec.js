@@ -1,76 +1,75 @@
-'use strict';
+const Course = require('./index');
 
-const mongoose = require('mongoose'),
-      Course = require('./index'),
+const runValidationTests = (tests, cb) => {
+  tests.map((test) => {
+    const result = new Course(test.course).validateSync();
 
-      runValidationTests = function(tests) {
-        for (let test of tests) {
-          let result = new Course(test.course).validateSync();
+    if (test.pass) {
+      return expect(result).toBeUndefined();
+    }
 
-          if (test.pass) {
-            expect(result).toBeUndefined();
-          } else {
-            expect(result.errors).toBeDefined();
-          }
-        }
-      };
+    return expect(result.errors).toBeDefined();
+  });
 
-describe('Course', function() {
-  describe('organization', function() {
-    it('should only allow letters', function(done) {
-      let course,
-          tests = [
-            {
-              course: { name: 'Code', organization: 'MyOrg', code: 'course' },
-              pass: true
-            },
-            {
-              course: { name: 'Code', organization: 'My Org', code: 'course' },
-              pass: false
-            },
-            {
-              course: { name: 'Code', organization: 'MyOrg1', code: 'course' },
-              pass: false
-            },
-            {
-              course: { name: 'Code', organization: 'MyOrg#', code: 'course' },
-              pass: false
-            }
-          ];
+  cb();
+};
 
-      runValidationTests(tests);
-      done();
+describe('Course', () => {
+  describe('organization', () => {
+    it('should only allow letters', (done) => {
+      const tests = [
+        {
+          course: { name: 'Code', organization: 'MyOrg', code: 'course' },
+          pass: true,
+        },
+        {
+          course: { name: 'Code', organization: 'My Org', code: 'course' },
+          pass: false,
+        },
+        {
+          course: { name: 'Code', organization: 'MyOrg1', code: 'course' },
+          pass: false,
+        },
+        {
+          course: { name: 'Code', organization: 'MyOrg#', code: 'course' },
+          pass: false,
+        },
+      ];
+
+      runValidationTests(tests, () => {
+        done();
+      });
     });
   });
 
-  describe('code', function() {
-    it('should only allow letters and numbers', function(done) {
-      let course,
-          tests = [
-            {
-              course: { name: 'Course', organization: 'Org', code: 'cours3' },
-              pass: true
-            },
-            {
-              course: { name: 'Course', organization: 'Org', code: 'cours:3' },
-              pass: false
-            },
-            {
-              course: { name: 'Course', organization: 'Org', code: 'course 1' },
-              pass: false
-            },
-            {
-              course: { name: 'Course', organization: 'Org', code: 'cou#se1' },
-              pass: false
-            },
-          ];
+  describe('code', () => {
+    it('should only allow letters and numbers', (done) => {
+      const tests = [
+        {
+          course: { name: 'Course', organization: 'Org', code: 'cours3' },
+          pass: true,
+        },
+        {
+          course: { name: 'Course', organization: 'Org', code: 'cours:3' },
+          pass: false,
+        },
+        {
+          course: { name: 'Course', organization: 'Org', code: 'course 1' },
+          pass: false,
+        },
+        {
+          course: { name: 'Course', organization: 'Org', code: 'cou#se1' },
+          pass: false,
+        },
+      ];
 
-      runValidationTests(tests);
-      done();
+      runValidationTests(tests, () => {
+        done();
+      });
     });
   });
 
-  describe('organization and code', function() {
+  describe('organization and code', () => {
     it('should be non-changeable');
   });
 });

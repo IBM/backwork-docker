@@ -1,8 +1,7 @@
-'use strict';
+const mongoose = require('mongoose');
+const versionSchema = require('./version_schema');
 
-const mongoose = require('mongoose'),
-      Schema = mongoose.Schema,
-      versionSchema = require('./version_schema');
+const Schema = mongoose.Schema;
 
 // Schema
 const courseSchema = new Schema({
@@ -11,9 +10,9 @@ const courseSchema = new Schema({
   code: { type: String, trim: true },
   shortDescription: String,
   longDescription: String,
-  versions: [versionSchema]
+  versions: [versionSchema],
 }, {
-  timestamps: true
+  timestamps: true,
 });
 
 // Validations

@@ -1,22 +1,20 @@
-'use strict';
-
 const mongoose = require('mongoose');
 
-function Models() {}
+const Models = () => {};
 
-Models.prototype.init = function(mongoURI) {
-  return new Promise(function(fulfill, reject) {
+Models.prototype.init = (mongoURI) => {
+  Promise((fulfill, reject) => {
     mongoose.Promise = global.Promise;
     mongoose.connect(mongoURI);
 
-    let db = mongoose.connection;
+    const db = mongoose.connection;
 
     db.on('error', console.error.bind(console, 'connection error:'));
-    db.on('error', function(err) {
+    db.on('error', (err) => {
       reject(err);
     });
 
-    db.once('open', function() {
+    db.once('open', () => {
       require('./course');
       fulfill();
     });

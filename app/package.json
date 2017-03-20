@@ -6,7 +6,7 @@
     "start": "node ./bin/www",
     "test": "jest --coverage",
     "console": "node console",
-    "lint": "eslint ."
+    "lint": "eslint lib models routes"
   },
   "dependencies": {
     "body-parser": "~1.15.2",

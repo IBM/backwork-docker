@@ -1,29 +1,29 @@
-'use strict';
+const mongoose = require('mongoose');
+const versionSchema = require('./version_schema');
 
-const mongoose = require('mongoose'),
-      versionSchema = require('./version_schema'),
-      Version = mongoose.model('Version', versionSchema);
+mongoose.Promise = global.Promise;
+const Version = mongoose.model('Version', versionSchema);
 
-describe('Version schema', function() {
-  describe('major and minor', function() {
-    it('should be integers', function() {
-      let version = new Version({
-        major: "3.45",
-        minor: 3.45
+describe('Version schema', () => {
+  describe('major and minor', () => {
+    it('should be integers', () => {
+      const version = new Version({
+        major: '3.45',
+        minor: 3.45,
       });
 
       expect(version.major).toEqual(3);
       expect(version.minor).toEqual(3);
     });
 
-    it('should be required', function(done) {
-      let version = new Version();
+    it('should be required', (done) => {
+      const version = new Version();
 
       version.save()
-        .then(function(doc) {
+        .then((doc) => {
           done.fail(doc);
         })
-        .catch(function(error) {
+        .catch((error) => {
           expect(error.errors.major.message).toMatch('cannot be blank');
           expect(error.errors.minor.message).toMatch('cannot be blank');
           done();
