@@ -1,3 +1,16 @@
-## 0.1.0
+# Change Log
+All notable changes to this project will be documented in this file.
 
-Initial release.
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](http://semver.org/).
+
+## [Unreleased]
+### Added
+-   Course model.
+
+### Changed
+-   CHANGELOG.md format.
+
+## [0.1.0] - 2017-02-27
+### Added
+-   Project skeleton.
