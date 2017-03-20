@@ -2,17 +2,25 @@
 
 const mongoose = require('mongoose');
 
-function models() {}
+function Models() {}
 
-models.prototype.init = function(mongoURI) {
-  mongoose.connect(mongoURI);
+Models.prototype.init = function(mongoURI) {
+  return new Promise(function(fulfill, reject) {
+    mongoose.Promise = global.Promise;
+    mongoose.connect(mongoURI);
 
-  let db = mongoose.connection;
-  db.on('error', console.error.bind(console, 'connection error:'));
-  db.once('open', function() {
-    require('./course');
-    require('./version');
+    let db = mongoose.connection;
+
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.on('error', function(err) {
+      reject(err);
+    });
+
+    db.once('open', function() {
+      require('./course');
+      fulfill();
+    });
   });
 };
 
-module.exports = models;
+module.exports = new Models();

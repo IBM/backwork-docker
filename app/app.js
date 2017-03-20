@@ -20,7 +20,10 @@ const express = require('express'),
 
       config = require('./config');
 
-models.init(config.mongoURI);
+models.init(config.mongoURI).catch(function(err) {
+  console.error(err);
+  process.exit(1);
+});
 
 passport.use(new Strategy(function(username, password, cb) {
   if (username === config.auth.accessKey && password === config.auth.secretKey) {
