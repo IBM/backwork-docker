@@ -1,15 +1,14 @@
-'use strict';
+const express = require('express');
 
-var express = require('express');
-var router = express.Router();
+const router = express.Router();
 
 // GET /courses
-router.get('/', function(req, res, next) {
+router.get('/', (req, res) => {
   res.status(501).send({ message: 'Not Implemented' });
 });
 
 // GET /courses/:courseId[.:format]
-router.get('/', function(req, res, next) {
+router.get('/', (req, res) => {
   res.status(501).send({ message: 'Not Implemented' });
 });
 

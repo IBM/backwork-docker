@@ -1,35 +1,33 @@
-'use strict';
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
-const express = require('express'),
-      cookieParser = require('cookie-parser'),
-      bodyParser = require('body-parser'),
+const path = require('path');
+const logger = require('morgan');
 
-      path = require('path'),
-      logger = require('morgan'),
+const passport = require('passport');
+const Strategy = require('passport-http').BasicStrategy;
 
-      passport = require('passport'),
-      Strategy = require('passport-http').BasicStrategy,
+const api = require('./routes/api');
 
-      api = require('./routes/api'),
+const models = require('./models');
 
-      models = require('./models'),
+const index = require('./routes/index');
+const courses = require('./routes/courses');
+const versions = require('./routes/versions');
 
-      index = require('./routes/index'),
-      courses = require('./routes/courses'),
-      versions = require('./routes/versions'),
+const config = require('./config');
 
-      config = require('./config');
-
-models.init(config.mongoURI).catch(function(err) {
+models.init(config.mongoURI).catch((err) => {
   console.error(err);
   process.exit(1);
 });
 
-passport.use(new Strategy(function(username, password, cb) {
+passport.use(new Strategy((username, password, cb) => {
   if (username === config.auth.accessKey && password === config.auth.secretKey) {
     cb(null, { user: true });
   } else {
-    let error = new Error('Unauthorized');
+    const error = new Error('Unauthorized');
     error.status = 401;
     cb(error, false);
   }
@@ -56,14 +54,14 @@ app.use('/courses', courses);
 app.use('/versions', versions);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use((err, req, res) => {
   if (req.app.get('env') === 'development') {
     console.log(err);
   }
@@ -72,7 +70,7 @@ app.use(function(err, req, res, next) {
     code: err.code,
     message: err.message || 'Internal Server Error',
     description: err.description,
-    stack: req.app.get('env') === 'development' ? err : {}
+    stack: req.app.get('env') === 'development' ? err : {},
   });
 });
 

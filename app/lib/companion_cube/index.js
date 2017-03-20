@@ -1,11 +1,9 @@
-'use strict';
+const util = require('util');
+const BasicClient = require('../basic_client');
+const Courses = require('./courses');
 
-const util = require('util'),
-      BasicClient = require('../basic_client'),
-      Courses = require('./courses');
-
-function CompanionCube(options) {
-  BasicClient.apply(this, arguments);
+function CompanionCube(...options) {
+  BasicClient.apply(this, options);
 
   this.courses = new Courses(this);
 }

@@ -1,6 +1,4 @@
-'use strict';
-
-var config = {};
+const config = {};
 
 // REST API Authentication
 config.auth = {};

@@ -1,28 +1,21 @@
-'use strict';
-
 const BasicClient = require('.');
 
-let url = 'https://chell.example.com',
-    accessKey = 'access',
-    secretKey = 'secret',
-    basicClient = new BasicClient({
-      url: url,
-      accessKey: accessKey,
-      secretKey: secretKey
-    });
+const accessKey = 'access';
+const secretKey = 'secret';
 
-describe('constructor', function() {
-  it('should accept credentials outside of the URL', function() {
+let url = 'https://chell.example.com';
+let basicClient = new BasicClient({ url, accessKey, secretKey });
+
+describe('constructor', () => {
+  it('should accept credentials outside of the URL', () => {
     expect(basicClient.url).toBe(url);
     expect(basicClient.accessKey).toBe(accessKey);
     expect(basicClient.secretKey).toBe(secretKey);
   });
 
-  it('should accept credentials in the URL', function() {
-    let url = 'https://' + accessKey + ':' + secretKey + '@chell.example.com/',
-        basicClient = new BasicClient({
-          url: url
-        });
+  it('should accept credentials in the URL', () => {
+    url = `https://${accessKey}:${secretKey}@chell.example.com/`;
+    basicClient = new BasicClient({ url });
 
     expect(basicClient.url).toBe('https://chell.example.com');
     expect(basicClient.accessKey).toBe(accessKey);

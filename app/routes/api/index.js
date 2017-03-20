@@ -1,11 +1,10 @@
-'use strict';
+const express = require('express');
 
-var express = require('express');
-var router = express.Router();
+const router = express.Router();
 
 // GET /api
-router.get('/', function(req, res, next) {
-  res.status(501).send({ message: 'Not Implemented' });
+router.get('/', (req, res) => {
+  res.sendStatus(204);
 });
 
 module.exports = router;

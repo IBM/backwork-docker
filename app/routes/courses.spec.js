@@ -1,17 +1,15 @@
-'use strict';
-
-describe('courses', function() {
-  describe('/', function() {
-    describe('get', function() {
-      it('should list all courses', function(done) {
+describe('courses', () => {
+  describe('/', () => {
+    describe('get', () => {
+      it('should list all courses', (done) => {
         done().fail('Not implemented');
       });
     });
   });
 
-  describe('/:courseId', function() {
-    describe('get', function() {
-      it('should retrieve the specified course', function(done){
+  describe('/:courseId', () => {
+    describe('get', () => {
+      it('should retrieve the specified course', (done) => {
         done().fail('Not implemented');
       });
     });
