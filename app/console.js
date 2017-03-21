@@ -1,5 +1,8 @@
 const repl = require('repl');
 const mongoose = require('mongoose');
+const winston = require('mongoose');
+
+const _ = require('./lib/lodash');
 const config = require('./config');
 const models = require('./models');
 
@@ -12,8 +15,10 @@ models.init(config.mongoURI)
     replServer.context.Course = mongoose.model('Course');
   })
   .catch((err) => {
-    console.error(err);
+    winston.error(err);
     process.exit(1);
   });
 
 replServer.context.config = config;
+replServer.context.config = winston;
+replServer.context._ = _;
