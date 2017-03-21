@@ -4,34 +4,24 @@ const bodyParser = require('body-parser');
 
 const path = require('path');
 const logger = require('morgan');
+const winston = require('winston');
 
-const passport = require('passport');
-const Strategy = require('passport-http').BasicStrategy;
-
-const api = require('./routes/api');
+const apiRouter = require('./routes/api');
 
 const models = require('./models');
 
-const index = require('./routes/index');
-const courses = require('./routes/courses');
-const versions = require('./routes/versions');
+const indexRouter = require('./routes/index');
+const coursesRouter = require('./routes/courses');
+const versionsRouter = require('./routes/versions');
 
 const config = require('./config');
 
-models.init(config.mongoURI).catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
-
-passport.use(new Strategy((username, password, cb) => {
-  if (username === config.auth.accessKey && password === config.auth.secretKey) {
-    cb(null, { user: true });
-  } else {
-    const error = new Error('Unauthorized');
-    error.status = 401;
-    cb(error, false);
-  }
-}));
+models.init(config.mongoURI)
+  .then(winston.log)
+  .catch((err) => {
+    winston.error(err);
+    process.exit(1);
+  });
 
 const app = express();
 
@@ -39,7 +29,6 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(passport.initialize());
 app.use(logger('[:date[iso]] :method :url :status :res[content-length] (:response-time ms)'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -47,11 +36,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.use('/api', passport.authenticate('basic', { session: false }), api);
+app.use('/api', apiRouter);
 
-app.use('/', index);
-app.use('/courses', courses);
-app.use('/versions', versions);
+app.use('/', indexRouter);
+app.use('/courses', coursesRouter);
+app.use('/versions', versionsRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -63,7 +52,7 @@ app.use((req, res, next) => {
 // error handler
 app.use((err, req, res) => {
   if (req.app.get('env') === 'development') {
-    console.log(err);
+    winston.error(err);
   }
 
   res.status(err.status || 500).send({

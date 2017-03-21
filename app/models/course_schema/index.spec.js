@@ -1,4 +1,8 @@
-const Course = require('./index');
+const mongoose = require('mongoose');
+const courseSchema = require('./index');
+
+const Course = mongoose.model('Course', courseSchema);
+
 
 const runValidationTests = (tests, cb) => {
   tests.map((test) => {
