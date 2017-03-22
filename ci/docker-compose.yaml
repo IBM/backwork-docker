@@ -1,7 +1,7 @@
 version: '2'
 services:
   chell:
-    build: ../app
+    build: ../chell
     image: $REPO:$TAG
     environment:
       - DEBUG=chell:*

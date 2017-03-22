@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "test": "jest --coverage",
-    "console": "node console",
-    "lint": "eslint lib models routes"
+    "start": "node ./app/bin/www",
+    "test": "jest --coverage app",
+    "console": "node ./app/console",
+    "lint": "eslint app"
   },
   "dependencies": {
     "body-parser": "~1.15.2",

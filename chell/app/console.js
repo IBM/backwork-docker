@@ -1,8 +1,8 @@
 const repl = require('repl');
 const mongoose = require('mongoose');
-const winston = require('mongoose');
+const winston = require('winston');
+const _ = require('lodash');
 
-const _ = require('./lib/lodash');
 const config = require('./config');
 const models = require('./models');
 

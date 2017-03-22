@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const winston = require('winston');
-const _ = require('../../../lib/lodash');
+const _ = require('lodash');
 
 const router = express.Router();
 

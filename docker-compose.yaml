@@ -19,7 +19,7 @@ services:
     links:
       - mongo
     volumes:
-      - ./app:/srv/chell
+      - ./chell:/srv/chell
 
   mongo:
     image: mongo:3.4
