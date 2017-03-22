@@ -6,10 +6,26 @@ const _ = require('../../../lib/lodash');
 const router = express.Router();
 
 function getCoursesFilter(courses) {
-  return _.map(courses, course =>
+  const ignoredAttributes = [
+    'long_description',
+    'change_log',
+    'content_url',
+  ];
+
+  return _.map(courses, (course) => {
+    let filteredCourses = course.toJSON();
+
     // Snake case keys
     // NOTE: This will convert `_id` to `id`.
-    _.deeply(_.mapKeys)(course.toJSON(), (v, k) => _.snakeCase(k)));
+    filteredCourses = _.deeply(_.mapKeys)(filteredCourses, (v, k) =>
+      _.snakeCase(k));
+
+    // Drop ignored attributes
+    filteredCourses = _.deeply(_.omitBy)(filteredCourses, (v, k) =>
+      ignoredAttributes.includes(k));
+
+    return filteredCourses;
+  });
 }
 
 // GET /api/courses
