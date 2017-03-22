@@ -1,29 +1,17 @@
 const winston = require('winston');
 const request = require('supertest');
 const express = require('express');
+
 const models = require('../../../models');
 const config = require('../../../config');
-
-beforeEach(() => {
-  winston.log('whyyyyyyy');
-});
-
-beforeAll(() => {
-  winston.log('helloooo');
-  // return models.init(config.mongoURI)
-  //   .then(winston.log).catch(winston.error);
-  models.init(config.mongoURI).catch((err) => {
-    winston.error(err);
-    process.exit(1);
-  });
-});
-
 const router = require('./index');
 
 const app = express();
 app.use('/', router);
 
 describe('/api/courses', () => {
+  beforeAll(() => models.init(config.mongoURI));
+
   describe('get', () => {
     it('should list all courses', (done) => {
       request(app)
@@ -38,4 +26,6 @@ describe('/api/courses', () => {
         });
     });
   });
+
+  afterAll(() => models.terminate());
 });

@@ -6,11 +6,10 @@ const _ = require('../../../lib/lodash');
 const router = express.Router();
 
 function getCoursesFilter(courses) {
-  return _.map(courses, (course) => {
-    return _.deepMapKeys(course.toJSON(), (value, key) => {
-      return _.snakeCase(key);
-    });
-  });
+  return _.map(courses, course =>
+    // Snake case keys
+    // NOTE: This will convert `_id` to `id`.
+    _.deeply(_.mapKeys)(course.toJSON(), (v, k) => _.snakeCase(k)));
 }
 
 // GET /api/courses
@@ -19,14 +18,11 @@ router.get('/', (req, res) => {
 
   Course.find({}).exec()
     .then((docs) => {
-      res.status(200)
-        .send(getCoursesFilter(docs));
+      winston.log(docs);
+      res.status(200).send(getCoursesFilter(docs));
     })
     .catch((error) => {
-      res.status(500).send({
-        code: 500,
-        message: error.message,
-      });
+      res.status(500).send({ code: 500, message: error.message });
     });
 });
 

@@ -1,31 +1,28 @@
-const winston = require('winston');
 const mongoose = require('mongoose');
 const courseSchema = require('./course_schema');
 
 function Models() {}
 
-Models.prototype.init = (mongoURI) => {
+Models.prototype.init = function (mongoURI) {
   mongoose.Promise = global.Promise;
 
-  const promise = new Promise((fulfill, reject) => {
+  return new Promise((resolve, reject) => {
     mongoose.connect(mongoURI);
-
-    const db = mongoose.connection;
-
-    db.on('error', winston.error.bind(winston, 'connection error:'));
-    db.on('error', (err) => {
-      reject(err);
-    });
-
-    db.once('open', () => {
+    mongoose.connection.on('error', err => reject(err));
+    mongoose.connection.once('open', () => {
       // Load models
       mongoose.model('Course', courseSchema);
 
-      fulfill(db);
+      resolve(mongoose.connection);
     });
   });
+};
 
-  return promise;
+Models.prototype.terminate = function () {
+  // return new Promise((resolve, reject) => {
+  //   mongoose.disconnect();
+  // });
+  return mongoose.disconnect();
 };
 
 module.exports = new Models();
