@@ -3,7 +3,7 @@
     "jest/globals": true
   },
   "extends": [
-    "airbnb",
+    "airbnb-base",
     "plugin:jest/recommended"
   ],
   "rules": {
