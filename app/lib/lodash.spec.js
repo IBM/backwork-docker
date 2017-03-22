@@ -1,7 +1,7 @@
 const _ = require('./lodash');
 
 describe('extended lodash', () => {
-  describe('deepMapKeys', () => {
+  describe('_.deeply(_.mapKeys)', () => {
     it('works with plain objects', () => {
       const obj = {
         valueKey: 'Text',
@@ -14,7 +14,7 @@ describe('extended lodash', () => {
       };
 
       // Use snake case to mark visited keys
-      const result = _.deepMapKeys(obj, (value, key) => _.snakeCase(key));
+      const result = _.deeply(_.mapKeys)(obj, (value, key) => _.snakeCase(key));
 
       expect(result.value_key).toBeDefined();
       expect(result.value_key).toEqual(obj.valueKey);
@@ -47,7 +47,7 @@ describe('extended lodash', () => {
       };
 
       // Use snake case to mark visited keys
-      const result = _.deepMapKeys(obj, (value, key) => _.snakeCase(key));
+      const result = _.deeply(_.mapKeys)(obj, (value, key) => _.snakeCase(key));
 
       expect(result.array_key).toBeDefined();
       expect(result.array_key[0]).toBeDefined();
