@@ -1,19 +1,18 @@
 const _ = require('lodash');
 
-// Inspired in: http://stackoverflow.com/a/35056190/373748
+// Inspired by <http://stackoverflow.com/a/35056190/373748>
 _.mixin({
   deepMapKeys: (obj, fn) => {
     const x = {};
 
     _.forOwn(obj, (v, k) => {
+      let deepV;
       if (_.isPlainObject(v)) {
-        // eslint-disable-next-line no-param-reassign
-        v = _.deepMapKeys(v, fn);
+        deepV = _.deepMapKeys(v, fn);
       } else if (_.isArray(v)) {
-        // eslint-disable-next-line no-param-reassign
-        v = _.map(v, currentValue => _.deepMapKeys(currentValue, fn));
+        deepV = _.map(v, currentValue => _.deepMapKeys(currentValue, fn));
       }
-      x[fn(v, k)] = v;
+      x[fn(v, k)] = deepV || v;
     });
 
     return x;
