@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const winston = require('winston');
 const _ = require('lodash');
 
-const config = require('./config');
-const models = require('./models');
+const config = require('../config');
+const models = require('../models');
 
 const replServer = repl.start({
   prompt: 'chell> ',

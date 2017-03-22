@@ -30,7 +30,7 @@ NPM packages locally for development.
 *   Development console.
 
     ```shell
-    docker-compose run chell ash; docker-compose down
+    docker-compose run --service-ports chell ash; docker-compose down
     ```
 
 *   Lint.
