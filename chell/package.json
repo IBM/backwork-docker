@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./app/bin/www",
-    "test": "jest --coverage app",
+    "test": "jest --config=jest.json",
     "console": "node ./app/console",
     "lint": "eslint app"
   },
