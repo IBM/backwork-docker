@@ -50,7 +50,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /courses/{course_id}{format}:
+  /courses/{course_id}:
     get:
       summary: Retrieve an existing course.
       description: This API returns a single existing course object.
@@ -58,7 +58,6 @@ paths:
       parameters:
         - $ref: '#/parameters/path_course_id'
         - $ref: '#/parameters/header_format'
-        - $ref: '#/parameters/path_format'
       responses:
         200:
           description: Course object.
@@ -151,27 +150,12 @@ parameters:
     name: Accept
     in: header
     description: >-
-      Format for response object. The only supported format is
-      `application/x-gzip`.
+      Format for response object. Defaults to `application/json`.
     type: string
     required: false
     enum:
+      - application/json
       - application/x-gzip
-
-  path_format:
-    name: format
-    in: path
-    description: >-
-      **Not required**. Format for response object. _Takes precedence over
-      header-specified format (`Accept`)._ Supported formats are: `.json`,
-      `.tgz`, and `.tar.gz`.
-    required: true
-    type: string
-    enum:
-      - ''
-      - .json
-      - .tar.gz
-      - .tgz
 
   query_page:
     name: page

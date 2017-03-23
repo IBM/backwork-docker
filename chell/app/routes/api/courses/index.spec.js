@@ -43,7 +43,7 @@ describe('/api/courses', () => {
     });
   });
 
-  describe('/:id', () => {
+  describe('/:courseId', () => {
     let courseId;
 
     beforeAll(done =>
@@ -51,7 +51,6 @@ describe('/api/courses', () => {
         name: 'Test 101',
         organization: 'TestOrg',
         code: 'TEST101',
-        verions: [{ major: 1, minor: 1 }],
       }).save()
         .then((doc) => {
           courseId = doc.toJSON().id;
@@ -78,8 +77,7 @@ describe('/api/courses', () => {
               done.fail(err);
             }
             done();
-          })
-          ;
+          });
       });
     });
 

@@ -18,18 +18,9 @@ const versionSchema = new Schema({
 }, {
   timestamps: true,
   toJSON: {
-    virtuals: true,
+    virtuals: true, // Apparently this transforms the `id` object to a string.
     versionKey: false,
   },
-});
-
-// Virtuals
-// Can't use arrow function here.
-// http://stackoverflow.com/a/35796123/373748
-versionSchema.virtual('contentURL').get(function () {
-  // ¯\_(ツ)_/¯
-  // eslint-disable-next-line no-underscore-dangle
-  return `/versions/${this._id}.tar.gz`;
 });
 
 // Validations

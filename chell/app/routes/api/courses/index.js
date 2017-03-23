@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const _ = require('lodash');
 
+const versionsRouter = require('./versions');
+
 const router = express.Router();
 
 //
@@ -10,11 +12,7 @@ const router = express.Router();
 //
 
 function getCoursesFilter(courses) {
-  const ignoredAttributes = [
-    'long_description',
-    'change_log',
-    'content_url',
-  ];
+  const ignoredAttributes = ['long_description', 'change_log'];
 
   return _.map(courses, (course) => {
     let filteredCourses = course;
@@ -36,6 +34,24 @@ function getCourseFilter(course) {
   return _.deeply(_.mapKeys)(course, (v, k) => _.snakeCase(k));
 }
 
+function loadCourse(req, res, next) {
+  const Course = mongoose.model('Course');
+
+  Course.findById(req.params.courseId).exec()
+    .then((doc) => {
+      if (!doc) {
+        const notFound = new Error('Not Found');
+        notFound.status = 404;
+        return next(notFound);
+      }
+
+      const course = getCourseFilter(doc.toJSON());
+      req.course = course; // eslint-disable-line no-param-reassign
+      return next();
+    })
+    .catch(err => next(err));
+}
+
 //
 // Routes
 //
@@ -44,26 +60,21 @@ function getCourseFilter(course) {
 router.get('/', (req, res) => {
   const Course = mongoose.model('Course');
 
-  Course.find({}).exec()
+  Course.find().exec()
     .then((docs) => {
-      const courses = _.map(docs, doc => doc.toJSON());
-      res.status(200).send(getCoursesFilter(courses));
+      const courses = getCoursesFilter(_.map(docs, doc => doc.toJSON()));
+      res.status(200).json(courses);
     })
     .catch(err =>
-      res.status(500).send({ code: 500, message: err.message }));
+      res.status(500).json({ code: 500, message: err.message }));
 });
 
 // GET /api/courses/:courseId
-router.get('/:courseId', (req, res) => {
-  const Course = mongoose.model('Course');
-
-  Course.findOne({ _id: req.params.courseId }).exec()
-    .then((doc) => {
-      const course = doc.toJSON();
-      res.status(200).send(getCourseFilter(course));
-    })
-    .catch(err =>
-      res.status(500).send({ code: 500, message: err.message }));
+router.get('/:courseId', loadCourse, (req, res) => {
+  res.status(200).json(req.course);
 });
+
+// /api/coursers/:courseId/version/*
+router.use('/:courseId/versions', loadCourse, versionsRouter);
 
 module.exports = router;
