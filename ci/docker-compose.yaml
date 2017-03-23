@@ -5,6 +5,8 @@ services:
     image: $REPO:$TAG
     environment:
       - DEBUG=chell:*
+      - COOKIE_SECRET=secret
+
       - CHELL_ACCESS_KEY=access
       - CHELL_SECRET_KEY=secret
 

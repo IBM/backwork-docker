@@ -8,6 +8,8 @@ services:
       - "3000:3000"
     environment:
       - DEBUG=chell:*
+      - COOKIE_SECRET
+
       - CHELL_ACCESS_KEY
       - CHELL_SECRET_KEY
 

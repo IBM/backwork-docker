@@ -1,5 +1,13 @@
 const config = {};
 
+// Signed cookie secret
+config.cookieSecret = process.env.COOKIE_SECRET;
+
+// Session
+config.session = {};
+config.session.maxAge = 7 * 24 * 3600 * 1000; // 1 week in milliseconds
+config.session.touchAfterSeconds = 24 * 3600; //24 hours in seconds
+
 // REST API Authentication
 config.auth = {};
 config.auth.accessKey = process.env.CHELL_ACCESS_KEY;

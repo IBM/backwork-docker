@@ -1,5 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const bodyParser = require('body-parser');
 
 const path = require('path');
@@ -8,6 +10,7 @@ const winston = require('winston');
 
 const apiRouter = require('./routes/api');
 
+const mongoose = require('mongoose');
 const models = require('./models');
 
 const indexRouter = require('./routes/index');
@@ -30,10 +33,32 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 app.use(logger('[:date[iso]] :method :url :status :res[content-length] (:response-time ms)'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser(config.cookieSecret));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
+const sess = {
+  name: 'sid',
+  secret: config.cookieSecret,
+  resave: false,
+  saveUninitialized: false,
+  unset: 'destroy',
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    touchAfter: config.session.touchAfterSeconds
+  }),
+  cookie: {
+    httpOnly: true,
+    maxAge: config.session.maxAge
+  }
+};
+
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1) // trust first proxy
+  sess.cookie.secure = true // serve secure cookies
+}
+app.use(session(sess));
 
 // Routes
 app.use('/api', apiRouter);
