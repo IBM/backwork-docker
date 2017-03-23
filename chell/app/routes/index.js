@@ -1,4 +1,6 @@
 const express = require('express');
+const coursesRouter = require('./courses');
+const versionsRouter = require('./versions');
 
 const router = express.Router();
 
@@ -6,5 +8,8 @@ const router = express.Router();
 router.get('/', (req, res) => {
   res.render('index');
 });
+
+router.use('/courses', coursesRouter);
+router.use('/versions', versionsRouter);
 
 module.exports = router;

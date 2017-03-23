@@ -9,13 +9,10 @@ const logger = require('morgan');
 const winston = require('winston');
 
 const apiRouter = require('./routes/api');
+const router = require('./routes');
 
 const mongoose = require('mongoose');
 const models = require('./models');
-
-const indexRouter = require('./routes/index');
-const coursesRouter = require('./routes/courses');
-const versionsRouter = require('./routes/versions');
 
 const config = require('./config');
 
@@ -62,10 +59,7 @@ app.use(session(sess));
 
 // Routes
 app.use('/api', apiRouter);
-
-app.use('/', indexRouter);
-app.use('/courses', coursesRouter);
-app.use('/versions', versionsRouter);
+app.use(router);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
