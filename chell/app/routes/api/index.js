@@ -15,7 +15,6 @@ passport.use(new Strategy((username, password, cb) => {
 }));
 
 const router = express.Router();
-router.use(passport.initialize());
 router.use(passport.authenticate('basic', { session: false }));
 
 // GET /api

@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const bodyParser = require('body-parser');
+const passport = require('passport');
 
 const path = require('path');
 const logger = require('morgan');
@@ -56,6 +57,8 @@ if (app.get('env') === 'production') {
   sess.cookie.secure = true // serve secure cookies
 }
 app.use(session(sess));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes
 app.use('/api', apiRouter);

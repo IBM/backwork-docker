@@ -10,6 +10,11 @@ services:
       - CHELL_ACCESS_KEY=access
       - CHELL_SECRET_KEY=secret
 
+      - COURSE_DEV_LMS_URL
+      - COURSE_DEV_CLIENT_ID
+      - COURSE_DEV_CLIENT_SECRET
+      - COURSE_DEV_CALLBACK_URL
+
       - COMPANION_CUBE_URL=https://cc.example.com
       - COMPANION_CUBE_ACCESS_KEY=access
       - COMPANION_CUBE_SECRET_KEY=secret

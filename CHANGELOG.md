@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 -   Course model.
 -   Server-side Session.
+-   OAuth2 Authentication with course-dev.
 
 ### Changed
 -   CHANGELOG.md format.

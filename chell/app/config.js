@@ -13,6 +13,13 @@ config.auth = {};
 config.auth.accessKey = process.env.CHELL_ACCESS_KEY;
 config.auth.secretKey = process.env.CHELL_SECRET_KEY;
 
+// OAuth2 Authentication
+config.courseDev = {};
+config.courseDev.lmsURL = process.env.COURSE_DEV_LMS_URL;
+config.courseDev.clientID = process.env.COURSE_DEV_CLIENT_ID;
+config.courseDev.clientSecret = process.env.COURSE_DEV_CLIENT_SECRET;
+config.courseDev.callbackURL = process.env.COURSE_DEV_CALLBACK_URL;
+
 // Clients
 config.companionCube = {};
 config.companionCube.url = process.env.COMPANION_CUBE_URL;
