@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./app/bin/www",
+    "dev": "nodemon ./app/bin/www",
     "test": "jest --config=jest.json",
     "console": "node ./app/bin/console",
     "lint": "eslint app"
@@ -32,6 +33,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jest": "^19.0.1",
     "jest": "^19.0.2",
+    "nodemon": "^1.11.0",
     "supertest": "^3.0.0"
   }
 }

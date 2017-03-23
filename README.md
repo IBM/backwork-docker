@@ -24,7 +24,7 @@ NPM packages locally for development.
 *   Development web server.
 
     ```shell
-    docker-compose up; docker-compose down
+    docker-compose run --service-ports chell npm run dev; docker-compose down
     ```
 
 *   Development console.
