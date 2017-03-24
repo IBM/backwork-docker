@@ -1,5 +1,4 @@
 const S3 = require('aws-sdk/clients/s3');
-const _ = require('lodash');
 
 function ErrorResponse(error) {
   return {
@@ -23,7 +22,7 @@ FileStorage.prototype.list = function () {
   return new Promise((resolve, reject) => {
     this.s3.listObjects().promise()
       .then((results) => {
-        const list = _.map(results.Contents, item => item.Key);
+        const list = results.Contents.map(item => item.Key);
         resolve(list);
       })
       .catch(err => reject(new ErrorResponse(err)));

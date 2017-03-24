@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const repl = require('repl');
 const mongoose = require('mongoose');
 const winston = require('winston');
@@ -5,6 +7,9 @@ const _ = require('lodash');
 
 const config = require('../config');
 const models = require('../models');
+const FileStorage = require('../lib/file_storage');
+
+const fileStorage = new FileStorage(config.fileStorage);
 
 const replServer = repl.start({
   prompt: 'chell> ',
@@ -22,3 +27,4 @@ models.init(config.mongoURI)
 replServer.context.config = config;
 replServer.context.config = winston;
 replServer.context._ = _;
+replServer.context.fileStorage = fileStorage;

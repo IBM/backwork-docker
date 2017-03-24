@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 -   Course model.
+-   REST API for courses.
 -   Server-side Session.
 -   OAuth2 Authentication with Mesa.
 

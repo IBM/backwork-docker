@@ -19,9 +19,6 @@ Models.prototype.init = function (mongoURI) {
 };
 
 Models.prototype.terminate = function () {
-  // return new Promise((resolve, reject) => {
-  //   mongoose.disconnect();
-  // });
   return mongoose.disconnect();
 };
 
