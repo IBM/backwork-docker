@@ -20,11 +20,12 @@ config.auth.accessKey = process.env.CHELL_ACCESS_KEY;
 config.auth.secretKey = process.env.CHELL_SECRET_KEY;
 
 // OAuth2 Authentication
-config.courseDev = {};
-config.courseDev.lmsURL = process.env.COURSE_DEV_LMS_URL;
-config.courseDev.clientID = process.env.COURSE_DEV_CLIENT_ID;
-config.courseDev.clientSecret = process.env.COURSE_DEV_CLIENT_SECRET;
-config.courseDev.callbackURL = process.env.COURSE_DEV_CALLBACK_URL;
+config.mesa = {};
+config.mesa.lmsURL = process.env.MESA_LMS_URL;
+config.mesa.oauth2 = {};
+config.mesa.oauth2.clientID = process.env.MESA_OAUTH2_CLIENT_ID;
+config.mesa.oauth2.clientSecret = process.env.MESA_OAUTH2_CLIENT_SECRET;
+config.mesa.oauth2.callbackURL = process.env.MESA_OAUTH2_CALLBACK_URL;
 
 // Clients
 config.companionCube = {};

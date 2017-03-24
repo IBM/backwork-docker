@@ -3,5 +3,6 @@
   "testPathIgnorePatterns": [
     "app/lib/basic_client",
     "app/lib/companion_cube"
-  ]
+  ],
+  "testEnvironment": "node"
 }
