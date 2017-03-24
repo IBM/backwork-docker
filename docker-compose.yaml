@@ -10,6 +10,8 @@ services:
       - DEBUG=chell:*
       - COOKIE_SECRET
 
+      - SKIP_LOGIN
+
       - CHELL_ACCESS_KEY
       - CHELL_SECRET_KEY
 

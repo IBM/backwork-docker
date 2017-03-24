@@ -49,6 +49,13 @@ router.get('/auth/course-dev/callback',
     failureRedirect: '/login',
   }));
 
+// Skip login using a mock user
+if (config.skipLogin) {
+  router.use((req, res, next) => {
+    req.login('mock user', next);
+  });
+}
+
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     next();

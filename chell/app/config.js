@@ -1,7 +1,13 @@
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
 const config = {};
 
 // Signed cookie secret
 config.cookieSecret = process.env.COOKIE_SECRET;
+
+// Skip login. Only works in development
+config.skipLogin = process.env.NODE_ENV === 'development'
+  && !!process.env.SKIP_LOGIN;
 
 // Session
 config.session = {};
