@@ -36,4 +36,11 @@ config.companionCube.secretKey = process.env.COMPANION_CUBE_SECRET_KEY;
 // MongoDB
 config.mongoURI = process.env.MONGO_URI;
 
+// FileStorage
+config.fileStorage = {};
+config.fileStorage.endpoint = process.env.S3_ENDPOINT;
+config.fileStorage.accessKeyId = process.env.S3_ACCESS_KEY_ID;
+config.fileStorage.secretAccessKey = process.env.S3_SECRET_ACCESS_KEY;
+config.fileStorage.bucket = process.env.S3_BUCKET;
+
 module.exports = config;
