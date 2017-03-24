@@ -44,17 +44,17 @@ const sess = {
   unset: 'destroy',
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
-    touchAfter: config.session.touchAfterSeconds
+    touchAfter: config.session.touchAfterSeconds,
   }),
   cookie: {
     httpOnly: true,
-    maxAge: config.session.maxAge
-  }
+    maxAge: config.session.maxAge,
+  },
 };
 
 if (app.get('env') === 'production') {
-  app.set('trust proxy', 1) // trust first proxy
-  sess.cookie.secure = true // serve secure cookies
+  app.set('trust proxy', 1); // trust first proxy
+  sess.cookie.secure = true; // serve secure cookies
 }
 app.use(session(sess));
 app.use(passport.initialize());
