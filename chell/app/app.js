@@ -4,16 +4,18 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const mongoose = require('mongoose');
 
 const path = require('path');
 const logger = require('morgan');
 const winston = require('winston');
 
+const FileStorage = require('./lib/file_storage');
+
+const models = require('./models');
+
 const apiRouter = require('./routes/api');
 const router = require('./routes');
-
-const mongoose = require('mongoose');
-const models = require('./models');
 
 const config = require('./config');
 
@@ -84,5 +86,7 @@ app.use((err, req, res) => {
     stack: req.app.get('env') === 'development' ? err : {},
   });
 });
+
+app.locals.fileStorage = new FileStorage(config.fileStorage);
 
 module.exports = app;

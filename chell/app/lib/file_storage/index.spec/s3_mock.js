@@ -37,13 +37,13 @@ function S3Mock(options) {
 
   return {
     listObjects: () => ({ promise: () =>
-      new Promise(resolve => resolve(listObjectsResponse)) }),
+      Promise.resolve(listObjectsResponse) }),
     putObject: () => ({ promise: () =>
-      new Promise(resolve => resolve(putObjectResponse)) }),
+      Promise.resolve(putObjectResponse) }),
     getObject: () => ({ promise: () =>
-      new Promise(resolve => resolve(getObjectResponse)) }),
+      Promise.resolve(getObjectResponse) }),
     deleteObject: () => ({ promise: () =>
-      new Promise(resolve => resolve(deleteObjectResponse)) }),
+      Promise.resolve(deleteObjectResponse) }),
   };
 }
 

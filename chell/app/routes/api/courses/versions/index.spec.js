@@ -13,8 +13,10 @@ const existingVersion = {
   created_at: '2017-03-17T21:47:41.291Z',
   change_log: 'Change log.',
 };
+
+const existingCourseId = '77292e976bf29c3317226060';
 const existingCourse = {
-  id: '77292e976bf29c3317226060',
+  id: existingCourseId,
   updated_at: '2017-03-17T21:47:41.292Z',
   created_at: '2017-03-17T21:47:41.292Z',
   name: 'Test 101',
@@ -25,10 +27,20 @@ const existingCourse = {
   versions: [existingVersion],
 };
 
+const existingCourseVersionContent = 'fake course data';
+
 const app = express();
 app.use((req, res, next) => {
-  // eslint-disable-next-line no-param-reassign
+  /* eslint-disable no-param-reassign */
   req.course = existingCourse;
+
+  // Mock `fileStorage`
+  req.app.locals.fileStorage = {
+    get: () =>
+      Promise.resolve(new Buffer(existingCourseVersionContent)),
+  };
+
+  /* eslint-enable no-param-reassign */
   next();
 });
 app.use('/', router);
@@ -65,8 +77,7 @@ describe('/api/courses/:courseId/versions', () => {
           .expect(200)
           .expect((res) => {
             expect(res.text).toBeDefined();
-            // expect mime type tar.gz
-            expect(res.text).toEqual('data');
+            expect(res.text).toEqual(existingCourseVersionContent);
           })
           .end((err, res) => {
             if (err) {

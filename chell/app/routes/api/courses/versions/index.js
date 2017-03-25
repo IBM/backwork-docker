@@ -29,7 +29,13 @@ router.get('/:versionId', loadVersion, (req, res, next) => {
   res.format({
     json: () => res.json(req.version),
 
-    'application/x-gzip': () => res.send('data'),
+    'application/x-gzip': () => {
+      const fileName = `${req.course.id}/${req.version.id}.tgz`;
+
+      req.app.locals.fileStorage.get(fileName)
+        .then(file => res.send(file))
+        .catch(err => next(err));
+    },
 
     default: () => {
       const badRequest = new Error('Invalid format');
