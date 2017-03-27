@@ -8,7 +8,7 @@ If the image specified in `docker-compose.yml` isn't available, you must
 bootstrap the project with the following commands.
 
 ```shell
-REPO=apset-docker.artifactory.swg-devops.com/bigdatauniversity/course-dev.chell \
+REPO=apset-docker.artifactory.swg-devops.com/bigdatauniversity/mesa.chell \
   TAG=latest \
   docker-compose -f ci/docker-compose.yaml build
 
