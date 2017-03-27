@@ -12,7 +12,7 @@ const router = express.Router();
 //
 
 function getCoursesFilter(courses) {
-  const ignoredAttributes = ['long_description', 'change_log'];
+  const ignoredAttributes = ['change_log', 'long_description'];
 
   return _.map(courses, (course) => {
     let filteredCourses = course;
