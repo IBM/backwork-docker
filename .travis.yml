@@ -10,7 +10,7 @@ env:
     BUILD=$(printf "%04d\n" $TRAVIS_BUILD_NUMBER)        # Build number (0000)
     TAG=$BRANCH-$COMMIT-$BUILD                           # Docker tag (branch-XXXXXXXX-0000)
     RELEASE=$TRAVIS_TAG                                  # New release indicated by Git tag (X.Y.Z)
-    REPO=${REGISTRY_HOST:-docker.io}/bigdatauniversity/mesa.chell
+    REPO=${REGISTRY_HOST:-docker.io}/bigdatauniversity/course-dev.chell
 
 before_install:
   - if [ -n "$RELEASE" ]; then export TAG=$RELEASE; fi

@@ -6,16 +6,16 @@ const config = require('../config');
 
 const router = express.Router();
 
-passport.use('mesa', new OAuth2Strategy({
-  authorizationURL: `${config.mesa.lmsURL}/oauth2/authorize`,
-  tokenURL: `${config.mesa.lmsURL}/oauth2/access_token`,
-  clientID: config.mesa.oauth2.clientID,
-  clientSecret: config.mesa.oauth2.clientSecret,
-  callbackURL: config.mesa.oauth2.callbackURL,
+passport.use('courseDev', new OAuth2Strategy({
+  authorizationURL: `${config.courseDev.lmsURL}/oauth2/authorize`,
+  tokenURL: `${config.courseDev.lmsURL}/oauth2/access_token`,
+  clientID: config.courseDev.oauth2.clientID,
+  clientSecret: config.courseDev.oauth2.clientSecret,
+  callbackURL: config.courseDev.oauth2.callbackURL,
   scope: ['openid', 'profile'],
   skipUserProfile: true,
 }, (accessToken, refreshToken, params, profile, done) => {
-  jwt.verify(params.id_token, config.mesa.oauth2.clientSecret, (err, decoded) => {
+  jwt.verify(params.id_token, config.courseDev.oauth2.clientSecret, (err, decoded) => {
     if (err) {
       done(err);
     } else {
@@ -41,10 +41,10 @@ router.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-router.get('/auth/mesa', passport.authenticate('mesa'));
+router.get('/auth/cours-dev', passport.authenticate('courseDev'));
 
-router.get('/auth/mesa/callback',
-  passport.authenticate('mesa', {
+router.get('/auth/cours-dev/callback',
+  passport.authenticate('courseDev', {
     successRedirect: '/',
     failureRedirect: '/login',
   }));
