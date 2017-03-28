@@ -41,9 +41,9 @@ router.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-router.get('/auth/cours-dev', passport.authenticate('courseDev'));
+router.get('/auth/course-dev', passport.authenticate('courseDev'));
 
-router.get('/auth/cours-dev/callback',
+router.get('/auth/course-dev/callback',
   passport.authenticate('courseDev', {
     successRedirect: '/',
     failureRedirect: '/login',
