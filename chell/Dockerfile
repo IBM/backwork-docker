@@ -6,7 +6,7 @@ WORKDIR /srv/chell
 
 COPY package.json /srv/chell
 
-RUN npm install
+RUN npm install --production
 
 COPY . /srv/chell
 
