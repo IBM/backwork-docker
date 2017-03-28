@@ -29,4 +29,4 @@ services:
       - mongo
 
   mongo:
-    image: mongo:3.4
+    image: mongo:3.2

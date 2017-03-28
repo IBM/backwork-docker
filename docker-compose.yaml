@@ -36,6 +36,6 @@ services:
       - ./chell:/srv/chell
 
   mongo:
-    image: mongo:3.4
+    image: mongo:3.2
     volumes:
       - mongo-data:/data/db
