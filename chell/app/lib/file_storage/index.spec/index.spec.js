@@ -23,7 +23,7 @@ describe('FileStorage', () => {
           expect(list).toEqual([fileName]);
           done();
         })
-        .catch(err => done.fail(err));
+        .catch(done.fail);
     });
   });
 
@@ -35,7 +35,7 @@ describe('FileStorage', () => {
           expect(result.toString()).toEqual(fileContent);
           done();
         })
-        .catch(err => done.fail(err));
+        .catch(done.fail);
     });
   });
 
@@ -46,7 +46,7 @@ describe('FileStorage', () => {
           expect(result).toEqual(fileName);
           done();
         })
-        .catch(err => done.fail(err));
+        .catch(done.fail);
     });
   });
 
@@ -57,7 +57,7 @@ describe('FileStorage', () => {
           expect(result).toEqual(fileName);
           done();
         })
-        .catch(err => done.fail(err));
+        .catch(done.fail);
     });
   });
 });
