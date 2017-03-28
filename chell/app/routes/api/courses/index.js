@@ -49,7 +49,7 @@ function loadCourse(req, res, next) {
       req.course = course; // eslint-disable-line no-param-reassign
       return next();
     })
-    .catch(err => next(err));
+    .catch(next);
 }
 
 //

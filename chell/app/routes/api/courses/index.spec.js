@@ -18,7 +18,7 @@ describe('/api/courses', () => {
         Course = mongoose.model('Course');
         done();
       })
-      .catch(err => done.fail(err)));
+      .catch(done.fail));
 
   describe('/', () => {
     describe('get', () => {
@@ -26,7 +26,7 @@ describe('/api/courses', () => {
         let courseCount;
         Course.count().exec()
           .then(count => (courseCount = count))
-          .catch(err => done.fail(err));
+          .catch(done.fail);
 
         request(app)
           .get('/')
@@ -56,14 +56,14 @@ describe('/api/courses', () => {
           courseId = doc.toJSON().id;
           done();
         })
-        .catch(err => done.fail(err)));
+        .catch(done.fail));
 
     describe('get', () => {
       it('should retrieve details for the specified course', (done) => {
         let course;
         Course.findOne().sort('-createdAt').limit(1).exec()
           .then(doc => (course = doc))
-          .catch(err => done.fail(err));
+          .catch(done.fail);
 
         request(app)
           .get(`/${courseId}`)
@@ -84,7 +84,7 @@ describe('/api/courses', () => {
     afterAll(done =>
       Course.deleteOne({ _id: courseId }).exec()
         .then(() => done())
-        .catch(err => done.fail(err)));
+        .catch(done.fail));
   });
 
   afterAll(done =>
