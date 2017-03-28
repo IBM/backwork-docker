@@ -27,6 +27,8 @@ services:
       - S3_BUCKET
     links:
       - mongo
+    volumes:
+      - ./ci.sh:/srv/chell/ci.sh
 
   mongo:
     image: mongo:3.2
