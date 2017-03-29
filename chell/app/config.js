@@ -1,9 +1,12 @@
+const crypto = require('crypto');
+
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 const config = {};
 
 // Signed cookie secret
-config.cookieSecret = process.env.COOKIE_SECRET;
+config.cookieSecret = process.env.COOKIE_SECRET
+  || crypto.randomBytes(48).toString('base64');
 
 // Skip login. Only works in development
 config.skipLogin = process.env.NODE_ENV === 'development'
