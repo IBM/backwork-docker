@@ -5,6 +5,7 @@ const MongoStore = require('connect-mongo')(session);
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const mongoose = require('mongoose');
+const Mincer = require('mincer');
 
 const path = require('path');
 const logger = require('morgan');
@@ -31,6 +32,7 @@ const app = express();
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+app.locals.basedir = app.get('views');
 
 app.use(logger('[:date[iso]] :method :url :status :res[content-length] (:response-time ms)'));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -62,7 +64,10 @@ app.use(session(sess));
 app.use(passport.initialize());
 app.use(passport.session());
 
+const environment = require('./mincer-environment')(app);
+
 // Routes
+app.use('/assets', Mincer.createServer(environment));
 app.use('/api', apiRouter);
 app.use(router);
 
