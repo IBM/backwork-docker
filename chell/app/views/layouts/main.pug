@@ -1,0 +1,9 @@
+doctype html
+html
+  include /includes/head
+  body
+    include /includes/navbar
+    .content.container
+      block content
+
+    != javascript('app.js')
