@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
+
+## [0.2.1][]
 ### Changed
 -   `COOKIE_SESSION` is now optional, and auto-generated when not specified.
 -   `FileStorage` now takes S3 `region` as a parameter (`S3_REGION` environment
@@ -30,5 +32,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 -   Project skeleton.
 
-[Unreleased]: https://github.ibm.com/bdu/chell/compare/0.2.0...HEAD
+[Unreleased]: https://github.ibm.com/bdu/chell/compare/0.2.1...HEAD
+[0.2.1]: https://github.ibm.com/bdu/chell/compare/0.2.0...0.2.1
 [0.2.0]: https://github.ibm.com/bdu/chell/compare/0.1.0...0.2.0
