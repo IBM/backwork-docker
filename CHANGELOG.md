@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
+### Changed
+-   `COOKIE_SESSION` is now optional, and auto-generated when not specified.
+-   `FileStorage` now takes S3 `region` as a parameter (`S3_REGION` environment
+    variable).
+
+### Fixed
+-   Add missing `next` parameter to error handler.
+
+### Removed
+-   Logging with `winston`, in favour of Express' native `debug`.
 
 ## [0.2.0][] - 2017-03-28
 ### Added
