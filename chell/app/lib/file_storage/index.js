@@ -12,6 +12,7 @@ function FileStorage(options) {
     endpoint: options.endpoint,
     accessKeyId: options.accessKeyId,
     secretAccessKey: options.secretAccessKey,
+    region: options.region,
     params: {
       Bucket: options.bucket,
     },

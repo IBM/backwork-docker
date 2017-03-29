@@ -41,6 +41,7 @@ config.fileStorage = {};
 config.fileStorage.endpoint = process.env.S3_ENDPOINT;
 config.fileStorage.accessKeyId = process.env.S3_ACCESS_KEY_ID;
 config.fileStorage.secretAccessKey = process.env.S3_SECRET_ACCESS_KEY;
+config.fileStorage.region = process.env.S3_REGION;
 config.fileStorage.bucket = process.env.S3_BUCKET;
 
 module.exports = config;
