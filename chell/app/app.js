@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 
 const path = require('path');
 const logger = require('morgan');
-const winston = require('winston');
+const debug = require('debug')('chell:app');
 
 const FileStorage = require('./lib/file_storage');
 
@@ -20,9 +20,9 @@ const router = require('./routes');
 const config = require('./config');
 
 models.init(config.mongoURI)
-  .then(winston.log)
+  .then(debug)
   .catch((err) => {
-    winston.error(err);
+    debug(err);
     process.exit(1);
   });
 
@@ -78,7 +78,7 @@ app.use((req, res, next) => {
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   if (req.app.get('env') === 'development') {
-    winston.error(err);
+    debug(err);
   }
 
   res.status(err.status || 500).send({

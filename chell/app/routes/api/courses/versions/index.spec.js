@@ -1,4 +1,4 @@
-const winston = require('winston');
+const debug = require('debug')('chell:apiSpec');
 const request = require('supertest');
 const express = require('express');
 
@@ -63,7 +63,8 @@ describe('/api/courses/:courseId/versions', () => {
           .expect(200, existingVersion)
           .end((err, res) => {
             if (err) {
-              winston.error(err, res.body);
+              debug(err);
+              debug(res.body);
               done.fail(err);
             }
             done();
@@ -81,7 +82,8 @@ describe('/api/courses/:courseId/versions', () => {
           })
           .end((err, res) => {
             if (err) {
-              winston.error(err, res.body);
+              debug(err);
+              debug(res.body);
               done.fail(err);
             }
             done();

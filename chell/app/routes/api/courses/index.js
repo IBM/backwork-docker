@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const _ = require('lodash');
+const debug = require('debug')('chell:api');
 
 const versionsRouter = require('./versions');
 
@@ -49,7 +50,13 @@ function loadCourse(req, res, next) {
       req.course = course; // eslint-disable-line no-param-reassign
       return next();
     })
-    .catch(next);
+    .catch((err) => {
+      debug(err);
+
+      const notFound = new Error('Not Found');
+      notFound.status = 404;
+      next(notFound);
+    });
 }
 
 //

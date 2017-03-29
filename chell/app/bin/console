@@ -2,7 +2,7 @@
 
 const repl = require('repl');
 const mongoose = require('mongoose');
-const winston = require('winston');
+const debug = require('debug')('chell:console');
 const _ = require('lodash');
 
 const config = require('../config');
@@ -20,11 +20,11 @@ models.init(config.mongoURI)
     replServer.context.Course = mongoose.model('Course');
   })
   .catch((err) => {
-    winston.error(err);
+    debug(err);
     process.exit(1);
   });
 
+replServer.context.debug = debug;
 replServer.context.config = config;
-replServer.context.config = winston;
 replServer.context._ = _;
 replServer.context.fileStorage = fileStorage;

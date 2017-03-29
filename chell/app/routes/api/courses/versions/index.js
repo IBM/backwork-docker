@@ -1,5 +1,6 @@
 const express = require('express');
 const _ = require('lodash');
+const debug = require('debug')('chell:api');
 
 const router = express.Router();
 
@@ -8,6 +9,8 @@ function loadVersion(req, res, next) {
     v.id === req.params.versionId);
 
   if (!version) {
+    debug(`Version '${req.params.versionId}' not found in course '${req.course.id}'`);
+
     const notFound = new Error('Not Found');
     notFound.status = 404;
     return next(notFound);

@@ -1,4 +1,4 @@
-const winston = require('winston');
+const debug = require('debug')('chell:apiSpec');
 const request = require('supertest');
 const express = require('express');
 const mongoose = require('mongoose');
@@ -34,7 +34,8 @@ describe('/api/courses', () => {
           .expect(res => expect(res.body.length).toEqual(courseCount))
           .end((err, res) => {
             if (err) {
-              winston.error(err, res.body);
+              debug(err);
+              debug(res.body);
               done.fail(err);
             }
             done();
@@ -73,7 +74,8 @@ describe('/api/courses', () => {
           })
           .end((err, res) => {
             if (err) {
-              winston.error(err, res.body);
+              debug(err);
+              debug(res.body);
               done.fail(err);
             }
             done();
