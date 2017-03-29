@@ -74,7 +74,9 @@ app.use((req, res, next) => {
 });
 
 // error handler
-app.use((err, req, res) => {
+// `next` is mandatory for this middleware to be considered an error handler
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
   if (req.app.get('env') === 'development') {
     winston.error(err);
   }
