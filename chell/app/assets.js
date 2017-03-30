@@ -1,7 +1,7 @@
 const Mincer = require('mincer');
 const path = require('path');
 const fs = require('fs');
-const winston = require('winston');
+const debug = require('debug')('chell:assets');
 const environment = require('./mincer-environment');
 
 const servePath = '/assets';
@@ -31,7 +31,7 @@ module.exports.setup = (app) => {
   const manifestPath = path.join(__dirname, 'public', 'assets', 'manifest.json');
   let manifest;
   if (fs.existsSync(manifestPath)) {
-    winston.info('manifest.json found, using precompiled assets');
+    debug('manifest.json found, using precompiled assets');
     manifest = new Mincer.Manifest(environment, manifestPath);
   }
 
