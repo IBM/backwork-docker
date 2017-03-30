@@ -22,6 +22,7 @@ environment.cache = new Mincer.FileStore(path.join(__dirname, 'cache'));
 //
 
 const pjson = require('../package.json');
+
 environment.version = pjson.version;
 
 //
