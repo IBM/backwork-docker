@@ -15,6 +15,16 @@ environment.appendPath('assets/vendor');
 environment.cache = new Mincer.FileStore(path.join(__dirname, 'cache'));
 
 //
+// Mincer rebuilt assets on any dependency file change. But sometime result
+// depends on external variables: environment type, helper values and so one.
+// In this case, you should change environment "version" - place there any
+// unique string.
+//
+
+const pjson = require('../package.json');
+environment.version = pjson.version;
+
+//
 // Define environment essential *_path helper that will be available in the
 // processed assets.
 //
@@ -65,15 +75,5 @@ if (process.env.NODE_ENV === 'production') {
 //
 
 Mincer.MacroProcessor.configure(['.js', '.css']/* , true */);
-
-//
-// Mincer rebuilt assets on any dependency file change. But sometime result
-// depends on external variables: environment type, helper values and so one.
-// In this case, you should change environment "version" - place there any
-// unique string.
-//
-
-const pjson = require('../package.json');
-environment.version = pjson.version;
 
 module.exports = environment;
