@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
+### Added
+-   UI Frameworks/Libs (Bootstrap v4, jQuery, Tether and Font Awesome).
+-   Assets processor (Mincer).
+-   Precompiled assets in production.
+
+### Changed
+-   Multiple view layouts. `views/layout.pug` changed to `views/layouts/main.pug`.
 
 ## [0.2.1][]
 ### Changed
