@@ -5,7 +5,6 @@ const MongoStore = require('connect-mongo')(session);
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const mongoose = require('mongoose');
-const Mincer = require('mincer');
 
 const path = require('path');
 const logger = require('morgan');
@@ -19,6 +18,7 @@ const apiRouter = require('./routes/api');
 const router = require('./routes');
 
 const config = require('./config');
+const assets = require('./assets');
 
 models.init(config.mongoURI)
   .then(debug)
@@ -63,11 +63,9 @@ if (app.get('env') === 'production') {
 app.use(session(sess));
 app.use(passport.initialize());
 app.use(passport.session());
-
-const environment = require('./mincer-environment')(app);
+assets.setup(app);
 
 // Routes
-app.use('/assets', Mincer.createServer(environment));
 app.use('/api', apiRouter);
 app.use(router);
 
