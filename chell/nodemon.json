@@ -1,3 +1,3 @@
 {
-  "ignore": ["app/assets/", "app/public/", "nodemon.json"]
+  "ignore": ["app/assets/", "app/public/", "app/cache", "nodemon.json"]
 }

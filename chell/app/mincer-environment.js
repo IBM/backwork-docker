@@ -1,4 +1,5 @@
 const Mincer = require('mincer');
+const path = require('path');
 
 let environment = new Mincer.Environment(__dirname);
 
@@ -10,12 +11,8 @@ environment.appendPath('assets/vendor');
 //
 // Cache compiled assets.
 //
-// You want this to be enabled on your dev/staging/production environment.
-// In order to enable it, uncomment following line. We keep it disabled in
-// order to quick-test new featurees without bumping up Mincer's version.
-//
 
-// environment.cache = new Mincer.FileStore(path.join(__dirname, 'cache'));
+environment.cache = new Mincer.FileStore(path.join(__dirname, 'cache'));
 
 //
 // Define environment essential *_path helper that will be available in the
@@ -71,11 +68,12 @@ Mincer.MacroProcessor.configure(['.js', '.css']/* , true */);
 
 //
 // Mincer rebuilt assets on any dependency file change. But sometime result
-// depends on external variables: enviroment type, helper values and so one.
-// In this case, you should change enviroment "version" - place there any
+// depends on external variables: environment type, helper values and so one.
+// In this case, you should change environment "version" - place there any
 // unique string.
 //
 
-// enviroment.version = md5(JSON.stringify(your_version_object));
+const pjson = require('../package.json');
+environment.version = pjson.version;
 
 module.exports = environment;
