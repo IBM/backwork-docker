@@ -2,3 +2,26 @@ extends /layouts/main
 
 block content
   h1 Course
+
+  dl
+    dt Name
+    dd= course.name
+
+    dt Organization
+    dd= course.organization
+
+    dt Code
+    dd= course.code
+
+  h2 Versions
+
+  each version in course.versions
+    dl(style='border: 1px solid black;')
+      dt Major
+      dd= version.major
+
+      dt Minor
+      dd= version.minor
+
+      dt Change Log
+      dd= version.changeLog

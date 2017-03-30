@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+const loadCourse = require('../middleware/load_course');
+
 const router = express.Router();
 
 // GET /courses
@@ -39,11 +41,9 @@ router.post('/', (req, res, next) => {
   });
 });
 
-// GET /courses/:courseId[.:format]
-router.get('/', (req, res) => {
-  res.status(501).send({ message: 'Not Implemented' });
+// GET /courses/:courseId
+router.get('/:courseId', loadCourse, (req, res) => {
+  res.render('courses/show', { course: req.course });
 });
-
-// POST /courses ?
 
 module.exports = router;
