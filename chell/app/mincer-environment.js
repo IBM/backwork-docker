@@ -1,7 +1,7 @@
 const Mincer = require('mincer');
 
 let environment = new Mincer.Environment(__dirname);
-environment.enable('source_maps');
+
 environment.appendPath('assets/javascripts');
 environment.appendPath('assets/stylesheets');
 environment.appendPath('assets/images');
@@ -19,7 +19,7 @@ environment.appendPath('assets/vendor');
 
 //
 // Define environment essential *_path helper that will be available in the
-// processed assets. See `assets/stylesheets/app.css.ejs` for example.
+// processed assets.
 //
 
 environment.ContextClass.defineAssetPath(function (pathname, options) {
@@ -53,6 +53,8 @@ if (process.env.NODE_ENV === 'production') {
   //
 
   environment = environment.index;
+} else {
+  environment.enable('source_maps');
 }
 
 //
