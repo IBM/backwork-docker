@@ -10,4 +10,4 @@ echo "WARNING: Updating 'latest' tag"
 docker tag $REPO:$TAG $REPO:latest
 docker push $REPO:latest
 
-docker logout
+docker logout "$REGISTRY_HOST"
