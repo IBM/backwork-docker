@@ -10,6 +10,8 @@ RUN npm install --production
 
 COPY . /srv/chell
 
+RUN NODE_ENV=production npm run assets
+
 EXPOSE 3000
 
 CMD ["npm", "start"]

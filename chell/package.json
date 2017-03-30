@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "start": "node ./app/bin/www",
-    "dev": "nodemon ./app/bin/www",
+    "dev": "nodemon ./app/bin/www --config nodemon.json",
     "test": "jest --config=jest.json",
     "console": "node ./app/bin/console",
-    "lint": "eslint app"
+    "lint": "eslint app",
+    "assets": "rm -rf ./app/public/assets && node ./app/manifest"
   },
   "dependencies": {
     "autoprefixer": "~6.7.7",

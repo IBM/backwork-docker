@@ -33,6 +33,12 @@ NPM packages locally for development.
     docker-compose run --service-ports chell ash; docker-compose down
     ```
 
+*   Precompile assets.
+
+    ```shell
+    docker-compose run --service-ports chell npm run assets; docker-compose down
+    ```
+
 *   Lint.
 
     ```shell
