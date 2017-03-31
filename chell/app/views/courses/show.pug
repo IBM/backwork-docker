@@ -12,6 +12,14 @@ block content
       strong Code
     .col-10= course.code
 
+    label.col-2.col-form-label
+      strong Short Description
+    .col-10= course.short_description
+
+    label.col-2.col-form-label
+      strong Long Description
+    .col-10= course.long_description
+
   table.table
     thead
       tr
@@ -22,7 +30,8 @@ block content
       each version in course.versions
         tr
           td
-            a(href='/courses/' + course.id + '/versions/' + version.id) #{version.major}.#{version.minor}
+            a(href=`/courses/${course.id}/versions/${version.id}`)
+              | #{version.major}.#{version.minor}
           td= version.change_log
 
   a.btn.btn-primary(href='/courses/' + course.id + '/edit') Edit
