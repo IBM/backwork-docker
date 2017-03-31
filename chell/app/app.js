@@ -39,7 +39,7 @@ app.use(logger('[:date[iso]] :method :url :status :res[content-length] (:respons
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser(config.cookieSecret));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const sess = {
   name: 'sid',

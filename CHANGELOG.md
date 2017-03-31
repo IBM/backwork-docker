@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 -   UI Frameworks/Libs (Bootstrap v4, jQuery, Tether and Font Awesome).
 -   Assets processor (Mincer).
 -   Precompiled assets in production.
+-   Flash messages middleware
+-   Add New Course feature
 
 ### Changed
 -   Multiple view layouts. `views/layout.pug` changed to `views/layouts/main.pug`.
