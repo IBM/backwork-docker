@@ -9,7 +9,8 @@ router.get('/', (req, res, next) => {
 
   Course.find().sort({ name: 1 }).exec().then((courses) => {
     res.render('courses/index', { courses });
-  }).catch(next);
+  })
+  .catch(next);
 });
 
 // GET /courses/new
@@ -28,7 +29,8 @@ router.post('/', (req, res, next) => {
   course.save().then(() => {
     req.flash('success', 'Course successfully added!');
     res.redirect('/courses');
-  }).catch((err) => {
+  })
+  .catch((err) => {
     if (err.name === 'ValidationError') {
       res.render('courses/new', { course });
     } else {
