@@ -1,11 +1,15 @@
 extends /layouts/main
 
 block content
-  h1 Courses
+  .d-flex.justify-content-start
+    h1 Courses
+    .ml-auto.p-1
+      a.btn.btn-success(href='/courses/new')
+        i.fa.fa-plus
+        |  New Course
   if messages.success
     .alert.alert-success(role='alert')
       = messages.success
-  a.btn.btn-success(href='/courses/new') Add Course
   table.table
     thead.thead-default
       tr
@@ -13,7 +17,7 @@ block content
         th Organization
         th Code
         th Short Description
-        th Actions
+        th(style='width: 160px;') Actions
     tbody
       each course in courses
         tr
@@ -21,7 +25,10 @@ block content
           td= course.organization
           td= course.code
           td= course.shortDescription
-          td
-            a(href='#') Show
-            a(href='#') Edit
-            a(href='#') Delete
+          td.actions
+            a.btn.btn-sm.btn-info(href=`/courses/${course.id}`)
+              i.fa.fa-search-plus
+              |  Show
+            a.btn.btn-sm.btn-warning(href=`/courses/${course.id}/edit`)
+              i.fa.fa-pencil
+              |  Edit
