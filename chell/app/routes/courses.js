@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/', (req, res, next) => {
   const Course = mongoose.model('Course');
 
-  Course.find().exec().then((courses) => {
+  Course.find().sort({ name: 1 }).exec().then((courses) => {
     res.render('courses/index', { courses });
   }).catch(next);
 });
