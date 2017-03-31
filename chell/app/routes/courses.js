@@ -24,7 +24,7 @@ router.post('/', (req, res, next) => {
   course.save().then(() => {
     req.flash('success', 'Course successfully added!');
     res.redirect('/courses');
-  }, (err) => {
+  }).catch((err) => {
     if (err.name === 'ValidationError') {
       res.render('courses/new', { course });
     } else {
