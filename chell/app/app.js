@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 const flash = require('express-flash');
 const passport = require('passport');
 const mongoose = require('mongoose');
@@ -40,6 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser(config.cookieSecret));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 
 const sess = {
   name: 'sid',

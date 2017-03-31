@@ -14,14 +14,14 @@ block content
 
     label.col-2.col-form-label
       strong Short Description
-    .col-10= course.short_description
+    .col-10= course.shortDescription
 
     label.col-2.col-form-label
       strong Long Description
-    .col-10= course.long_description
+    .col-10= course.longDescription
 
   table.table
-    thead
+    thead.thead-default
       tr
         th(style='width: 10%') Version
         th Change Log
@@ -32,6 +32,6 @@ block content
           td
             a(href=`/courses/${course.id}/versions/${version.id}`)
               | #{version.major}.#{version.minor}
-          td= version.change_log
+          td= version.changeLog
 
   a.btn.btn-primary(href='/courses/' + course.id + '/edit') Edit

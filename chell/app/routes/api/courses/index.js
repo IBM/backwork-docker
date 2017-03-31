@@ -31,6 +31,10 @@ function getCoursesFilter(courses) {
   });
 }
 
+function getCourseFilter(course) {
+  return _.deeply(_.mapKeys)(course, (v, k) => _.snakeCase(k));
+}
+
 //
 // Routes
 //
@@ -50,7 +54,8 @@ router.get('/', (req, res) => {
 
 // GET /api/courses/:courseId
 router.get('/:courseId', loadCourse, (req, res) => {
-  res.status(200).json(req.course);
+  const course = getCourseFilter(req.course.toJSON());
+  res.status(200).json(course);
 });
 
 // /api/coursers/:courseId/version/*

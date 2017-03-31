@@ -1,5 +1,9 @@
-form(action='/courses', method='post')
+- path = action === 'edit' ? `/courses/${course.id}?_method=PATCH` : '/courses'
+
+form(action=path, method='post')
   - course.errors = course.errors || {};
+  if action === 'edit'
+    input(type='hidden', name='course[id]', value=course.id)
 
   .form-group.row(class=course.errors.name ? 'has-danger' : '')
     label.col-2.col-form-label(for='course_name') Name
@@ -17,7 +21,8 @@ form(action='/courses', method='post')
       input#course_organization.form-control(
         name='course[organization]',
         type='text',
-        value=course.organization)
+        value=course.organization,
+        disabled=action === 'edit')
       if course.errors.organization
         .form-control-feedback= course.errors.organization.message
 
@@ -27,7 +32,8 @@ form(action='/courses', method='post')
       input#course_code.form-control(
         name='course[code]',
         type='text',
-        value=course.code)
+        value=course.code,
+        disabled=action === 'edit')
       if course.errors.code
         .form-control-feedback= course.errors.code.message
 
@@ -52,5 +58,8 @@ form(action='/courses', method='post')
         .form-control-feedback= course.errors.longDescription.message
 
   .form-group.form-buttons
-    button.btn.btn-primary(type='submit') Add Course
+    if action === 'edit'
+      button.btn.btn-primary(type='submit') Save
+    else
+      button.btn.btn-primary(type='submit') Add Course
     a.btn.btn-secondary(href='/courses') Cancel
