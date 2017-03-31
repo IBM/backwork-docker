@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 -   Add New Course
 -   Courses list
 -   Show course details
+-   Edit Course
 
 ### Changed
 -   Multiple view layouts. `views/layout.pug` changed to `views/layouts/main.pug`.
