@@ -2,3 +2,26 @@ extends /layouts/main
 
 block content
   h1 Courses
+  if messages.success
+    .alert.alert-success(role='alert')
+      = messages.success
+  a.btn.btn-success(href='/courses/new') Add Course
+  table.table
+    thead.thead-default
+      tr
+        th Name
+        th Organization
+        th Code
+        th Short Description
+        th Actions
+    tbody
+      each course in courses
+        tr
+          td= course.name
+          td= course.organization
+          td= course.code
+          td= course.shortDescription
+          td
+            a(href='#') Show
+            a(href='#') Edit
+            a(href='#') Delete

@@ -4,8 +4,12 @@ const mongoose = require('mongoose');
 const router = express.Router();
 
 // GET /courses
-router.get('/', (req, res) => {
-  res.status(501).send({ message: 'Not Implemented' });
+router.get('/', (req, res, next) => {
+  const Course = mongoose.model('Course');
+
+  Course.find().exec().then((courses) => {
+    res.render('courses/index', { courses });
+  }).catch(next);
 });
 
 // GET /courses/new
