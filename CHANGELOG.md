@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 -   Precompiled assets in production.
 -   Flash messages middleware
 -   Add New Course feature
+-   Courses list
 
 ### Changed
 -   Multiple view layouts. `views/layout.pug` changed to `views/layouts/main.pug`.
