@@ -21,7 +21,7 @@ router.post('/', (req, res, next) => {
   const Course = mongoose.model('Course');
   const course = new Course(req.body.course);
 
-  course.save().then((doc) => {
+  course.save().then(() => {
     req.flash('success', 'Course successfully added!');
     res.redirect('/courses');
   }, (err) => {
