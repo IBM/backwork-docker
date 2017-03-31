@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const bodyParser = require('body-parser');
+const flash = require('express-flash');
 const passport = require('passport');
 const mongoose = require('mongoose');
 
@@ -61,6 +62,7 @@ if (app.get('env') === 'production') {
   sess.cookie.secure = true; // serve secure cookies
 }
 app.use(session(sess));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 assets.setup(app);
