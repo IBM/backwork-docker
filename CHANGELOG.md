@@ -10,9 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 -   Assets processor (Mincer).
 -   Precompiled assets in production.
 -   Flash messages middleware
--   Add New Course feature
--   Courses list
 -   Add New Course
+-   Courses list
 -   Show course details
 
 ### Changed
