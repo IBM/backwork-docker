@@ -58,8 +58,6 @@ form(action=path, method='post')
         .form-control-feedback= course.errors.longDescription.message
 
   .form-group.form-buttons
-    if action === 'edit'
-      button.btn.btn-primary(type='submit') Save
-    else
-      button.btn.btn-primary(type='submit') Add Course
+    button.btn.btn-primary(type='submit')
+      = action === 'edit' ? 'Save' : 'Add Course'
     a.btn.btn-secondary(href='/courses') Cancel
