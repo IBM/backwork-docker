@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const _ = require('lodash');
 
 const loadCourse = require('../middleware/load_course');
 
