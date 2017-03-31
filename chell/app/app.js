@@ -41,7 +41,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser(config.cookieSecret));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(methodOverride('_method'));
 
 const sess = {
   name: 'sid',
@@ -71,6 +70,7 @@ assets.setup(app);
 
 // Routes
 app.use('/api', apiRouter);
+app.use(methodOverride('_method'));
 app.use(router);
 
 // catch 404 and forward to error handler
