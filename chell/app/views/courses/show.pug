@@ -1,27 +1,28 @@
 extends /layouts/main
 
 block content
-  h1 Course
+  h1= course.name
 
-  dl
-    dt Name
-    dd= course.name
+  .form-group.row
+    label.col-2.col-form-label
+      strong Organization
+    .col-10= course.organization
 
-    dt Organization
-    dd= course.organization
+    label.col-2.col-form-label
+      strong Code
+    .col-10= course.code
 
-    dt Code
-    dd= course.code
+  table.table
+    thead
+      tr
+        th(style='width: 10%') Version
+        th Change Log
 
-  h2 Versions
+    tbody
+      each version in course.versions
+        tr
+          td
+            a(href='/courses/' + course.id + '/versions/' + version.id) #{version.major}.#{version.minor}
+          td= version.change_log
 
-  each version in course.versions
-    dl(style='border: 1px solid black;')
-      dt Major
-      dd= version.major
-
-      dt Minor
-      dd= version.minor
-
-      dt Change Log
-      dd= version.changeLog
+  a.btn.btn-primary(href='/courses/' + course.id + '/edit') Edit
