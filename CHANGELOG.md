@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
+
+## [0.3.0][] - 2017-04-03
 ### Added
 -   UI Frameworks/Libs (Bootstrap v4, jQuery, Tether and Font Awesome).
 -   Assets processor (Mincer).
@@ -18,7 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 -   Multiple view layouts. `views/layout.pug` changed to `views/layouts/main.pug`.
 
-## [0.2.1][]
+## [0.2.1][] - 2017-03-29
 ### Changed
 -   `COOKIE_SESSION` is now optional, and auto-generated when not specified.
 -   `FileStorage` now takes S3 `region` as a parameter (`S3_REGION` environment
@@ -44,6 +46,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 -   Project skeleton.
 
-[Unreleased]: https://github.ibm.com/bdu/chell/compare/0.2.1...HEAD
+[Unreleased]: https://github.ibm.com/bdu/chell/compare/0.3.0...HEAD
+[0.3.0]: https://github.ibm.com/bdu/chell/compare/0.2.1...0.3.0
 [0.2.1]: https://github.ibm.com/bdu/chell/compare/0.2.0...0.2.1
 [0.2.0]: https://github.ibm.com/bdu/chell/compare/0.1.0...0.2.0
