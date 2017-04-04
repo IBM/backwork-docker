@@ -20,18 +20,29 @@ block content
       strong Long Description
     .col-10= course.longDescription
 
+  .d-flex.justify-content-start
+    h2 Versions
+    .ml-auto.p-1
+      a.btn.btn-success(href=`/courses/${course.id}/versions/new`)
+        i.fa.fa-plus
+        |  New Version
+
   table.table
-    thead.thead-default
+    thead
       tr
         th(style='width: 10%') Version
         th Change Log
+        th(style='width: 160px;') Actions
 
     tbody
       each version in course.versions
         tr
           td
-            a(href=`/courses/${course.id}/versions/${version.id}`)
-              | #{version.major}.#{version.minor}
+            | #{version.major}.#{version.minor}
           td= version.changeLog
+          td.actions
+            a.btn.btn-sm.btn-info(href=`/courses/${course.id}/versions/${version.id}`)
+              i.fa.fa-download
+              |  Download
 
   a.btn.btn-primary(href='/courses/' + course.id + '/edit') Edit
