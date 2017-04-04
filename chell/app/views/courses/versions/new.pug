@@ -1,0 +1,50 @@
+extends /layouts/main
+
+block content
+  h1 New Version
+
+  form(action=`/courses/${course.id}/versions`, method='post', enctype='multipart/form-data')
+    - version.errors = version.errors || {};
+
+    .form-group.row.justify-content-start(class=version.errors.major ? 'has-danger' : '')
+      label.col-2.col-form-label(for='version_major') Minor
+      .col-3.col-md-2
+        input#version_major.form-control(
+          name='version[major]',
+          type='number',
+          value=version.major)
+        if version.errors.major
+          .form-control-feedback= version.errors.major.message
+
+    .form-group.row(class=version.errors.minor ? 'has-danger' : '')
+      label.col-2.col-form-label(for='version_minor') Major
+      .col-3.col-md-2
+        input#version_minor.form-control(
+          name='version[minor]',
+          type='number',
+          value=version.minor)
+        if version.errors.minor
+          .form-control-feedback= version.errors.minor.message
+
+    .form-group.row(class=version.errors.changeLog ? 'has-danger' : '')
+      label.col-2.col-form-label(for='version_change_log') Change Log
+      .col-10.col-md-7.col-lg-6
+        textarea#version_change_log.form-control(
+          name='version[changeLog]',
+          rows='5')
+          = version.changeLog
+        if version.errors.changeLog
+          .form-control-feedback= version.errors.changeLog.message
+
+    .form-group.row(class=version.errors.courseFile ? 'has-danger' : '')
+      label.col-2.col-form-label(for='version_course_file') Course File
+      .col-10
+        input#version_course_file.form-control-file(
+          type='file',
+          name='version[courseFile]')
+        if version.errors.courseFile
+          .form-control-feedback= version.errors.courseFile.message
+
+    .form-group.form-buttons
+      button.btn.btn-primary(type='submit') Add Version
+      a.btn.btn-secondary(href=`/courses/${course.id}`) Cancel

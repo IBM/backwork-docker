@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const versionsRouter = require('./versions');
 
-const loadCourse = require('../middleware/load_course');
+const loadCourse = require('../../middleware/load_course');
 
 const router = express.Router();
 
@@ -68,5 +69,7 @@ router.patch('/:courseId', loadCourse, (req, res) => {
       }
     });
 });
+
+router.use('/:courseId/versions', loadCourse, versionsRouter);
 
 module.exports = router;
