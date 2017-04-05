@@ -1,8 +1,10 @@
-extends /layouts/login
+extends /layouts/main
 
 block content
-  .login-box.jumbotron
-    h1 Log in to Chell
-    a.btn.btn-lg.btn-primary(href="/auth/course-dev")
-      i.fa.fa-lg.fa-sign-in
-      |  Log in with Course Dev Account
+  .login-box.jumbotron.text-center
+    .container
+      h1.jumbotron-heading Log in to Chell
+      p
+        a.btn.btn-lg.btn-primary(href="/auth/course-dev")
+          i.fa.fa-lg.fa-sign-in
+          |  Log in with Course Dev Account
