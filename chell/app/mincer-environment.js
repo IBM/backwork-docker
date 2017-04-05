@@ -6,7 +6,7 @@ let environment = new Mincer.Environment(__dirname);
 environment.appendPath('assets/javascripts');
 environment.appendPath('assets/stylesheets');
 environment.appendPath('assets/images');
-environment.appendPath('assets/vendor');
+environment.appendPath('vendor/assets');
 
 //
 // Cache compiled assets.
