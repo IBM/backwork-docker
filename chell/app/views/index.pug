@@ -1,8 +1,0 @@
-extends /layouts/main
-
-block content
-  h1 Upload Course
-
-  form(action='/versions', method='post', enctype='multipart/form-data')
-    input(type='file', name='courseFile')
-    button(type='submit') Upload

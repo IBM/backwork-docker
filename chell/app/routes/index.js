@@ -10,7 +10,7 @@ router.use(authRouter);
 
 // GET /
 router.get('/', (req, res) => {
-  res.render('index');
+  res.redirect('/courses');
 });
 
 router.use('/courses', coursesRouter);
