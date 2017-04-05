@@ -58,6 +58,7 @@ if (config.skipLogin) {
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
+    res.locals.currentUser = req.user;
     next();
   } else {
     res.redirect('/login');
