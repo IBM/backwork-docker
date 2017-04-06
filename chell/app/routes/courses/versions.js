@@ -52,5 +52,33 @@ router.post('/', upload.single('version[courseFile]'), (req, res, next) => {
 //   console.log('----');
 //   res.status(201).send({ message: 'Course uploaded.' });
 // });
+// GET /courses/:courseId/versions/:versionId
+router.get('/:versionId', (req, res, next) => {
+  const course = req.course;
+  const version = course.versions.id(req.params.versionId);
+  const fileName = `${course.id}/${version.id}.tgz`;
+
+  req.app.locals.fileStorage.get(fileName).then((file) => {
+    const edxId = `course-v1:${course.organization}:${course.code}:v${version.major}.${version.minor}`;
+    const safeCourseId = edxId.replace(/[^\w\.\-]/g, '-');
+
+    res.set({
+      'Content-Type': 'application/gzip',
+      'Content-Disposition': `attachment; filename="${safeCourseId}.tar.gz"`,
+      'Content-Length': file.length
+    });
+
+    res.send(file);
+  })
+  .catch((err) => {
+    if (err.code === 'NoSuchKey') {
+      const notFound = new Error('Version not found');
+      notFound.status = 404;
+      next(notFound);
+    } else {
+      next(err);
+    }
+  });
+});
 
 module.exports = router;
