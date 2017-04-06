@@ -27,6 +27,10 @@ block content
         i.fa.fa-plus
         |  New Version
 
+  if messages.success
+    .alert.alert-success(role='alert')
+      = messages.success
+
   table.table
     thead
       tr
