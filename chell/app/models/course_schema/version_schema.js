@@ -37,8 +37,8 @@ versionSchema.virtual('openEdxId').get(function () {
 versionSchema.path('major').required(true, 'Version major cannot be blank');
 versionSchema.path('minor').required(true, 'Version minor cannot be blank');
 
-const validateUniqueness = function (next) {
-  if (this.isNew && this.major != null && this.minor != null &&
+const validateUniqueness = function () {
+  if (this.isNew && typeof this.parent === 'function' &&
       this.parent().versions.some(version =>
         !version.isNew &&
         version.major === this.major &&
@@ -47,11 +47,10 @@ const validateUniqueness = function (next) {
     this.invalidate('major', message, this.major);
     this.invalidate('minor', message, this.minor);
   }
-  next();
 };
 
-versionSchema.pre('validate', validateUniqueness);
-versionSchema.pre('validateSync', validateUniqueness);
+versionSchema.post('validate', validateUniqueness);
+versionSchema.post('validateSync', validateUniqueness);
 
 // TODO: major - non-changeable
 // TODO: minor - non-changeable
