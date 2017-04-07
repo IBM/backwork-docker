@@ -15,7 +15,7 @@ router.get('/new', (req, res) => {
 });
 
 // POST /courses
-router.post('/', upload.single('version[courseFile]'), (req, res, next) => {
+router.post('/', upload.single('version[archiveFile]'), (req, res, next) => {
   const course = req.course;
   const length = course.versions.push(Object.assign({},req.body.version));
   const version = course.versions[length-1];

@@ -36,14 +36,14 @@ block content
         if version.errors.changeLog
           .form-control-feedback= version.errors.changeLog.message
 
-    .form-group.row(class=version.errors.courseFile ? 'has-danger' : '')
-      label.col-2.col-form-label(for='version_course_file') Course File
+    .form-group.row(class=version.errors.archiveFile ? 'has-danger' : '')
+      label.col-2.col-form-label(for='version_archive_file') Archive File
       .col-10
-        input#version_course_file.form-control-file(
+        input#version_archive_file.form-control-file(
           type='file',
-          name='version[courseFile]')
-        if version.errors.courseFile
-          .form-control-feedback= version.errors.courseFile.message
+          name='version[archiveFile]')
+        if version.errors.archiveFile
+          .form-control-feedback= version.errors.archiveFile.message
 
     .form-group.form-buttons
       button.btn.btn-primary(type='submit') Add Version
