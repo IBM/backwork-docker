@@ -4,7 +4,7 @@ const multer = require('multer');
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
-// GET /courses/new
+// GET /courses/:courseId/versions/new
 router.get('/new', (req, res) => {
   const course = req.course;
   const version = {};
@@ -12,7 +12,7 @@ router.get('/new', (req, res) => {
   res.render('courses/versions/new', { course, version });
 });
 
-// POST /courses
+// POST /courses/:courseId/versions
 router.post('/', upload.single('version[archiveFile]'), (req, res, next) => {
   const course = req.course;
   const index = course.versions.push(Object.assign({}, req.body.version)) - 1;
