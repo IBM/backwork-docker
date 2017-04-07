@@ -23,6 +23,16 @@ const versionSchema = new Schema({
   },
 });
 
+versionSchema.virtual('archiveFilename').get(function () {
+  const course = this.parent();
+  return `${course.id}/${this.id}.tgz`;
+});
+
+versionSchema.virtual('openEdxId').get(function () {
+  const course = this.parent();
+  return `course-v1:${course.organization}:${course.code}:v${this.major}.${this.minor}`;
+});
+
 // Validations
 versionSchema.path('major').required(true, 'Version major cannot be blank');
 versionSchema.path('minor').required(true, 'Version minor cannot be blank');

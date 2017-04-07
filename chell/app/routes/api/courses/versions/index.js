@@ -33,9 +33,7 @@ router.get('/:versionId', loadVersion, (req, res, next) => {
     json: () => res.json(req.version),
 
     'application/x-gzip': () => {
-      const fileName = `${req.course.id}/${req.version.id}.tgz`;
-
-      req.app.locals.fileStorage.get(fileName)
+      req.app.locals.fileStorage.get(req.version.archiveFilename)
         .then(file => res.send(file))
         .catch(err => next(err));
     },

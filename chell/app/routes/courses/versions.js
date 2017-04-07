@@ -56,11 +56,9 @@ router.post('/', upload.single('version[courseFile]'), (req, res, next) => {
 router.get('/:versionId', (req, res, next) => {
   const course = req.course;
   const version = course.versions.id(req.params.versionId);
-  const fileName = `${course.id}/${version.id}.tgz`;
 
-  req.app.locals.fileStorage.get(fileName).then((file) => {
-    const edxId = `course-v1:${course.organization}:${course.code}:v${version.major}.${version.minor}`;
-    const safeCourseId = edxId.replace(/[^\w\.\-]/g, '-');
+  req.app.locals.fileStorage.get(version.archiveFilename).then((file) => {
+    const safeCourseId = version.openEdxId.replace(/[^\w.-]/g, '-');
 
     res.set({
       'Content-Type': 'application/gzip',
