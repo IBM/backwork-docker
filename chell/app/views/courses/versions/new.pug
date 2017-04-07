@@ -46,5 +46,27 @@ block content
           .form-control-feedback= version.errors.archiveFile.message
 
     .form-group.form-buttons
-      button.btn.btn-primary(type='submit') Add Version
+      button.btn.btn-primary(type='submit', data-toggle="modal", data-target="#uploadingModal") Add Version
       a.btn.btn-secondary(href=`/courses/${course.id}`) Cancel
+
+  //- Uploading Modal
+  #uploadingModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='uploadingModalLabel', aria-hidden='true')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          h5#uploadingModalLabel.modal-title
+            | Uploading version...
+        .modal-body.text-center
+          p This may take several minutes depending on the file size and your connection.
+          p: i.fa.fa-spinner.fa-pulse.fa-3x.fa-fw
+
+
+block javascript
+  script.
+    $(function () {
+      $('#uploadingModal').modal({
+        backdrop: 'static',
+        keyboard: false,
+        show: false,
+      });
+    });
