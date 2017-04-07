@@ -7,7 +7,7 @@ block content
     - version.errors = version.errors || {};
 
     .form-group.row.justify-content-start(class=version.errors.major ? 'has-danger' : '')
-      label.col-2.col-form-label(for='version_major') Minor
+      label.col-2.col-form-label(for='version_major') Major
       .col-3.col-md-2
         input#version_major.form-control(
           name='version[major]',
@@ -17,7 +17,7 @@ block content
           .form-control-feedback= version.errors.major.message
 
     .form-group.row(class=version.errors.minor ? 'has-danger' : '')
-      label.col-2.col-form-label(for='version_minor') Major
+      label.col-2.col-form-label(for='version_minor') Minor
       .col-3.col-md-2
         input#version_minor.form-control(
           name='version[minor]',

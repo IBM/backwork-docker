@@ -27,6 +27,22 @@ const versionSchema = new Schema({
 versionSchema.path('major').required(true, 'Version major cannot be blank');
 versionSchema.path('minor').required(true, 'Version minor cannot be blank');
 
+const validateUniqueness = function (next) {
+  if (this.isNew && this.major != null && this.minor != null &&
+      this.parent().versions.some(version =>
+        !version.isNew &&
+        version.major === this.major &&
+        version.minor === this.minor)) {
+    const message = `Version ${this.major}.${this.minor} already exists`;
+    this.invalidate('major', message, this.major);
+    this.invalidate('minor', message, this.minor);
+  }
+  next();
+};
+
+versionSchema.pre('validate', validateUniqueness);
+versionSchema.pre('validateSync', validateUniqueness);
+
 // TODO: major - non-changeable
 // TODO: minor - non-changeable
 
