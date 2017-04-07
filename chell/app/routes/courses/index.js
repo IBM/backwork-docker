@@ -54,18 +54,19 @@ router.get('/:courseId/edit', loadCourse, (req, res) => {
 
 // PATCH /courses/:courseId
 router.patch('/:courseId', loadCourse, (req, res) => {
-  req.course.name = req.body.course.name;
-  req.course.shortDescription = req.body.course.shortDescription;
-  req.course.longDescription = req.body.course.longDescription;
+  const course = req.course;
+  course.name = req.body.course.name;
+  course.shortDescription = req.body.course.shortDescription;
+  course.longDescription = req.body.course.longDescription;
 
-  req.course.save()
+  course.save()
     .then((doc) => {
       req.flash('success', 'Course successfully updated!');
       res.redirect(`/courses/${doc.toJSON().id}`);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.render('courses/edit', { course: req.course, action: 'edit' });
+        res.render('courses/edit', { course, action: 'edit' });
       }
     });
 });
