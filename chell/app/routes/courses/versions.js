@@ -20,8 +20,18 @@ router.post('/', upload.single('version[archiveFile]'), (req, res, next) => {
   const length = course.versions.push(Object.assign({},req.body.version));
   const version = course.versions[length-1];
 
-  course.save().then(() => {
-    req.flash('success', 'Version successfully added!');
+  if (!req.file) {
+    version.invalidate('archiveFile', 'Version archive file is required', null);
+  }
+
+  course.validate()
+  .then(() => req.app.locals.fileStorage.put(
+    version.archiveFilename,
+    req.file.buffer)
+  )
+  .then(() => course.save({ validateBeforeSave: false })) // it's validated
+  .then(() => {
+    req.flash('success', `Version ${version.major}.${version.minor} successfully added!`);
     res.redirect(`/courses/${course.id}`);
   })
   .catch((err) => {
