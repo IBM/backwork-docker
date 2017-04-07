@@ -5,17 +5,27 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
+### Added
+-   Add New Course version.
+-   Download existing course version archive file.
+-   Version major/minor uniqueness validation.
+-   Upload version archive file to S3.
+-   Uploading modal.
+
+### Changed
+-   Forward fileSotrage errors as errors.
+-   Use virtual attribute for version `archiveFilename`.
 
 ## [0.3.0][] - 2017-04-03
 ### Added
 -   UI Frameworks/Libs (Bootstrap v4, jQuery, Tether and Font Awesome).
 -   Assets processor (Mincer).
 -   Precompiled assets in production.
--   Flash messages middleware
--   Add New Course
--   Courses list
--   Show course details
--   Edit Course
+-   Flash messages middleware.
+-   Add New Course.
+-   Courses list.
+-   Show course details.
+-   Edit Course.
 
 ### Changed
 -   Multiple view layouts. `views/layout.pug` changed to `views/layouts/main.pug`.
