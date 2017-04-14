@@ -6,50 +6,49 @@ Global course catalog service.
 
 ## Bootstrap
 
-If the image specified in `docker-compose.yml` isn't available, you must
-bootstrap the project with the following commands.
+1.  Build image.
 
-```shell
-REPO=apset-docker.artifactory.swg-devops.com/bigdatauniversity/mesa.chell \
-  TAG=latest \
-  docker-compose -f ci/docker-compose.yaml build
+    ```sh
+    docker-compose build
+    ```
 
-docker-compose run chell npm install
-docker-compose down
-```
+1.  Install npm packages locally for development.
 
-The first command will build the image, and the second one will install the
-NPM packages locally for development.
+    ```sh
+    docker-compose run chell npm install; docker-compose down
+    ```
+
+You're ready to start developing!
 
 ## Cheatsheet
 
 *   Development web server.
 
-    ```shell
+    ```sh
     docker-compose run --service-ports chell npm run dev; docker-compose down
     ```
 
 *   Development console.
 
-    ```shell
+    ```sh
     docker-compose run --service-ports chell ash; docker-compose down
     ```
 
 *   Precompile assets.
 
-    ```shell
+    ```sh
     docker-compose run --service-ports chell npm run assets; docker-compose down
     ```
 
 *   Lint.
 
-    ```shell
+    ```sh
     docker-compose run chell npm run lint; docker-compose down
     ```
 
 *   Run test suite.
 
-    ```shell
+    ```sh
     docker-compose run chell npm test; docker-compose down
     ```
 
