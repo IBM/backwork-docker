@@ -13,8 +13,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 -   Uploading modal.
 
 ### Changed
--   Forward fileSotrage errors as errors.
+-   Forward `FileStorage` errors as errors.
 -   Use virtual attribute for version `archiveFilename`.
+-   Refactor common route filters to `routes/api/filters.js`.
+-   Move `loadVersion` middleware to `middleware/load_version.js`.
+
+### Fixed
+-   `GET /api/courses/:id/versions` and `GET /api/courses/:id/versions/:id` -
+    Transform to JSON before sending to filter.
 
 ## [0.3.0][] - 2017-04-03
 ### Added

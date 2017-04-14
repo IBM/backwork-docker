@@ -1,4 +1,6 @@
-# Chell [![Build Status](https://travis.ibm.com/bdu/chell.svg?token=CCLjK5gsaLWyxhCwwcrs&branch=master)](https://travis.ibm.com/bdu/chell)
+[![Build Status](https://travis.ibm.com/bdu/chell.svg?token=CCLjK5gsaLWyxhCwwcrs&branch=master)](https://travis.ibm.com/bdu/chell)
+
+# Chell
 
 Global course catalog service.
 
