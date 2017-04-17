@@ -7,18 +7,22 @@ const models = require('../../../models');
 const config = require('../../../config');
 const router = require('./index');
 
+const courseParams = {
+  name: 'Test 101',
+  organization: 'TestOrg',
+  code: 'TEST101',
+};
+
 const app = express();
 app.use('/', router);
 
 describe('/api/courses', () => {
   let Course;
-  beforeAll(done =>
+  beforeAll(() =>
     models.init(config.mongoURI)
       .then(() => {
         Course = mongoose.model('Course');
-        done();
-      })
-      .catch(done.fail));
+      }));
 
   describe('/', () => {
     describe('get', () => {
@@ -47,17 +51,9 @@ describe('/api/courses', () => {
   describe('/:courseId', () => {
     let courseId;
 
-    beforeAll(done =>
-      new Course({
-        name: 'Test 101',
-        organization: 'TestOrg',
-        code: 'TEST101',
-      }).save()
-        .then((doc) => {
-          courseId = doc.toJSON().id;
-          done();
-        })
-        .catch(done.fail));
+    beforeAll(() =>
+      new Course(courseParams).save()
+        .then(doc => (courseId = doc.toJSON().id)));
 
     describe('get', () => {
       it('should retrieve details for the specified course', (done) => {
@@ -85,10 +81,9 @@ describe('/api/courses', () => {
 
     afterAll(done =>
       Course.deleteOne({ _id: courseId }).exec()
-        .then(() => done())
+        .then(done)
         .catch(done.fail));
   });
 
-  afterAll(done =>
-    models.terminate().then(() => done()));
+  afterAll(() => models.terminate());
 });
