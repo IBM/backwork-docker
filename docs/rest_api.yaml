@@ -88,38 +88,59 @@ definitions:
       id: # course-v1:<org>:<course>:<run>
         type: string
         description: Unique identifier for course.
+      name:
+        type: string
+        description: Course name.
       organization:
         type: string
         description: Organization code.
-      display_organization:
+      code:
         type: string
-        description: Organization display name.
-      display_name:
-        type: string
-        description: Display name.
+        description: Course code.
       short_description:
         type: string
         description: Short description.
-      language:
+      long_description:
         type: string
-        description: Language code.
-      updates:
+        description: Long description.
+      created_at:
+        type: string
+        format: date-time
+        description: Creation date-time.
+      updated_at:
+        type: string
+        format: date-time
+        description: Latest update date-time.
+      versions:
         description: Colection of update objectss
         type: array
         items:
-          description: Update object.
+          description: Version object.
           type: object
           properties:
-            content:
-              type: string
-              format: html
-              description: Update message
-            date:
-              type: string
             id:
-              type: integer
-            state:
               type: string
+              description: Unique identifier for version.
+            open_edx_id:
+              type: string
+              description: OpenEdx id for version.
+            major:
+              type: integer
+              description: Version major.
+            minor:
+              type: integer
+              description: Version minor.
+            change_log:
+              type: string
+              description: Version change log.
+            created_at:
+              type: string
+              format: date-time
+              description: Creation date-time.
+            updated_at:
+              type: string
+              format: date-time
+              description: Latest update date-time.
 
   Error:
     description: Error details
