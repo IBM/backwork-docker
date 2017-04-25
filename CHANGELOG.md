@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+## [0.4.2][] - 2017-04-25
+### Fixed
+-   `openEdxId` - replace `:` with `+`.
+
 ## [0.4.1][] - 2017-04-18
 ### Fixed
 -   OpenEdx Id for versions.
@@ -69,7 +73,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 -   Project skeleton.
 
-[Unreleased]: https://github.ibm.com/bdu/chell/compare/0.4.1...HEAD
+[Unreleased]: https://github.ibm.com/bdu/chell/compare/0.4.2...HEAD
+[0.4.2]: https://github.ibm.com/bdu/chell/compare/0.4.1...0.4.2
 [0.4.1]: https://github.ibm.com/bdu/chell/compare/0.4.0...0.4.1
 [0.4.0]: https://github.ibm.com/bdu/chell/compare/0.3.0...0.4.0
 [0.3.0]: https://github.ibm.com/bdu/chell/compare/0.2.1...0.3.0

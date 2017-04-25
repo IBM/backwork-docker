@@ -30,7 +30,7 @@ versionSchema.virtual('archiveFilename').get(function () {
 
 versionSchema.virtual('openEdxId').get(function () {
   const course = this.parent();
-  return `course-v1:${course.organization}:${course.code}:v${this.major}`;
+  return `course-v1:${course.organization}+${course.code}+v${this.major}`;
 });
 
 // Validations
