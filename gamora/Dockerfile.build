@@ -1,0 +1,40 @@
+# Always specify the point version
+FROM python:2.7.13-alpine
+MAINTAINER leonsp@ca.ibm.com
+
+ARG PIP_REPO_HOST_WITH_CREDS
+ARG PIP_REPO_USERNAME
+ARG PIP_REPO_PASSWORD
+
+# install mongodump and mongorestore
+RUN echo 'http://dl-3.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories \
+    && echo 'http://dl-3.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories \
+    && apk add --no-cache \
+        libressl \
+        mongodb-tools
+
+RUN mkdir /root/.pip
+
+RUN printf "[global]\n\
+index-url = https://pypi.python.org/simple\n\
+extra-index-url = $PIP_REPO_HOST_WITH_CREDS\n\
+" > /root/.pip/pip.conf
+
+RUN printf "[distutils]\n\
+index-servers = local\n\
+\n\
+[local]\n\
+repository:$PIP_REPO_HOST_WITH_CREDS\n\
+username:$PIP_REPO_USERNAME\n\
+password:$PIP_REPO_PASSWORD\n\
+" > /root/.pypirc
+
+RUN mkdir -p /gamora /gamora/pip
+WORKDIR /gamora
+
+# install monsoon
+COPY ./requirements.txt ./pip
+RUN pip download --no-input -r ./pip/requirements.txt --dest ./pip \
+    && rm /root/.pypirc /root/.pip/pip.conf
+
+CMD ["tar", "-czf", "-", "."]

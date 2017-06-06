@@ -3,29 +3,26 @@ services: docker
 
 env:
   - |
-    BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} # Branch name
-    PR_SHA=${TRAVIS_PULL_REQUEST_SHA::8}                 #
-    COMMIT_SHA=${TRAVIS_COMMIT::8}                       #
-    COMMIT=${PR_SHA:-$COMMIT_SHA}                        # Commit hash (XXXXXXXX)
-    BUILD=$(printf "%04d\n" $TRAVIS_BUILD_NUMBER)        # Build number (0000)
-    TAG=$BRANCH-$COMMIT-$BUILD                           # Docker tag (branch-XXXXXXXX-0000)
-    RELEASE=$TRAVIS_TAG                                  # New release indicated by Git tag (X.Y.Z)
-    REPO=${REGISTRY_HOST:-docker.io}/bigdatauniversity/course-dev.chell
+    REPO=${REGISTRY_HOST:-docker.io}/bigdatauniversity/portal.gamora
+    TAG=ci
+
+addons:
+  apt:
+    packages:
+      - realpath
 
 before_install:
-  - if [ -n "$RELEASE" ]; then export TAG=$RELEASE; fi
+  - if [ -n "$TRAVIS_TAG" ]; then export TAG=$TRAVIS_TAG; fi
   # Ensure TAG doesn't have any slashes (`/`)
   - export TAG=$(echo $TAG | sed 's;/;_;g')
   - env | sort | egrep "REPO|TAG|REGISTRY" | egrep -vi "password|token"
-  - docker-compose -f ci/docker-compose.yaml build
+  - bin/build
   - docker images
 
-script:
-  - docker-compose -f ci/docker-compose.yaml run --rm chell ./ci.sh
+script: true
 
-after_success:
-  - if [ -n "$RELEASE" ]; then ci/push.sh; fi
+after_success: if [ -n "$TRAVIS_TAG" ]; then bin/push; fi
 
 notifications:
   slack:
-    secure: "SG0hq8WsgaMiFyxLgcLQpROkedsoeIkT8Psr8WwUc0sz4K+8zkXgw9uI2ffvadPmCodI7aTF2lymHYZaOVoq1yuHOzE5sYdawtdebCjYmFrFQ6l5MnISX10nJFmUqjsaARHGrImsEouuLltW9V55fvCgV+8Eab/MbvcJBOrVgqhIIi94ykeV9a9fKMTpnGGF8weXZNpAgfUNdvDfsMRsfdiDgMaBKQFT6Xe0XUTV6nKaqiVkVVI4WSayneoGgAzZBCVBoVLRJ/B7ghHHQLga+K9lUFkX6yQDY6OS9Dv6UaNA7RxC3tyVX9z5NTEUL5Q5AdxEctDdvwoz8ugo8pqHtaovtJI1T7124K/rEjZMVBX+TKudS+9GyAlv0/1hR2bLH5SOENvnKhMzHrsAxyGCqPzwbT8srj23He8EtSCJ3H8PkpRxhBKItNvRvtFy/MnUZeXh9DDr/OVLpsHCgPL8g4WfqLp9pFlwVRkMcJlHRX7OTntFL+2GQVP9n1NbrmH5Psg6xgbSJcZnZ5ThBzKdqXdz2NsbFETD8GhuUxnmD3hFU9GaxHBpRuEm/6hRbazU3uktw9vpptjOsFpOGbeSEnjZUEFy5uRuwWflsrfkzCzI1GhNiuYXc3l7Yme99s//Z/hNiW1jJsqlnygIxKW+GcSI2/+PvS7Ox4PDIbvZU5A="
+    secure: "objm+YC3fdtxenNHrMvD3Og0UxE6rrZxLEu1jLHJgXCBY8s9HoCaScLVSFs1OwIj6y82l/hi4mhegQRMK/5xn5a+kAyWo/NuRMz3yjWznV5pfWtg0mYN8eukCGEO+ggra9oJf/LzzF/xiUeTAOgduluAY1uayoYNrxBA4Yp5Mhg86zNLJes/mOeNWFRV6goee2DBwWQSQ2KZODJyM1a9wHbZKyISolJtLlKgh4oT/Prd3G2wmZ6aiuhfS8lMbXpqtV/joV/O68oVk4wJT8MNqraTI2Zg1FjZls/a7OA21Mrbl4OGEIDy3hKLd3WDUsd4fr/ufEp/ghZjkYvGZ8fN284HKNZes+No8qBx0mYA/8lSh1MTNgjh7XDX3Ppx+jkIVWQBnBsjvayTjNwiZBEgcVXGvSXLyfZ4FMdfoztkLLBZIbsaF9Kn0B6mwX49AxO3+WOQthG7nR+4teyM5ZSgQcyzPRW1JkYtFmsitSEVPA0QeGKG3BjyVdB5oOTz2D7yj0i9tRbKcH4HL+m1m57troGLEYKat2YhlkjWDrkb7wuIqCirFF+9o34voW3lPt+GBx/9nOiz7Zor88eawuUHi5JPZ3xS5HQUXLOue67zh84A2+tDpQaRLx3xQ1lD79ZZTzYbxQhYL48UoSJSAD3uAGSDrGxvIhStTSGRh2tx0R0="

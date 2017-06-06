@@ -1,7 +1,10 @@
+build.tgz
 .env
 .idea
 .jshintrc
 
+pip.conf
+.pypirc
 tmp
 
 !.keep

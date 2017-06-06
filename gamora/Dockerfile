@@ -1,0 +1,21 @@
+# Always specify the point version
+FROM python:2.7.13-alpine
+MAINTAINER leonsp@ca.ibm.com
+
+# install mongodump and mongorestore
+RUN echo 'http://dl-3.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories \
+    && echo 'http://dl-3.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories \
+    && apk add --no-cache \
+        libressl \
+        mongodb-tools
+
+# ADD extracts automatically
+# We want the side-effect
+ADD build.tgz /gamora
+WORKDIR /gamora
+
+COPY requirements.txt ./
+RUN pip install -r ./requirements.txt --find-links ./pip
+
+COPY ./docker-entrypoint.sh ./entrypoint.sh
+ENTRYPOINT ["/bin/ash", "/gamora/entrypoint.sh"]

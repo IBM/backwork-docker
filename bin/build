@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Exit immediately if a command exits with a non-zero status.
+set -e
+# Exit immediately if a command accesses an undeclared variable
+set -u
+
+ROOT_DIR="$(dirname "$(realpath "$0")")/.."
+GAMORA_DIR="$ROOT_DIR/gamora"
+
+GAMORA_BUILD_FILE="$GAMORA_DIR/build.tgz"
+
+# Print commands and their arguments as they are executed.
+set -x
+
+# Remove GLaDOS build file, if one exists.
+if [ -f "$GAMORA_BUILD_FILE" ]; then rm -vf $GAMORA_BUILD_FILE; fi
+
+# Prepare build image.
+docker-compose -f $ROOT_DIR/docker-compose.build.yaml build
+
+# Prepare GLaDOS bundle.
+docker run --rm portal.gamora-build > $GAMORA_BUILD_FILE
+
+# # Prepare distribution image.
+# if [ "$CI" == true ]; then
+#   cp $ROOT_DIR/chell.env{.example,}
+# fi
+docker-compose -f $ROOT_DIR/docker-compose.yaml build

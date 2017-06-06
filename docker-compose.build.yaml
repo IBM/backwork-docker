@@ -1,0 +1,11 @@
+version: "2"
+services:
+  glados-build:
+    build:
+      context: ./gamora
+      dockerfile: Dockerfile.build
+      args:
+        - PIP_REPO_HOST_WITH_CREDS
+        - PIP_REPO_USERNAME
+        - PIP_REPO_PASSWORD
+    image: portal.gamora-build

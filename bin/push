@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# -e  Exit immediately if a command exits with a non-zero status.
+set -e
+
+if [ -z "$REGISTRY_HOST" ] || [[ "$REGISTRY_HOST" == *"docker.io"* ]]; then
+  docker login -u "$REGISTRY_USERNAME" -p "$REGISTRY_PASSWORD"
+else
+  docker login -u "$REGISTRY_USERNAME" -p "$REGISTRY_PASSWORD" "$REGISTRY_HOST"
+fi
+
+docker push $REPO:$TAG
+
+echo "WARNING: Updating 'latest' tag"
+docker tag $REPO:$TAG $REPO:latest
+docker push $REPO:latest
+
+if [ -z "$REGISTRY_HOST" ] || [[ "$REGISTRY_HOST" == *"docker.io"* ]]; then
+  docker logout
+else
+  docker logout "$REGISTRY_HOST"
+fi
