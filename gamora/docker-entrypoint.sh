@@ -10,6 +10,9 @@ log() {
 back_up_mongo() {
   FILENAME=mongo_backup_$(date +"%Y%m%d_%H%M%S").archive.gzip
 
+  local remote_path
+  remote_path="${SOFTLAYER_PATH:?}/$(date +%Y/%m)"
+
   log "Taking mongo backup"
   monsoon ${NOTIFICATION_SETTINGS} backup mongo \
       -u "${MONGO_BACKUP_USER}" \
@@ -26,12 +29,15 @@ back_up_mongo() {
       -d "${SOFTLAYER_DATACENTER}" \
       -c "${SOFTLAYER_CONTAINER}" \
       /tmp/"${FILENAME}" \
-      mongo/"${FILENAME}"
+      "${remote_path}/${FILENAME}"
   log "Done: Uploading mongo backup"
 }
 
 back_up_mysql() {
   FILENAME=mysql_backup_$(date +"%Y%m%d_%H%M%S").archive.gzip
+
+  local remote_path
+  remote_path="${SOFTLAYER_PATH:?}/$(date +%Y/%m)"
 
   log "Taking mysql backup"
   set -x
@@ -48,13 +54,15 @@ back_up_mysql() {
   log "Done: Taking mysql backup"
 
   log "Uploading mysql backup"
+  set -x
   monsoon ${NOTIFICATION_SETTINGS} upload softlayer \
       -u "${SOFTLAYER_USER}" \
       -p "${SOFTLAYER_API_KEY}" \
       -d "${SOFTLAYER_DATACENTER}" \
       -c "${SOFTLAYER_CONTAINER}" \
       /tmp/"${FILENAME}" \
-      mongo/"${FILENAME}"
+      "${remote_path}/${FILENAME}"
+  set +x
   log "Done: Uploading mysql backup"
 }
 

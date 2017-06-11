@@ -26,6 +26,7 @@ services:
       - SOFTLAYER_API_KEY
       - SOFTLAYER_DATACENTER
       - SOFTLAYER_CONTAINER
+      - SOFTLAYER_PATH
     links:
       - mysql
       - mongo
