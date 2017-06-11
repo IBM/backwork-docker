@@ -14,6 +14,10 @@ ARG PIP_REPO_HOST_WITH_CREDS
 ARG PIP_REPO_USERNAME
 ARG PIP_REPO_PASSWORD
 
+RUN [[ -n ${PIP_REPO_HOST_WITH_CREDS:?} ]]
+RUN [[ -n ${PIP_REPO_USERNAME:?} ]]
+RUN [[ -n ${PIP_REPO_PASSWORD:?} ]]
+
 RUN mkdir /root/.pip
 
 RUN printf "[global]\n\
