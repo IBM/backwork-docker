@@ -1,28 +1,19 @@
 language: bash
 services: docker
-
 env:
-  - |
-    REPO=${REGISTRY_HOST:-docker.io}/bigdatauniversity/portal.gamora
-    TAG=ci
-
+  secure: HRHcqkRpt/+lPmHiQX4mIrvFzNGtN2kfbTGTLK71pXPVi/v63FLBhKs6eyuCj1fIzVhSan4i6Ro8y752H4dHOhf/abgHXsp0aHsRg3TdzL2lmBaNiUx/+0GzcXcMhOp21g+hod+GS8beFdNgvylb6ALVeU6EYma+7zypBckLfPm5q3NkL5KbqPAHyHcXoGlPeAQHljBgPQwyoSWyhhGc2oEVg6w6gWQuMEr7aINb+Hyb1TIaYn5//7KFhfhzYlXxXATUJXzKu478/NH7z6gal+aQ2EgxVb6jth2M4vOGkDmmhI8TPZt2nUd+K58o/f+1UW2/26WfW4P9R4YkYkHKJQZ1tsZN2CL34u46Zdj3HkV2+5aGidZ9OUhJV2RdYJ7RpKKxm1JQtBqn4xgVBUNWV6h6/kHVyiW3gZNqM5XLtplgF4oMRZ0qBvHto/6rYOOhszP9QkAhy63Rl7rU3chMrUuTL3TBgAHC4/CoiYj/PKvNbJBMwrn07L8HteGPnVb71+JwkYJjKxjPeemVlJ77fTC+dYRBjTItOyzpSwDaY+yIzLu5ORsWKqns0WukCR7nQGePjowofzDibu1PYaaZ74epXzwzVhIlhfUU4NTDD0Jvhi2jK8NbQnLTNO7+1kVbN2G3lbaXLqDpw9VBOSvaoU3NaTa1pjJssb0My+n9uJA=
 addons:
   apt:
     packages:
-      - realpath
-
+    - realpath
 before_install:
-  - if [ -n "$TRAVIS_TAG" ]; then export TAG=$TRAVIS_TAG; fi
-  # Ensure TAG doesn't have any slashes (`/`)
-  - export TAG=$(echo $TAG | sed 's;/;_;g')
-  - env | sort | egrep "REPO|TAG|REGISTRY" | egrep -vi "password|token"
-  - bin/build
-  - docker images
-
+- if [ -n "$TRAVIS_TAG" ]; then export TAG=$TRAVIS_TAG; fi
+- export TAG=$(echo $TAG | sed 's;/;_;g')
+- env | sort | egrep "REPO|TAG|REGISTRY" | egrep -vi "password|token"
+- bin/build
+- docker images
 script: true
-
 after_success: if [ -n "$TRAVIS_TAG" ]; then bin/push; fi
-
 notifications:
   slack:
-    secure: "objm+YC3fdtxenNHrMvD3Og0UxE6rrZxLEu1jLHJgXCBY8s9HoCaScLVSFs1OwIj6y82l/hi4mhegQRMK/5xn5a+kAyWo/NuRMz3yjWznV5pfWtg0mYN8eukCGEO+ggra9oJf/LzzF/xiUeTAOgduluAY1uayoYNrxBA4Yp5Mhg86zNLJes/mOeNWFRV6goee2DBwWQSQ2KZODJyM1a9wHbZKyISolJtLlKgh4oT/Prd3G2wmZ6aiuhfS8lMbXpqtV/joV/O68oVk4wJT8MNqraTI2Zg1FjZls/a7OA21Mrbl4OGEIDy3hKLd3WDUsd4fr/ufEp/ghZjkYvGZ8fN284HKNZes+No8qBx0mYA/8lSh1MTNgjh7XDX3Ppx+jkIVWQBnBsjvayTjNwiZBEgcVXGvSXLyfZ4FMdfoztkLLBZIbsaF9Kn0B6mwX49AxO3+WOQthG7nR+4teyM5ZSgQcyzPRW1JkYtFmsitSEVPA0QeGKG3BjyVdB5oOTz2D7yj0i9tRbKcH4HL+m1m57troGLEYKat2YhlkjWDrkb7wuIqCirFF+9o34voW3lPt+GBx/9nOiz7Zor88eawuUHi5JPZ3xS5HQUXLOue67zh84A2+tDpQaRLx3xQ1lD79ZZTzYbxQhYL48UoSJSAD3uAGSDrGxvIhStTSGRh2tx0R0="
+    secure: objm+YC3fdtxenNHrMvD3Og0UxE6rrZxLEu1jLHJgXCBY8s9HoCaScLVSFs1OwIj6y82l/hi4mhegQRMK/5xn5a+kAyWo/NuRMz3yjWznV5pfWtg0mYN8eukCGEO+ggra9oJf/LzzF/xiUeTAOgduluAY1uayoYNrxBA4Yp5Mhg86zNLJes/mOeNWFRV6goee2DBwWQSQ2KZODJyM1a9wHbZKyISolJtLlKgh4oT/Prd3G2wmZ6aiuhfS8lMbXpqtV/joV/O68oVk4wJT8MNqraTI2Zg1FjZls/a7OA21Mrbl4OGEIDy3hKLd3WDUsd4fr/ufEp/ghZjkYvGZ8fN284HKNZes+No8qBx0mYA/8lSh1MTNgjh7XDX3Ppx+jkIVWQBnBsjvayTjNwiZBEgcVXGvSXLyfZ4FMdfoztkLLBZIbsaF9Kn0B6mwX49AxO3+WOQthG7nR+4teyM5ZSgQcyzPRW1JkYtFmsitSEVPA0QeGKG3BjyVdB5oOTz2D7yj0i9tRbKcH4HL+m1m57troGLEYKat2YhlkjWDrkb7wuIqCirFF+9o34voW3lPt+GBx/9nOiz7Zor88eawuUHi5JPZ3xS5HQUXLOue67zh84A2+tDpQaRLx3xQ1lD79ZZTzYbxQhYL48UoSJSAD3uAGSDrGxvIhStTSGRh2tx0R0=
