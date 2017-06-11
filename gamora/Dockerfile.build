@@ -2,16 +2,17 @@
 FROM python:2.7.13-alpine
 MAINTAINER leonsp@ca.ibm.com
 
-ARG PIP_REPO_HOST_WITH_CREDS
-ARG PIP_REPO_USERNAME
-ARG PIP_REPO_PASSWORD
-
 # install mongodump and mongorestore
 RUN echo 'http://dl-3.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories \
     && echo 'http://dl-3.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories \
     && apk add --no-cache \
         libressl \
+        mariadb-client \
         mongodb-tools
+
+ARG PIP_REPO_HOST_WITH_CREDS
+ARG PIP_REPO_USERNAME
+ARG PIP_REPO_PASSWORD
 
 RUN mkdir /root/.pip
 

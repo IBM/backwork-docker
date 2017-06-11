@@ -7,6 +7,7 @@ RUN echo 'http://dl-3.alpinelinux.org/alpine/edge/community' >> /etc/apk/reposit
     && echo 'http://dl-3.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories \
     && apk add --no-cache \
         libressl \
+        mariadb-client \
         mongodb-tools
 
 # ADD extracts automatically
@@ -18,4 +19,4 @@ COPY requirements.txt ./
 RUN pip install -r ./requirements.txt --find-links ./pip
 
 COPY ./docker-entrypoint.sh ./entrypoint.sh
-ENTRYPOINT ["/bin/ash", "/gamora/entrypoint.sh"]
+CMD ["/bin/ash", "/gamora/entrypoint.sh"]

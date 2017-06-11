@@ -2,9 +2,9 @@ version: "2"
 
 services:
   #
-  # GlaDOS
+  # Gamora
   #
-  glados:
+  gamora:
     build: ./gamora
     image: bigdatauniversity/portal.gamora
     environment:
@@ -12,3 +12,46 @@ services:
       - PIP_REPO_HOST_WITH_CREDS
       - PIP_REPO_USERNAME
       - PIP_REPO_PASSWORD
+
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+
+      - MONGO_BACKUP_USER
+      - MONGO_BACKUP_PASSWORD
+      - MONGO_HOST=mongo
+      - SENTRY_DSN
+      - SOFTLAYER_USER
+      - SOFTLAYER_API_KEY
+      - SOFTLAYER_DATACENTER
+      - SOFTLAYER_CONTAINER
+    links:
+      - mysql
+      - mongo
+
+  ##
+  # MySQL
+  ##
+  mysql:
+    image: mysql:5.7.18
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+
+  ##
+  # Mongo
+  ##
+  mongo:
+    image: ${REGISTRY_HOST}portal.mongo:0.2.0-e.2
+    environment:
+      - "MONGO_ADMIN_USER=$MONGO_BACKUP_USER"
+      - "MONGO_ADMIN_PASSWORD"
+      - "FORUM_MONGO_USER=cs_comments_service"
+      - "FORUM_MONGO_PASSWORD"
+      - "FORUM_MONGO_DATABASE=cs_comments_service"
+      - "EDXAPP_MONGO_USER=edxapp"
+      - "EDXAPP_MONGO_PASSWORD"
+      - "EDXAPP_MONGO_DB_NAME=edxapp"
