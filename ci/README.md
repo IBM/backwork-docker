@@ -10,6 +10,8 @@ travis encrypt \
   --add env
 ```
 
+Once you add `REGISTRY_USERNAME` and `REGISTRY_PASSWORD`, it becomes preferable to define environment variables in the Travis web interface. This is also the recommended approach for variables that do not change across branches.
+
 The value for `notifications/slack/secure` is obtained by running the following
 command.
 
