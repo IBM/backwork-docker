@@ -10,9 +10,6 @@ log() {
 back_up_mongo() {
   FILENAME=mongo_backup_$(date +"%Y%m%d_%H%M%S").archive.gzip
 
-  local remote_path
-  remote_path="${SOFTLAYER_PATH:?}/$(date +%Y/%m)"
-
   log "Taking mongo backup"
   monsoon ${NOTIFICATION_SETTINGS} backup mongo \
       -u "${MONGO_BACKUP_USER}" \
@@ -29,15 +26,13 @@ back_up_mongo() {
       -d "${SOFTLAYER_DATACENTER}" \
       -c "${SOFTLAYER_CONTAINER}" \
       /tmp/"${FILENAME}" \
-      "${remote_path}/${FILENAME}"
+      "${REMOTE_PATH}/${FILENAME}" \
+      && rm -f /tmp/"${FILENAME}"
   log "Done: Uploading mongo backup"
 }
 
 back_up_mysql() {
   FILENAME=mysql_backup_$(date +"%Y%m%d_%H%M%S").archive.gzip
-
-  local remote_path
-  remote_path="${SOFTLAYER_PATH:?}/$(date +%Y/%m)"
 
   log "Taking mysql backup"
   set -x
@@ -61,14 +56,43 @@ back_up_mysql() {
       -d "${SOFTLAYER_DATACENTER}" \
       -c "${SOFTLAYER_CONTAINER}" \
       /tmp/"${FILENAME}" \
-      "${remote_path}/${FILENAME}"
+      "${REMOTE_PATH}/${FILENAME}" \
+      && rm -f /tmp/"${FILENAME}"
   set +x
   log "Done: Uploading mysql backup"
+}
+
+back_up_files() {
+  FILENAME=files_backup_$(date +"%Y%m%d_%H%M%S").archive.tgz
+
+  log "Taking file backup"
+  set -x
+  monsoon ${NOTIFICATION_SETTINGS} backup files \
+      --output=/tmp/"${FILENAME}" \
+      ${BACKUP_LOCAL_PATHS:?} # space-separated list
+  set +x
+  log "Done: Taking file backup"
+
+  ls -la /tmp
+
+  log "Uploading file backup"
+  set -x
+  monsoon ${NOTIFICATION_SETTINGS} upload softlayer \
+      -u "${SOFTLAYER_USER}" \
+      -p "${SOFTLAYER_API_KEY}" \
+      -d "${SOFTLAYER_DATACENTER}" \
+      -c "${SOFTLAYER_CONTAINER}" \
+      /tmp/"${FILENAME}" \
+      "${REMOTE_PATH}/${FILENAME}" \
+      && rm -f /tmp/"${FILENAME}"
+  set +x
+  log "Done: Uploading file backup"
 }
 
 main() {
   back_up_mongo
   back_up_mysql
+  back_up_files
 }
 
 
@@ -77,5 +101,7 @@ NOTIFICATION_SETTINGS=""
 if [[ -n ${SENTRY_DSN:-} ]]; then
     NOTIFICATION_SETTINGS="-n sentry --sentry-dsn=${SENTRY_DSN}"
 fi
+
+REMOTE_PATH="${SOFTLAYER_PATH:?}/$(date +%Y/%m)"
 
 main

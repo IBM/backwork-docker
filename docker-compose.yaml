@@ -27,6 +27,8 @@ services:
       - SOFTLAYER_DATACENTER
       - SOFTLAYER_CONTAINER
       - SOFTLAYER_PATH
+
+      - BACKUP_LOCAL_PATHS
     links:
       - mysql
       - mongo
