@@ -1,7 +1,7 @@
 language: bash
 services: docker
 env:
-  - REPO="bigdatauniversity/portals.gamora"
+  - REPO="bigdatauniversity/portal.gamora"
   secure: wm4UpPpmPgBaIkF1KLlk0PRdg9Zoah+PBXiA6WUpA1Gyaz8HXqe2aRVvE6RcJ11l/SNcTtNtwY/UP6zBiblwJn6819WdfGqA87oFRZZddWyuzCxFE0YL1xV5EevSqRzRKlGFqlUiHkX4XaxNw51W7BFaKrOPQqG0DP+QCNzgOS+Ydt1V5nDZ+utH2Q+V/Rn3OtD9dsr5z3EzjSSg4W5YIq2bCWV8cSXHAar1cGosevWjvGo6tDCUL+RYOzJFlGvIJuRjjbVIlpJGZURC7kLmDXjO5R4UUH7eATlQEN/eN8D2tg+yZOUfa6gHaTOTyNvjOHLmBW/W1vlG8xsg5Iy2V5IL7ET+ESkPrn9gh/VaxUglFP5Xh8T5YFBc8lJ7g0CWFaAjgrfjUyjTMn6HMo45MdKEp15Cc++k3Dyt+d5JG5HzI06dzqLE+WvfDAz/4zsgRdbBpvRBVccSPDGEo5fnzO7un4GkP0GkDUER3lvHEdZwBvcaTykuDqS9SFgHWY7FeEUcgJSpy1Ahw6CMLVo4LITN+zJYY7Neh12YaudCCJnrjY1b/iGjcGatvtUKcVedomDgffnq9yi7HKNoKVrxhCNxzHjRLHh99h2aZ9nGitTmbRQW6QnxhSV+cTO7zZn7IZiKVO/6K39KR9ebL+/j6ldNz89F+bCVE9YpQOb/om4=
 addons:
   apt:
