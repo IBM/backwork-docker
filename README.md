@@ -1,56 +1,37 @@
-[![Build Status](https://travis.ibm.com/bdu/chell.svg?token=CCLjK5gsaLWyxhCwwcrs&branch=master)](https://travis.ibm.com/bdu/chell)
+[![Build Status](https://travis.ibm.com/bdu/gamora.svg?token=sEYcW68KU3tGRyi3z1eH&branch=master)](https://travis.ibm.com/bdu/gamora)
 
-# Chell
+# Gamora
 
-Global course catalog service.
+Automated backups for MySQL, Mongo, and file paths using the Monsoon library.
 
-## Bootstrap
+## Development
 
-1.  Build image.
-
-    ```sh
-    docker-compose build
-    ```
-
-1.  Install npm packages locally for development.
+1.  Build locally.
 
     ```sh
-    docker-compose run chell npm install; docker-compose down
+    bin/build
     ```
 
-You're ready to start developing!
-
-## Cheatsheet
-
-*   Development web server.
+2.  Run locally.
 
     ```sh
-    docker-compose run --service-ports chell npm run dev; docker-compose down
+    cp .env{.example,}
+    nano .env
+    docker-compose up
     ```
 
-*   Development console.
+## Production
+
+1.  Build and publish.
 
     ```sh
-    docker-compose run --service-ports chell ash; docker-compose down
+    git add ...
+    git commit
+    git tag -a 0.1.0 -m v0.1.1 # If you want to publish
+    git push --tags
     ```
 
-*   Precompile assets.
-
-    ```sh
-    docker-compose run --service-ports chell npm run assets; docker-compose down
-    ```
-
-*   Lint.
-
-    ```sh
-    docker-compose run chell npm run lint; docker-compose down
-    ```
-
-*   Run test suite.
-
-    ```sh
-    docker-compose run chell npm test; docker-compose down
-    ```
+2.  Check [Travis](https://travis.ibm.com/bdu/gamora/builds)
 
 ## License
 
