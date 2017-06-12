@@ -9,6 +9,7 @@ else
   docker login -u "$REGISTRY_USERNAME" -p "$REGISTRY_PASSWORD" "$REGISTRY_HOST"
 fi
 
+docker images
 docker push $REPO:$TAG
 
 echo "WARNING: Updating 'latest' tag"
