@@ -10,10 +10,14 @@ else
 fi
 
 docker images
+
+# Why was the code assuming that $REPO:$TAG exists
+# while $REPO:latest doesn't and not vice versa?
+
+docker tag $REPO:latest $REPO:$TAG
 docker push $REPO:$TAG
 
-echo "WARNING: Updating 'latest' tag"
-docker tag $REPO:$TAG $REPO:latest
+echo "Updating latest tag"
 docker push $REPO:latest
 
 if [ -z "$REGISTRY_HOST" ] || [[ "$REGISTRY_HOST" == *"docker.io"* ]]; then
