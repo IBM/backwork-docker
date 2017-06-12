@@ -35,7 +35,6 @@ back_up_mysql() {
   FILENAME=mysql_backup_$(date +"%Y%m%d_%H%M%S").archive.gzip
 
   log "Taking mysql backup"
-  set -x
   monsoon ${NOTIFICATION_SETTINGS} backup mysql \
       --output=/tmp/"${FILENAME}" \
       --gzip \
@@ -45,11 +44,9 @@ back_up_mysql() {
       "--port=${MYSQL_PORT:?}" \
       "--user=${MYSQL_USER:?}" \
       "--password=${MYSQL_PASSWORD:?}"
-  set +x
   log "Done: Taking mysql backup"
 
   log "Uploading mysql backup"
-  set -x
   monsoon ${NOTIFICATION_SETTINGS} upload softlayer \
       -u "${SOFTLAYER_USER}" \
       -p "${SOFTLAYER_API_KEY}" \
@@ -58,7 +55,6 @@ back_up_mysql() {
       /tmp/"${FILENAME}" \
       "${REMOTE_PATH}/${FILENAME}" \
       && rm -f /tmp/"${FILENAME}"
-  set +x
   log "Done: Uploading mysql backup"
 }
 
@@ -66,17 +62,14 @@ back_up_files() {
   FILENAME=files_backup_$(date +"%Y%m%d_%H%M%S").archive.tgz
 
   log "Taking file backup"
-  set -x
   monsoon ${NOTIFICATION_SETTINGS} backup files \
       --output=/tmp/"${FILENAME}" \
       ${BACKUP_LOCAL_PATHS:?} # space-separated list
-  set +x
   log "Done: Taking file backup"
 
   ls -la /tmp
 
   log "Uploading file backup"
-  set -x
   monsoon ${NOTIFICATION_SETTINGS} upload softlayer \
       -u "${SOFTLAYER_USER}" \
       -p "${SOFTLAYER_API_KEY}" \
@@ -85,7 +78,6 @@ back_up_files() {
       /tmp/"${FILENAME}" \
       "${REMOTE_PATH}/${FILENAME}" \
       && rm -f /tmp/"${FILENAME}"
-  set +x
   log "Done: Uploading file backup"
 }
 
