@@ -31,7 +31,7 @@ Automated backups for MySQL, Mongo, and file paths using the Monsoon library.
     git push --tags
     ```
 
-2.  Check [Travis](https://travis.ibm.com/bdu/gamora/builds)
+2.  Check [Travis](https://travis.ibm.com/bdu/gamora/builds).
 
 ## License
 
