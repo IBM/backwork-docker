@@ -8,7 +8,13 @@ RUN echo 'http://dl-3.alpinelinux.org/alpine/edge/community' >> /etc/apk/reposit
     && apk add --no-cache \
         libressl \
         mariadb-client \
-        mongodb-tools
+        mongodb-tools \
+    && apk add --upgrade --no-cache \
+        expat \
+        freetype \
+        fontconfig \
+        libpng \
+        zlib
 
 # ADD extracts automatically
 # We want the side-effect

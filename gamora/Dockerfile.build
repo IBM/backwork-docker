@@ -8,15 +8,21 @@ RUN echo 'http://dl-3.alpinelinux.org/alpine/edge/community' >> /etc/apk/reposit
     && apk add --no-cache \
         libressl \
         mariadb-client \
-        mongodb-tools
+        mongodb-tools \
+    && apk add --upgrade --no-cache \
+        expat \
+        freetype \
+        fontconfig \
+        libpng \
+        zlib
 
 ARG PIP_REPO_HOST_WITH_CREDS
 ARG PIP_REPO_USERNAME
 ARG PIP_REPO_PASSWORD
 
-RUN [[ -n ${PIP_REPO_HOST_WITH_CREDS:?} ]]
-RUN [[ -n ${PIP_REPO_USERNAME:?} ]]
-RUN [[ -n ${PIP_REPO_PASSWORD:?} ]]
+RUN [[ -n ${PIP_REPO_HOST_WITH_CREDS:?} ]] \
+  && [[ -n ${PIP_REPO_USERNAME:?} ]] \
+  && [[ -n ${PIP_REPO_PASSWORD:?} ]]
 
 RUN mkdir /root/.pip
 
