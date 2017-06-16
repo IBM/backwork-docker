@@ -8,6 +8,11 @@ log() {
 }
 
 back_up_mongo() {
+  if [[ -z "${MONGO_HOST:-}" ]]; then
+    log "Skip backing up Mongo because no Mongo host specified"
+    return
+  fi
+
   FILENAME=mongo_backup_$(date +"%Y%m%d_%H%M%S").archive.gzip
 
   log "Taking mongo backup"
@@ -32,6 +37,11 @@ back_up_mongo() {
 }
 
 back_up_mysql() {
+  if [[ -z "${MYSQL_HOST:-}" ]]; then
+    log "Skip backing up MySQL because no MySQL host specified"
+    return
+  fi
+
   FILENAME=mysql_backup_$(date +"%Y%m%d_%H%M%S").archive.gzip
 
   log "Taking mysql backup"
@@ -59,6 +69,11 @@ back_up_mysql() {
 }
 
 back_up_files() {
+  if [[ -z "${BACKUP_LOCAL_PATHS:-}" ]]; then
+    log "Skip backing up files because no local paths specified"
+    return
+  fi
+
   FILENAME=files_backup_$(date +"%Y%m%d_%H%M%S").archive.tgz
 
   log "Taking file backup"
