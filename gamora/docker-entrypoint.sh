@@ -13,7 +13,7 @@ back_up_mongo() {
     return
   fi
 
-  FILENAME=mongo_backup_$(date +"%Y%m%d_%H%M%S").archive.gzip
+  FILENAME=mongo_backup_$(date +"%Y%m%d_%H%M%S").archive.gz
 
   log "Taking mongo backup"
   monsoon ${NOTIFICATION_SETTINGS} backup mongo \
@@ -42,7 +42,7 @@ back_up_mysql() {
     return
   fi
 
-  FILENAME=mysql_backup_$(date +"%Y%m%d_%H%M%S").archive.gzip
+  FILENAME=mysql_backup_$(date +"%Y%m%d_%H%M%S").archive.gz
 
   log "Taking mysql backup"
   monsoon ${NOTIFICATION_SETTINGS} backup mysql \

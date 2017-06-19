@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.2.1][]
+### Fixed
+-   Name files `.gz` rather than `.gzip` to avoid `gunzip` issues
+
 ## [0.2.0][]
 ### Added
 -   You can skip backing up Mongo, MySQL, or files by not specifying
