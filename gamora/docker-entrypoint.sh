@@ -7,6 +7,29 @@ log() {
   echo "[$(date)] $message" 1>&2
 }
 
+upload_backup() {
+  local filename=$1
+  local remote_path
+
+  if [[ -z "${SOFTLAYER_PATH:-}" ]]; then
+    log "Skipping upload because no Softlayer credentials"
+    return
+  fi
+
+  remote_path="${SOFTLAYER_PATH:?}/$(date +%Y/%m)"
+
+  log "Uploading backup"
+  monsoon ${NOTIFICATION_SETTINGS} upload softlayer \
+      -u "${SOFTLAYER_USER}" \
+      -p "${SOFTLAYER_API_KEY}" \
+      -d "${SOFTLAYER_DATACENTER}" \
+      -c "${SOFTLAYER_CONTAINER}" \
+      /tmp/"${filename:?}" \
+      "${remote_path:?}/${filename:?}" \
+      && rm -f /tmp/"${filename:?}"
+  log "Done: Uploading backup"
+}
+
 back_up_mongo() {
   if [[ -z "${MONGO_HOST:-}" ]]; then
     log "Skip backing up Mongo because no Mongo host specified"
@@ -24,16 +47,7 @@ back_up_mongo() {
       --gzip
   log "Done: Taking mongo backup"
 
-  log "Uploading mongo backup"
-  monsoon ${NOTIFICATION_SETTINGS} upload softlayer \
-      -u "${SOFTLAYER_USER}" \
-      -p "${SOFTLAYER_API_KEY}" \
-      -d "${SOFTLAYER_DATACENTER}" \
-      -c "${SOFTLAYER_CONTAINER}" \
-      /tmp/"${FILENAME}" \
-      "${REMOTE_PATH}/${FILENAME}" \
-      && rm -f /tmp/"${FILENAME}"
-  log "Done: Uploading mongo backup"
+  upload_backup "${FILENAME:?}"
 }
 
 back_up_mysql() {
@@ -56,16 +70,41 @@ back_up_mysql() {
       "--password=${MYSQL_PASSWORD:?}"
   log "Done: Taking mysql backup"
 
-  log "Uploading mysql backup"
-  monsoon ${NOTIFICATION_SETTINGS} upload softlayer \
-      -u "${SOFTLAYER_USER}" \
-      -p "${SOFTLAYER_API_KEY}" \
-      -d "${SOFTLAYER_DATACENTER}" \
-      -c "${SOFTLAYER_CONTAINER}" \
-      /tmp/"${FILENAME}" \
-      "${REMOTE_PATH}/${FILENAME}" \
-      && rm -f /tmp/"${FILENAME}"
-  log "Done: Uploading mysql backup"
+  upload_backup "${FILENAME:?}"
+}
+
+# PGDATABASE: gru,nsa,picard,pony,savant,sentry,usher
+# PGHOST: slave
+# PGPASSWORD: ...
+# PGPORT: '5432'
+# PGUSER: dswb
+
+back_up_postgresql() {
+  local databases
+  if [[ -z "${PGHOST:-}" ]]; then
+    log "Skip backing up PostgreSQL because no PostgreSQL host specified"
+    return
+  fi
+
+  databases="$(echo ${PGDATABASE} | tr ',' ' ')"
+
+  for database in $databases; do # TODO
+    FILENAME=postgresql_backup_$(date +"%Y%m%d_%H%M%S").archive.gz
+
+    log "Taking mysql backup"
+    monsoon ${NOTIFICATION_SETTINGS} backup postgresql \
+        --output=/tmp/"${FILENAME}" \
+        --gzip \
+        --all-databases \
+        --single-transaction \
+        "--host=${MYSQL_HOST:?}" \
+        "--port=${MYSQL_PORT:?}" \
+        "--user=${MYSQL_USER:?}" \
+        "--password=${MYSQL_PASSWORD:?}"
+    log "Done: Taking mysql backup"
+
+    upload_backup "${FILENAME:?}"
+  done
 }
 
 back_up_files() {
@@ -82,18 +121,7 @@ back_up_files() {
       ${BACKUP_LOCAL_PATHS:?} # space-separated list
   log "Done: Taking file backup"
 
-  ls -la /tmp
-
-  log "Uploading file backup"
-  monsoon ${NOTIFICATION_SETTINGS} upload softlayer \
-      -u "${SOFTLAYER_USER}" \
-      -p "${SOFTLAYER_API_KEY}" \
-      -d "${SOFTLAYER_DATACENTER}" \
-      -c "${SOFTLAYER_CONTAINER}" \
-      /tmp/"${FILENAME}" \
-      "${REMOTE_PATH}/${FILENAME}" \
-      && rm -f /tmp/"${FILENAME}"
-  log "Done: Uploading file backup"
+  upload_backup "${FILENAME:?}"
 }
 
 main() {
@@ -109,6 +137,6 @@ if [[ -n ${SENTRY_DSN:-} ]]; then
     NOTIFICATION_SETTINGS="-n sentry --sentry-dsn=${SENTRY_DSN}"
 fi
 
-REMOTE_PATH="${SOFTLAYER_PATH:?}/$(date +%Y/%m)"
+
 
 main

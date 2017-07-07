@@ -1,5 +1,5 @@
 # Always specify the point version
-FROM python:2.7.13-alpine
+FROM python:2.7.13-alpine3.6
 MAINTAINER leonsp@ca.ibm.com
 
 # install mongodump and mongorestore
@@ -9,12 +9,15 @@ RUN echo 'http://dl-3.alpinelinux.org/alpine/edge/community' >> /etc/apk/reposit
         libressl \
         mariadb-client \
         mongodb-tools \
+        postgresql \
     && apk add --upgrade --no-cache \
         expat \
         freetype \
         fontconfig \
         libpng \
         zlib
+
+VOLUME ["/backups"]
 
 # ADD extracts automatically
 # We want the side-effect
