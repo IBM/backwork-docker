@@ -107,13 +107,13 @@ back_up_postgresql() {
 
     filename=postgresql_backup_${database:?}_$(date +"%Y%m%d_%H%M%S").archive.gz
 
-    # Assume existence of the PGPASSWORD environment variable
     monsoon "${NOTIFICATION_SETTINGS[@]}" backup postgresql \
         --output="${BACKUP_PATH:?}/${filename}" \
         --gzip \
         "--host=${PGHOST:?}" \
         "--port=${PGPORT:?}" \
-        "--username=${PGUSER:?}"
+        "--username=${PGUSER:?}" \
+        "--password" "${PGPASSWORD:?}"
     log "Done: Taking PostgreSQL backup of ${database:?}"
 
     upload_backup "${filename:?}"
