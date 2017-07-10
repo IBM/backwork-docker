@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased][]
 ### Added
 -   PostgreSQL support
+-   `/backups` Docker volume
+
+### Changed
+-   Use `bash` instead of `ash`
+-   Local backups go to `/backups`, not `/tmp`
+
+### Fixed
+-   Apply updates for `db` and `ncurses`
 
 ## [0.2.1][]
 ### Fixed
@@ -26,8 +34,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 -   OS package security updates
 
-## [0.1.0][]
+## 0.1.0
 ### Added
 -   Mongo, MySQL, and file backup
 -   Upload to Softlayer
 -   Travis CI for continuous integration
+
+[Unreleased]: https://github.ibm.com/bdu/gamora/compare/0.2.1...HEAD
+[0.2.1]: https://github.ibm.com/bdu/gamora/compare/0.2.0...0.2.1
+[0.2.0]: https://github.ibm.com/bdu/gamora/compare/0.1.7...0.2.0
+[0.1.7]: https://github.ibm.com/bdu/gamora/compare/0.1.6...0.1.7
+[0.1.6]: https://github.ibm.com/bdu/gamora/compare/0.1.0...0.1.6

@@ -1,6 +1,14 @@
 #!/bin/bash
 set -e
 
+# Docker volume for backups
+export BACKUP_PATH=/backups
+
+NOTIFICATION_SETTINGS=()
+if [[ -n ${SENTRY_DSN:-} ]]; then
+    NOTIFICATION_SETTINGS=(-n sentry "--sentry-dsn=${SENTRY_DSN:?}")
+fi
+
 log() {
   local message
   message=$1
@@ -19,48 +27,52 @@ upload_backup() {
   remote_path="${SOFTLAYER_PATH:?}/$(date +%Y/%m)"
 
   log "Uploading backup"
-  monsoon ${NOTIFICATION_SETTINGS} upload softlayer \
-      -u "${SOFTLAYER_USER}" \
-      -p "${SOFTLAYER_API_KEY}" \
-      -d "${SOFTLAYER_DATACENTER}" \
-      -c "${SOFTLAYER_CONTAINER}" \
-      /tmp/"${filename:?}" \
+  monsoon "${NOTIFICATION_SETTINGS[@]}" upload softlayer \
+      -u "${SOFTLAYER_USER:?}" \
+      -p "${SOFTLAYER_API_KEY:?}" \
+      -d "${SOFTLAYER_DATACENTER:?}" \
+      -c "${SOFTLAYER_CONTAINER:?}" \
+      "${BACKUP_PATH:?}/${filename:?}" \
       "${remote_path:?}/${filename:?}" \
-      && rm -f /tmp/"${filename:?}"
+      && rm -f "${BACKUP_PATH:?}/${filename:?}"
   log "Done: Uploading backup"
 }
 
 back_up_mongo() {
+  local filename
+
   if [[ -z "${MONGO_HOST:-}" ]]; then
     log "Skip backing up Mongo because no Mongo host specified"
     return
   fi
 
-  FILENAME=mongo_backup_$(date +"%Y%m%d_%H%M%S").archive.gz
+  filename=mongo_backup_$(date +"%Y%m%d_%H%M%S").archive.gz
 
   log "Taking mongo backup"
-  monsoon ${NOTIFICATION_SETTINGS} backup mongo \
+  monsoon "${NOTIFICATION_SETTINGS[@]}" backup mongo \
       -u "${MONGO_BACKUP_USER}" \
       -p "${MONGO_BACKUP_PASSWORD}" \
       --host="${MONGO_HOST}" \
-      --archive=/tmp/"${FILENAME}" \
+      --archive="${BACKUP_PATH:?}/${filename}" \
       --gzip
   log "Done: Taking mongo backup"
 
-  upload_backup "${FILENAME:?}"
+  upload_backup "${filename:?}"
 }
 
 back_up_mysql() {
+  local filename
+
   if [[ -z "${MYSQL_HOST:-}" ]]; then
     log "Skip backing up MySQL because no MySQL host specified"
     return
   fi
 
-  FILENAME=mysql_backup_$(date +"%Y%m%d_%H%M%S").archive.gz
+  filename=mysql_backup_$(date +"%Y%m%d_%H%M%S").archive.gz
 
   log "Taking mysql backup"
-  monsoon ${NOTIFICATION_SETTINGS} backup mysql \
-      --output=/tmp/"${FILENAME}" \
+  monsoon "${NOTIFICATION_SETTINGS[@]}" backup mysql \
+      --output="${BACKUP_PATH:?}/${filename}" \
       --gzip \
       --all-databases \
       --single-transaction \
@@ -70,7 +82,7 @@ back_up_mysql() {
       "--password=${MYSQL_PASSWORD:?}"
   log "Done: Taking mysql backup"
 
-  upload_backup "${FILENAME:?}"
+  upload_backup "${filename:?}"
 }
 
 # PGDATABASE: gru,nsa,picard,pony,savant,sentry,usher
@@ -80,63 +92,59 @@ back_up_mysql() {
 # PGUSER: dswb
 
 back_up_postgresql() {
+  local filename
   local databases
+
   if [[ -z "${PGHOST:-}" ]]; then
     log "Skip backing up PostgreSQL because no PostgreSQL host specified"
     return
   fi
 
-  databases="$(echo ${PGDATABASE} | tr ',' ' ')"
+  databases="$(echo "${PGDATABASE:?}" | tr ',' ' ')"
 
   for database in $databases; do # TODO
-    FILENAME=postgresql_backup_$(date +"%Y%m%d_%H%M%S").archive.gz
+    log "Taking PostgreSQL backup of ${database}"
 
-    log "Taking mysql backup"
-    monsoon ${NOTIFICATION_SETTINGS} backup postgresql \
-        --output=/tmp/"${FILENAME}" \
+    filename=postgresql_backup_${database:?}_$(date +"%Y%m%d_%H%M%S").archive.gz
+
+    # Assume existence of the PGPASSWORD environment variable
+    monsoon "${NOTIFICATION_SETTINGS[@]}" backup postgresql \
+        --output="${BACKUP_PATH:?}/${filename}" \
         --gzip \
-        --all-databases \
-        --single-transaction \
-        "--host=${MYSQL_HOST:?}" \
-        "--port=${MYSQL_PORT:?}" \
-        "--user=${MYSQL_USER:?}" \
-        "--password=${MYSQL_PASSWORD:?}"
-    log "Done: Taking mysql backup"
+        "--host=${PGHOST:?}" \
+        "--port=${PGPORT:?}" \
+        "--username=${PGUSER:?}"
+    log "Done: Taking PostgreSQL backup of ${database:?}"
 
-    upload_backup "${FILENAME:?}"
+    upload_backup "${filename:?}"
   done
 }
 
 back_up_files() {
+  local filename
+
   if [[ -z "${BACKUP_LOCAL_PATHS:-}" ]]; then
     log "Skip backing up files because no local paths specified"
     return
   fi
 
-  FILENAME=files_backup_$(date +"%Y%m%d_%H%M%S").archive.tgz
+  filename=files_backup_$(date +"%Y%m%d_%H%M%S").archive.tgz
 
   log "Taking file backup"
-  monsoon ${NOTIFICATION_SETTINGS} backup files \
-      --output=/tmp/"${FILENAME}" \
+  # shellcheck disable=SC2086
+  monsoon "${NOTIFICATION_SETTINGS[@]}" backup files \
+      --output="${BACKUP_PATH:?}/${filename}" \
       ${BACKUP_LOCAL_PATHS:?} # space-separated list
   log "Done: Taking file backup"
 
-  upload_backup "${FILENAME:?}"
+  upload_backup "${filename:?}"
 }
 
 main() {
+  back_up_files
   back_up_mongo
   back_up_mysql
-  back_up_files
+  back_up_postgresql
 }
-
-
-NOTIFICATION_SETTINGS=""
-
-if [[ -n ${SENTRY_DSN:-} ]]; then
-    NOTIFICATION_SETTINGS="-n sentry --sentry-dsn=${SENTRY_DSN}"
-fi
-
-
 
 main
