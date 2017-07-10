@@ -112,6 +112,7 @@ back_up_postgresql() {
         --gzip \
         "--host=${PGHOST:?}" \
         "--port=${PGPORT:?}" \
+        "--dbname=${database:?}" \
         "--username=${PGUSER:?}" \
         "--password" "${PGPASSWORD:?}"
     log "Done: Taking PostgreSQL backup of ${database:?}"
