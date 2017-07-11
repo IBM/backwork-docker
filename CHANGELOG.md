@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
+
+## [0.3.0][] - 2017-07-11
 ### Added
 -   PostgreSQL support
 -   `/backups` Docker volume
@@ -41,6 +43,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 -   Travis CI for continuous integration
 
 [Unreleased]: https://github.ibm.com/bdu/gamora/compare/0.2.1...HEAD
+[0.3.0]: https://github.ibm.com/bdu/gamora/compare/0.2.1...0.3.0
 [0.2.1]: https://github.ibm.com/bdu/gamora/compare/0.2.0...0.2.1
 [0.2.0]: https://github.ibm.com/bdu/gamora/compare/0.1.7...0.2.0
 [0.1.7]: https://github.ibm.com/bdu/gamora/compare/0.1.6...0.1.7
