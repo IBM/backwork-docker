@@ -20,7 +20,17 @@ upload_backup() {
   local remote_path
 
   if [[ -z "${SOFTLAYER_PATH:-}" ]]; then
-    log "Skipping upload because no Softlayer credentials"
+    log "Skipping upload because no Softlayer path"
+    return
+  fi
+
+  if [[ -z "${SOFTLAYER_USER:-}" ]]; then
+    log "Skipping upload because no Softlayer user"
+    return
+  fi
+
+  if [[ -z "${SOFTLAYER_API_KEY:-}" ]]; then
+    log "Skipping upload because no Softlayer api key"
     return
   fi
 
