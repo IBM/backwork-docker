@@ -4,7 +4,7 @@ The following commands were used to configure CI with Travis (one-time setup).
 
 ```shell
 travis encrypt \
-  PIP_REPO_HOST_WITH_CREDS="" \
+  PIP_REPO_HOST_WITH_CREDS="https://na.artifactory.swg-devops.com/artifactory/api/pypi/apset-pypi-local" \
   PIP_REPO_USERNAME="" \
   PIP_REPO_PASSWORD="" \
   --add env

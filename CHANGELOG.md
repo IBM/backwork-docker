@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+## [0.3.2][] - 2017-07-10
+### Fixed
+-   Made plugins fail with non-zero status for backup errors
+-   Bumped Python from `2.7.13` to `2.7.14`
+-   Bumped Alpine from `3.6` to `3.7`
+
 ## [0.3.1][] - 2017-07-17
 ### Fixed
 -   Also skip Softlayer upload if missing username or api key
@@ -46,8 +52,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 -   Upload to Softlayer
 -   Travis CI for continuous integration
 
-[Unreleased]: https://github.ibm.com/bdu/gamora/compare/0.3.1...HEAD
-[0.3.0]: https://github.ibm.com/bdu/gamora/compare/0.3.0...0.3.1
+[Unreleased]: https://github.ibm.com/bdu/gamora/compare/0.3.2...HEAD
+[0.3.2]: https://github.ibm.com/bdu/gamora/compare/0.3.1...0.3.2
+[0.3.1]: https://github.ibm.com/bdu/gamora/compare/0.3.0...0.3.1
 [0.3.0]: https://github.ibm.com/bdu/gamora/compare/0.2.1...0.3.0
 [0.2.1]: https://github.ibm.com/bdu/gamora/compare/0.2.0...0.2.1
 [0.2.0]: https://github.ibm.com/bdu/gamora/compare/0.1.7...0.2.0

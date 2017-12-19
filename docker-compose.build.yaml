@@ -1,6 +1,6 @@
 version: "2"
 services:
-  glados-build:
+  gamora-build:
     build:
       context: ./gamora
       dockerfile: Dockerfile.build
