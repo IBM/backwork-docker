@@ -1,5 +1,5 @@
 # Always specify the point version
-FROM python:2.7.14-alpine3.7
+FROM python:2.7.14-alpine3.6
 MAINTAINER leonsp@ca.ibm.com
 
 # Install database clients

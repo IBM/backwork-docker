@@ -6,7 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
-## [0.3.2][] - 2017-07-10
+## [0.3.3][] - 2017-12-19
+### Fixed
+-   Python image `python:2.7.14-alpine3.7` is missing. Opened issue:
+    <https://github.com/docker-library/python/issues/252>
+
+## [0.3.2][] - 2017-12-19
 ### Fixed
 -   Made plugins fail with non-zero status for backup errors
 -   Bumped Python from `2.7.13` to `2.7.14`
@@ -52,7 +57,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 -   Upload to Softlayer
 -   Travis CI for continuous integration
 
-[Unreleased]: https://github.ibm.com/bdu/gamora/compare/0.3.2...HEAD
+[Unreleased]: https://github.ibm.com/bdu/gamora/compare/0.3.3...HEAD
+[0.3.3]: https://github.ibm.com/bdu/gamora/compare/0.3.2...0.3.3
 [0.3.2]: https://github.ibm.com/bdu/gamora/compare/0.3.1...0.3.2
 [0.3.1]: https://github.ibm.com/bdu/gamora/compare/0.3.0...0.3.1
 [0.3.0]: https://github.ibm.com/bdu/gamora/compare/0.2.1...0.3.0
