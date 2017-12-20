@@ -11,14 +11,7 @@ fi
 
 docker images
 
-# Why was the code assuming that $REPO:$TAG exists
-# while $REPO:latest doesn't and not vice versa?
-
-docker tag $REPO:latest $REPO:$TAG
-docker push $REPO:$TAG
-
-echo "Updating latest tag"
-docker push $REPO:latest
+docker-compose push
 
 if [ -z "$REGISTRY_HOST" ] || [[ "$REGISTRY_HOST" == *"docker.io"* ]]; then
   docker logout

@@ -5,14 +5,14 @@ services:
   # Gamora
   #
   gamora:
-    build: ./gamora
-    image: bigdatauniversity/portal.gamora
+    build:
+      context: ./gamora
+      args:
+        - PIP_REPO_HOST_WITH_CREDS
+        - PIP_REPO_USERNAME
+        - PIP_REPO_PASSWORD
+    image: bigdatauniversity/portal.gamora:$TAG
     environment:
-      # development purposes only
-      - PIP_REPO_HOST_WITH_CREDS
-      - PIP_REPO_USERNAME
-      - PIP_REPO_PASSWORD
-
       - MYSQL_HOST=mysql
       - MYSQL_PORT=3306
       - MYSQL_USER
@@ -33,11 +33,21 @@ services:
       - mysql
       - mongo
 
+  latest:
+    build:
+      context: ./gamora
+      args:
+        - PIP_REPO_HOST_WITH_CREDS
+        - PIP_REPO_USERNAME
+        - PIP_REPO_PASSWORD
+    image: bigdatauniversity/portal.gamora:latest
+    command: "bash -c 'sleep 3600'"
+
   ##
   # MySQL
   ##
   mysql:
-    image: mysql:5.7.18
+    image: mysql:5.7.20
     environment:
       - MYSQL_ROOT_PASSWORD
       - MYSQL_DATABASE
