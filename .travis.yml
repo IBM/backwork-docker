@@ -7,7 +7,7 @@ addons:
     packages:
     - realpath
 before_install:
-- if [ -n "$TRAVIS_TAG" ]; then export TAG=$TRAVIS_TAG; fi
+- if [ -n "$TRAVIS_TAG" ]; then export TAG=$TRAVIS_TAG; else export TAG=ci; fi
 - export TAG=$(echo $TAG | sed 's;/;_;g')
 - env | sort | egrep "REPO|TAG|REGISTRY" | egrep -vi "password|token"
 - bin/build
