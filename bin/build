@@ -5,4 +5,8 @@ set -e
 # Exit immediately if a command accesses an undeclared variable
 set -u
 
+[[ -n "${PIP_REPO_HOST_WITH_CREDS:?}" ]] \
+  && [[ -n "${PIP_REPO_USERNAME:?}" ]] \
+  && [[ -n "${PIP_REPO_PASSWORD:?}" ]]
+
 docker-compose build
