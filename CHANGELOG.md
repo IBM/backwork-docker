@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+## [1.0.1][] - 2018-04-06
+### Fixed
+-   Fixed conflicting package version declarations.
+
 ## [1.0.0][] - 2018-04-06
 ### Added
 -   New mandatory parameter: `SOFTLAYER_NETWORK` to choose between
@@ -64,7 +68,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 -   Upload to Softlayer
 -   Travis CI for continuous integration
 
-[Unreleased]: https://github.ibm.com/bdu/gamora/compare/1.0.0...HEAD
+[Unreleased]: https://github.ibm.com/bdu/gamora/compare/1.0.1...HEAD
+[1.0.1]: https://github.ibm.com/bdu/gamora/compare/1.0.0...1.0.1
 [1.0.0]: https://github.ibm.com/bdu/gamora/compare/0.3.2...1.0.0
 [0.3.2]: https://github.ibm.com/bdu/gamora/compare/0.3.1...0.3.2
 [0.3.1]: https://github.ibm.com/bdu/gamora/compare/0.3.0...0.3.1
