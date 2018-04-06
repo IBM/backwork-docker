@@ -25,7 +25,7 @@ services:
       - SOFTLAYER_USER
       - SOFTLAYER_API_KEY
       - SOFTLAYER_DATACENTER
-      - SOFTLAYER_NETWORK=private  # private requires Softlayer VPN
+      - SOFTLAYER_NETWORK=public  # private requires Softlayer VPN
       - SOFTLAYER_CONTAINER
       - SOFTLAYER_PATH
 
