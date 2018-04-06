@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+## [1.0.0][] - 2018-04-06
+### Added
+-   New mandatory parameter: `SOFTLAYER_NETWORK` to choose between
+    `public` and `private` for upload.
+
+### Updated
+-   Updated MySQL, Postgres, and MySQL modules.
+-   Updated Sentry Raven from `5.32.0` to `6.6.0`
+
+### Fixed
+-   Fixed linter errors.
+
 ## [0.3.2][] - 2017-12-20
 ### Fixed
 -   Made plugins fail with non-zero status for backup errors
@@ -52,8 +64,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 -   Upload to Softlayer
 -   Travis CI for continuous integration
 
-[Unreleased]: https://github.ibm.com/bdu/gamora/compare/0.3.3...HEAD
-[0.3.3]: https://github.ibm.com/bdu/gamora/compare/0.3.2...0.3.3
+[Unreleased]: https://github.ibm.com/bdu/gamora/compare/1.0.0...HEAD
+[1.0.0]: https://github.ibm.com/bdu/gamora/compare/0.3.2...1.0.0
 [0.3.2]: https://github.ibm.com/bdu/gamora/compare/0.3.1...0.3.2
 [0.3.1]: https://github.ibm.com/bdu/gamora/compare/0.3.0...0.3.1
 [0.3.0]: https://github.ibm.com/bdu/gamora/compare/0.2.1...0.3.0

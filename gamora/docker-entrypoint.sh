@@ -38,10 +38,11 @@ upload_backup() {
 
   log "Uploading backup"
   monsoon "${NOTIFICATION_SETTINGS[@]}" upload softlayer \
-      -u "${SOFTLAYER_USER:?}" \
-      -p "${SOFTLAYER_API_KEY:?}" \
-      -d "${SOFTLAYER_DATACENTER:?}" \
-      -c "${SOFTLAYER_CONTAINER:?}" \
+      --username "${SOFTLAYER_USER:?}" \
+      --api-key "${SOFTLAYER_API_KEY:?}" \
+      --datacenter "${SOFTLAYER_DATACENTER:?}" \
+      --container "${SOFTLAYER_CONTAINER:?}" \
+      --network "${SOFTLAYER_NETWORK:?}" \
       "${BACKUP_PATH:?}/${filename:?}" \
       "${remote_path:?}/${filename:?}" \
       && rm -f "${BACKUP_PATH:?}/${filename:?}"

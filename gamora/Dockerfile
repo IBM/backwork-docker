@@ -8,6 +8,7 @@ LABEL maintainer="leonsp@ca.ibm.com"
 
 # Install database clients
 # Apply security patches
+# hadolint ignore=DL3018
 RUN echo 'http://dl-3.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories \
     && echo 'http://dl-3.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories \
     && apk add --no-cache \
@@ -15,6 +16,7 @@ RUN echo 'http://dl-3.alpinelinux.org/alpine/edge/community' >> /etc/apk/reposit
         libressl \
         mariadb-client \
         mongodb-tools \
+        openldap \
         postgresql
 
 ARG PIP_REPO_HOST_WITH_CREDS
@@ -27,19 +29,19 @@ RUN [[ -n "${PIP_REPO_HOST_WITH_CREDS:?}" ]] \
 
 RUN mkdir /root/.pip
 
-RUN printf "[global]\n\
+RUN printf '[global]\n\
 index-url = https://pypi.python.org/simple\n\
 extra-index-url = %s\n\
-" "$PIP_REPO_HOST_WITH_CREDS" > /root/.pip/pip.conf
+' "$PIP_REPO_HOST_WITH_CREDS" > /root/.pip/pip.conf
 
-RUN printf "[distutils]\n\
+RUN printf '[distutils]\n\
 index-servers = local\n\
 \n\
 [local]\n\
 repository:%s\n\
 username:%s\n\
 password:%s\n\
-" "$PIP_REPO_HOST_WITH_CREDS" "$PIP_REPO_USERNAME" "$PIP_REPO_PASSWORD" \
+' "$PIP_REPO_HOST_WITH_CREDS" "$PIP_REPO_USERNAME" "$PIP_REPO_PASSWORD" \
   > /root/.pypirc
 
 RUN mkdir -p /gamora /gamora/pip
@@ -60,6 +62,7 @@ LABEL maintainer="leonsp@ca.ibm.com"
 
 # Install database clients
 # Apply security patches
+# hadolint ignore=DL3018
 RUN echo 'http://dl-3.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories \
     && echo 'http://dl-3.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories \
     && apk add --no-cache \
