@@ -7,3 +7,4 @@ monsoon-backup-mysql==0.1.7
 monsoon-backup-postgresql==0.1.5
 monsoon-notifier-sentry==0.1.4
 monsoon-upload-softlayer==0.2.0
+monsoon-upload-cos==0.1.0

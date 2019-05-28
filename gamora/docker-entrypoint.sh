@@ -21,16 +21,19 @@ upload_backup() {
 
   if [[ -z "${SOFTLAYER_PATH:-}" ]]; then
     log "Skipping upload because no Softlayer path"
+    upload_backup_cos "${filename:?}"
     return
   fi
 
   if [[ -z "${SOFTLAYER_USER:-}" ]]; then
     log "Skipping upload because no Softlayer user"
+    upload_backup_cos "${filename:?}"
     return
   fi
 
   if [[ -z "${SOFTLAYER_API_KEY:-}" ]]; then
     log "Skipping upload because no Softlayer api key"
+    upload_backup_cos "${filename:?}"
     return
   fi
 
@@ -47,6 +50,44 @@ upload_backup() {
       "${remote_path:?}/${filename:?}" \
       && rm -f "${BACKUP_PATH:?}/${filename:?}"
   log "Done: Uploading backup"
+}
+
+upload_backup_cos() {
+  local filename=$1
+  local remote_path
+
+  if [[ -z "${IBM_COS_INSTANCE_ID:-}" ]]; then
+    log "Skipping upload because no IBM COS service instance id"
+    return
+  fi
+
+  if [[ -z "${IBM_COS_ENDPOINT_URL:-}" ]]; then
+    log "Skipping upload because no IBM COS endpoint url"
+    return
+  fi
+
+  if [[ -z "${IBM_COS_BUCKET:-}" ]]; then
+    log "Skipping upload because no IBM COS bucket name"
+    return
+  fi
+
+  if [[ -z "${IBM_COS_PATH}" ]]; then
+    remote_path="$(date +%Y/%m)"
+  else
+    remote_path="${IBM_COS_PATH:?}/$(date +%Y/%m)"
+  fi
+
+  log "Uploading backup to IBM COS"
+  monsoon "${NOTIFICATION_SETTINGS[@]}" upload cos \
+      --endpoint-url "${IBM_COS_ENDPOINT_URL}" \
+      --instance-id "${IBM_COS_INSTANCE_ID}" \
+      --access-key "${IBM_COS_ACCESS_KEY}" \
+      --secret-key "${IBM_COS_SECRET_KEY}" \
+      "${BACKUP_PATH:?}/${filename:?}" \
+      "${IBM_COS_BUCKET:?}" \
+      "${remote_path:?}" \
+      && rm -f "${BACKUP_PATH:?}/${filename:?}"
+  log "Done: Uploading backup to IBM COS"
 }
 
 back_up_mongo() {

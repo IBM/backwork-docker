@@ -29,6 +29,14 @@ services:
       - SOFTLAYER_CONTAINER
       - SOFTLAYER_PATH
 
+      # IBM Cloud Object Storage config
+      - IBM_COS_ACCESS_KEY
+      - IBM_COS_SECRET_KEY
+      - IBM_COS_INSTANCE_ID
+      - IBM_COS_ENDPOINT_URL
+      - IBM_COS_BUCKET
+      - IBM_COS_PATH
+
       - BACKUP_LOCAL_PATHS
     links:
       - mysql
