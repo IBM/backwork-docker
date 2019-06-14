@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+## [1.2.0][] - 2019-06-14
+
+### Added
+
+- `BACKUP_LOCAL_PATHS_EXCLUDE` variable to allow excluding paths for file backup
+
 ## [1.1.0][] - 2019-05-24
 
 ### Added
@@ -99,7 +105,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Upload to Softlayer
 - Travis CI for continuous integration
 
-[unreleased]: https://github.ibm.com/bdu/gamora/compare/1.1.0...HEAD
+[unreleased]: https://github.ibm.com/bdu/gamora/compare/1.2.0...HEAD
+[1.2.0]: https://github.ibm.com/bdu/gamora/compare/1.1.0...1.2.0
 [1.1.0]: https://github.ibm.com/bdu/gamora/compare/1.0.1...1.1.0
 [1.0.1]: https://github.ibm.com/bdu/gamora/compare/1.0.0...1.0.1
 [1.0.0]: https://github.ibm.com/bdu/gamora/compare/0.3.2...1.0.0

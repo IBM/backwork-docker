@@ -185,9 +185,13 @@ back_up_files() {
 
   log "Taking file backup"
   # shellcheck disable=SC2086
-  monsoon "${NOTIFICATION_SETTINGS[@]}" backup files \
-      --output="${BACKUP_PATH:?}/${filename}" \
-      ${BACKUP_LOCAL_PATHS:?} # space-separated list
+  cmd="monsoon ${NOTIFICATION_SETTINGS[@]} backup files \
+        --output=\"${BACKUP_PATH:?}/${filename}\""
+  for f in ${BACKUP_LOCAL_PATHS_EXCLUDE:-}; do
+    cmd="${cmd} --exclude=\"${f}\""
+  done
+  cmd="${cmd} ${BACKUP_LOCAL_PATHS:?}" # space-separated list
+  eval $cmd
   log "Done: Taking file backup"
 
   upload_backup "${filename:?}"
