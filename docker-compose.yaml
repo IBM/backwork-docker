@@ -37,7 +37,9 @@ services:
       - IBM_COS_BUCKET
       - IBM_COS_PATH
 
+      - LOCAL_BACKUP_NUMBER
       - BACKUP_LOCAL_PATHS
+      - MINIMUM_FREE_SPACE
     links:
       - mysql
       - mongo

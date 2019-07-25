@@ -22,7 +22,7 @@ RUN echo 'http://dl-3.alpinelinux.org/alpine/edge/community' >> /etc/apk/reposit
 ARG PIP_REPO_HOST_WITH_CREDS
 ARG PIP_REPO_USERNAME
 ARG PIP_REPO_PASSWORD
-
+# hadolint ignore=SC2039
 RUN [[ -n "${PIP_REPO_HOST_WITH_CREDS:?}" ]] \
   && [[ -n "${PIP_REPO_USERNAME:?}" ]] \
   && [[ -n "${PIP_REPO_PASSWORD:?}" ]]
@@ -51,6 +51,8 @@ WORKDIR /gamora
 COPY ./requirements.txt ./pip
 RUN pip download --no-input -r ./pip/requirements.txt --dest ./pip \
     && rm /root/.pypirc /root/.pip/pip.conf
+# hadolint ignore=DL4006
+RUN curl -sL https://sentry.io/get-cli/ | bash
 
 #######################
 #######################

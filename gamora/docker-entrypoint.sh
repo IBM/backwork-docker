@@ -1,12 +1,12 @@
 #!/bin/bash
-set -e
+set -eo pipefail
 
 # Docker volume for backups
 export BACKUP_PATH=/backups
 
 NOTIFICATION_SETTINGS=()
 if [[ -n ${SENTRY_DSN:-} ]]; then
-    NOTIFICATION_SETTINGS=(-n sentry "--sentry-dsn=${SENTRY_DSN:?}")
+  NOTIFICATION_SETTINGS=(-n sentry "--sentry-dsn=${SENTRY_DSN:?}")
 fi
 
 log() {
@@ -18,22 +18,22 @@ log() {
 upload_backup() {
   local filename=$1
   local remote_path
-
+  local backup_prefix=$2
   if [[ -z "${SOFTLAYER_PATH:-}" ]]; then
     log "Skipping upload because no Softlayer path"
-    upload_backup_cos "${filename:?}"
+    upload_backup_cos "${filename:?}" "${backup_prefix:?}"
     return
   fi
 
   if [[ -z "${SOFTLAYER_USER:-}" ]]; then
     log "Skipping upload because no Softlayer user"
-    upload_backup_cos "${filename:?}"
+    upload_backup_cos "${filename:?}" "${backup_prefix:?}"
     return
   fi
 
   if [[ -z "${SOFTLAYER_API_KEY:-}" ]]; then
     log "Skipping upload because no Softlayer api key"
-    upload_backup_cos "${filename:?}"
+    upload_backup_cos "${filename:?}" "${backup_prefix:?}"
     return
   fi
 
@@ -41,21 +41,30 @@ upload_backup() {
 
   log "Uploading backup"
   monsoon "${NOTIFICATION_SETTINGS[@]}" upload softlayer \
-      --username "${SOFTLAYER_USER:?}" \
-      --api-key "${SOFTLAYER_API_KEY:?}" \
-      --datacenter "${SOFTLAYER_DATACENTER:?}" \
-      --container "${SOFTLAYER_CONTAINER:?}" \
-      --network "${SOFTLAYER_NETWORK:?}" \
-      "${BACKUP_PATH:?}/${filename:?}" \
-      "${remote_path:?}/${filename:?}" \
-      && rm -f "${BACKUP_PATH:?}/${filename:?}"
-  log "Done: Uploading backup"
+    --username "${SOFTLAYER_USER:?}" \
+    --api-key "${SOFTLAYER_API_KEY:?}" \
+    --datacenter "${SOFTLAYER_DATACENTER:?}" \
+    --container "${SOFTLAYER_CONTAINER:?}" \
+    --network "${SOFTLAYER_NETWORK:?}" \
+    "${BACKUP_PATH:?}/${filename:?}" \
+    "${remote_path:?}/${filename:?}"
+
+  if (($? == 0)); then
+
+    find ${BACKUP_PATH:?} -type f -regex ".*${backup_prefix:?}.*" -delete
+    log "Done: Uploading backup"
+  else
+
+    while [[ "$(find ${BACKUP_PATH:?} -type f -regex ".*${backup_prefix:?}.*" | wc -w)" -ge "${LOCAL_BACKUP_NUMBER:?}" ]]; do
+      rm -f "${BACKUP_PATH:?}/$(ls -t "${BACKUP_PATH:?}" | grep "${backup_prefix:?}" | tail -1)"
+    done
+  fi
 }
 
 upload_backup_cos() {
   local filename=$1
   local remote_path
-
+  local backup_prefix=$2
   if [[ -z "${IBM_COS_INSTANCE_ID:-}" ]]; then
     log "Skipping upload because no IBM COS service instance id"
     return
@@ -79,15 +88,23 @@ upload_backup_cos() {
 
   log "Uploading backup to IBM COS"
   monsoon "${NOTIFICATION_SETTINGS[@]}" upload cos \
-      --endpoint-url "${IBM_COS_ENDPOINT_URL}" \
-      --instance-id "${IBM_COS_INSTANCE_ID}" \
-      --access-key "${IBM_COS_ACCESS_KEY}" \
-      --secret-key "${IBM_COS_SECRET_KEY}" \
-      "${BACKUP_PATH:?}/${filename:?}" \
-      "${IBM_COS_BUCKET:?}" \
-      "${remote_path:?}" \
-      && rm -f "${BACKUP_PATH:?}/${filename:?}"
-  log "Done: Uploading backup to IBM COS"
+    --endpoint-url "${IBM_COS_ENDPOINT_URL}" \
+    --instance-id "${IBM_COS_INSTANCE_ID}" \
+    --access-key "${IBM_COS_ACCESS_KEY}" \
+    --secret-key "${IBM_COS_SECRET_KEY}" \
+    "${BACKUP_PATH:?}/${filename:?}" \
+    "${IBM_COS_BUCKET:?}" \
+    "${remote_path:?}"
+  if (($? == 0)); then
+
+    find ${BACKUP_PATH:?} -type f -regex ".*${backup_prefix:?}.*" -delete
+    log "Done: Uploading backup to IBM COS"
+  else
+    while [[ "$(find ${BACKUP_PATH:?} -type f -regex ".*${backup_prefix:?}.*" | wc -w)" -ge "${LOCAL_BACKUP_NUMBER:?}" ]]; do
+      rm -f "${BACKUP_PATH:?}/$(ls -t "${BACKUP_PATH:?}" | grep "${backup_prefix:?}" | tail -1)"
+    done
+  fi
+
 }
 
 back_up_mongo() {
@@ -102,14 +119,14 @@ back_up_mongo() {
 
   log "Taking mongo backup"
   monsoon "${NOTIFICATION_SETTINGS[@]}" backup mongo \
-      -u "${MONGO_BACKUP_USER}" \
-      -p "${MONGO_BACKUP_PASSWORD}" \
-      --host="${MONGO_HOST}" \
-      --archive="${BACKUP_PATH:?}/${filename}" \
-      --gzip
+    -u "${MONGO_BACKUP_USER}" \
+    -p "${MONGO_BACKUP_PASSWORD}" \
+    --host="${MONGO_HOST}" \
+    --archive="${BACKUP_PATH:?}/${filename}" \
+    --gzip
   log "Done: Taking mongo backup"
 
-  upload_backup "${filename:?}"
+  upload_backup "${filename:?}" "mongo_backup"
 }
 
 back_up_mysql() {
@@ -124,17 +141,17 @@ back_up_mysql() {
 
   log "Taking mysql backup"
   monsoon "${NOTIFICATION_SETTINGS[@]}" backup mysql \
-      --output="${BACKUP_PATH:?}/${filename}" \
-      --gzip \
-      --all-databases \
-      --single-transaction \
-      "--host=${MYSQL_HOST:?}" \
-      "--port=${MYSQL_PORT:?}" \
-      "--user=${MYSQL_USER:?}" \
-      "--password=${MYSQL_PASSWORD:?}"
+    --output="${BACKUP_PATH:?}/${filename}" \
+    --gzip \
+    --all-databases \
+    --single-transaction \
+    "--host=${MYSQL_HOST:?}" \
+    "--port=${MYSQL_PORT:?}" \
+    "--user=${MYSQL_USER:?}" \
+    "--password=${MYSQL_PASSWORD:?}"
   log "Done: Taking mysql backup"
 
-  upload_backup "${filename:?}"
+  upload_backup "${filename:?}" "mysql_backup"
 }
 
 # PGDATABASE: gru,nsa,picard,pony,savant,sentry,usher
@@ -160,16 +177,16 @@ back_up_postgresql() {
     filename=postgresql_backup_${database:?}_$(date +"%Y%m%d_%H%M%S").archive.gz
 
     monsoon "${NOTIFICATION_SETTINGS[@]}" backup postgresql \
-        --output="${BACKUP_PATH:?}/${filename}" \
-        --gzip \
-        "--host=${PGHOST:?}" \
-        "--port=${PGPORT:?}" \
-        "--dbname=${database:?}" \
-        "--username=${PGUSER:?}" \
-        "--password" "${PGPASSWORD:?}"
+      --output="${BACKUP_PATH:?}/${filename}" \
+      --gzip \
+      "--host=${PGHOST:?}" \
+      "--port=${PGPORT:?}" \
+      "--dbname=${database:?}" \
+      "--username=${PGUSER:?}" \
+      "--password" "${PGPASSWORD:?}"
     log "Done: Taking PostgreSQL backup of ${database:?}"
 
-    upload_backup "${filename:?}"
+    upload_backup "${filename:?}" "postgresql_backup"
   done
 }
 
@@ -194,14 +211,25 @@ back_up_files() {
   eval $cmd
   log "Done: Taking file backup"
 
-  upload_backup "${filename:?}"
+  upload_backup "${filename:?}" "files_backup"
 }
 
 main() {
-  back_up_files
-  back_up_mongo
-  back_up_mysql
-  back_up_postgresql
+  local available_space_g
+  df_out=($(df -m "${BACKUP_PATH:?}"))
+  available_space_g="$((${df_out[10]:?} / 1024))"
+
+  if [[ ${available_space_g:?} -ge ${MINIMUM_FREE_SPACE:?} ]]; then
+
+    back_up_files
+    back_up_mongo
+    back_up_mysql
+    back_up_postgresql
+  else
+    log "Error: Not Enough Local Storage Space For Backup"
+    sentry-cli send-event -m "Not Enough Local Storage Space For Backup, available space ${available_space_g} GB, minimum free space: ${MINIMUM_FREE_SPACE} GB"
+    exit 1
+  fi
 }
 
 main

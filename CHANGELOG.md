@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+## [1.3.0][] - 2019-07-24
+
+### Added
+
+- `LOCAL_BACKUP_NUMBER` to limit space used to store local backups
+- `MINIMUM_FREE_SPACE` to limit minimal space available on storage
+
 ## [1.2.0][] - 2019-06-14
 
 ### Added
@@ -105,7 +112,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Upload to Softlayer
 - Travis CI for continuous integration
 
-[unreleased]: https://github.ibm.com/bdu/gamora/compare/1.2.0...HEAD
+[unreleased]: https://github.ibm.com/bdu/gamora/compare/1.3.0...HEAD
+[1.3.0]: https://github.ibm.com/bdu/gamora/compare/1.2.0...1.3.0
 [1.2.0]: https://github.ibm.com/bdu/gamora/compare/1.1.0...1.2.0
 [1.1.0]: https://github.ibm.com/bdu/gamora/compare/1.0.1...1.1.0
 [1.0.1]: https://github.ibm.com/bdu/gamora/compare/1.0.0...1.0.1
