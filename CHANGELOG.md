@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+## [1.4.0][] - 2019-08-18
+
+### Changed
+
+- `gamora`/`monsoon` is now `backwork`
+
+
 ## [1.3.0][] - 2019-07-24
 
 ### Added
@@ -24,7 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- Added `monsoon-upload-cos` plugin to upload backup files to IBM Cloud Object Storage
+- Added `backwork-upload-cos` plugin to upload backup files to IBM Cloud Object Storage
 
 ## [1.0.1][] - 2018-04-06
 

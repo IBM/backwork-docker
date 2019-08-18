@@ -2,16 +2,12 @@ version: "2"
 
 services:
   #
-  # Gamora
+  # Backwork
   #
-  gamora:
+  backwork:
     build:
-      context: ./gamora
-      args:
-        - PIP_REPO_HOST_WITH_CREDS
-        - PIP_REPO_USERNAME
-        - PIP_REPO_PASSWORD
-    image: bigdatauniversity/portal.gamora:$TAG
+      context: ./backwork
+    image: bigdatauniversity/portal.gamora:dev
     environment:
       - MYSQL_HOST=mysql
       - MYSQL_PORT=3306
@@ -44,16 +40,6 @@ services:
       - mysql
       - mongo
 
-  latest:
-    build:
-      context: ./gamora
-      args:
-        - PIP_REPO_HOST_WITH_CREDS
-        - PIP_REPO_USERNAME
-        - PIP_REPO_PASSWORD
-    image: bigdatauniversity/portal.gamora:latest
-    command: "bash -c 'sleep 3600'"
-
   ##
   # MySQL
   ##
@@ -67,6 +53,7 @@ services:
 
   ##
   # Mongo
+  # TODO: replace with a public image
   ##
   mongo:
     image: ${REGISTRY_HOST}portal.mongo:0.2.0-e.2

@@ -40,7 +40,7 @@ upload_backup() {
   remote_path="${SOFTLAYER_PATH:?}/$(date +%Y/%m)"
 
   log "Uploading backup"
-  monsoon "${NOTIFICATION_SETTINGS[@]}" upload softlayer \
+  backwork "${NOTIFICATION_SETTINGS[@]}" upload softlayer \
     --username "${SOFTLAYER_USER:?}" \
     --api-key "${SOFTLAYER_API_KEY:?}" \
     --datacenter "${SOFTLAYER_DATACENTER:?}" \
@@ -87,7 +87,7 @@ upload_backup_cos() {
   fi
 
   log "Uploading backup to IBM COS"
-  monsoon "${NOTIFICATION_SETTINGS[@]}" upload cos \
+  backwork "${NOTIFICATION_SETTINGS[@]}" upload cos \
     --endpoint-url "${IBM_COS_ENDPOINT_URL}" \
     --instance-id "${IBM_COS_INSTANCE_ID}" \
     --access-key "${IBM_COS_ACCESS_KEY}" \
@@ -118,7 +118,7 @@ back_up_mongo() {
   filename=mongo_backup_$(date +"%Y%m%d_%H%M%S").archive.gz
 
   log "Taking mongo backup"
-  monsoon "${NOTIFICATION_SETTINGS[@]}" backup mongo \
+  backwork "${NOTIFICATION_SETTINGS[@]}" backup mongo \
     -u "${MONGO_BACKUP_USER}" \
     -p "${MONGO_BACKUP_PASSWORD}" \
     --host="${MONGO_HOST}" \
@@ -140,7 +140,7 @@ back_up_mysql() {
   filename=mysql_backup_$(date +"%Y%m%d_%H%M%S").archive.gz
 
   log "Taking mysql backup"
-  monsoon "${NOTIFICATION_SETTINGS[@]}" backup mysql \
+  backwork "${NOTIFICATION_SETTINGS[@]}" backup mysql \
     --output="${BACKUP_PATH:?}/${filename}" \
     --gzip \
     --all-databases \
@@ -176,7 +176,7 @@ back_up_postgresql() {
 
     filename=postgresql_backup_${database:?}_$(date +"%Y%m%d_%H%M%S").archive.gz
 
-    monsoon "${NOTIFICATION_SETTINGS[@]}" backup postgresql \
+    backwork "${NOTIFICATION_SETTINGS[@]}" backup postgresql \
       --output="${BACKUP_PATH:?}/${filename}" \
       --gzip \
       "--host=${PGHOST:?}" \
@@ -202,7 +202,7 @@ back_up_files() {
 
   log "Taking file backup"
   # shellcheck disable=SC2086
-  cmd="monsoon ${NOTIFICATION_SETTINGS[@]} backup files \
+  cmd="backwork ${NOTIFICATION_SETTINGS[@]} backup files \
         --output=\"${BACKUP_PATH:?}/${filename}\""
   for f in ${BACKUP_LOCAL_PATHS_EXCLUDE:-}; do
     cmd="${cmd} --exclude=\"${f}\""
