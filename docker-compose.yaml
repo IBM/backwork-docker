@@ -14,6 +14,12 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
 
+      - PGHOST
+      - PGPORT
+      - PGDATABASE
+      - PGUSER
+      - PGPASSWORD
+
       - MONGO_BACKUP_USER
       - MONGO_BACKUP_PASSWORD
       - MONGO_HOST=mongo
