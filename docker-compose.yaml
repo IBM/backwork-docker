@@ -7,7 +7,7 @@ services:
   backwork:
     build:
       context: ./backwork
-    image: bigdatauniversity/portal.gamora:dev
+    image: bigdatauniversity/backwork:1.5.0
     environment:
       - MYSQL_HOST=mysql
       - MYSQL_PORT=3306

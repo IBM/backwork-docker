@@ -1,4 +1,4 @@
-FROM python:3.7.4-alpine3.9
+FROM python:3.8.6-alpine3.12
 LABEL maintainer="leonsp@ca.ibm.com"
 
 # Install database clients

@@ -110,23 +110,42 @@ upload_backup_cos() {
 back_up_mongo() {
   local filename
 
-  if [[ -z "${MONGO_HOST:-}" ]]; then
-    log "Skip backing up Mongo because no Mongo host specified"
+  if [[ -z "${MONGO_HOST:-}" ]] && [[ -z "${MONGO_URI:-}" ]]; then
+    log "Skip backing up Mongo because no Mongo host or Mongo uri is specified"
     return
   fi
 
   filename=mongo_backup_$(date +"%Y%m%d_%H%M%S").archive.gz
 
   log "Taking mongo backup"
-  backwork "${NOTIFICATION_SETTINGS[@]}" backup mongo \
-    -u "${MONGO_BACKUP_USER}" \
-    -p "${MONGO_BACKUP_PASSWORD}" \
-    --host="${MONGO_HOST}" \
-    --archive="${BACKUP_PATH:?}/${filename}" \
-    --gzip
-  log "Done: Taking mongo backup"
 
-  upload_backup "${filename:?}" "mongo_backup"
+  if [[ -z "${MONGO_URI}" ]]
+  then
+    echo "MONGO_URI is not specified, trying MONGO_HOST"
+  else
+    backwork "${NOTIFICATION_SETTINGS[@]}" backup mongo \
+      --uri "${MONGO_URI}" \
+      --archive="${BACKUP_PATH:?}/${filename}" \
+      --gzip
+    log "Done: Taking mongo backup"
+    upload_backup "${filename:?}" "mongo_backup"
+    return
+  fi
+
+  if [[ -z "${MONGO_URI}" ]]
+  then
+    echo "MONGO_HOST is not specified, skipping."
+  else
+    backwork "${NOTIFICATION_SETTINGS[@]}" backup mongo \
+      -u "${MONGO_BACKUP_USER}" \
+      -p "${MONGO_BACKUP_PASSWORD}" \
+      --host="${MONGO_HOST}" \
+      --archive="${BACKUP_PATH:?}/${filename}" \
+      --authenticationDatabase=${MONGO_AUTH_SOURCE:-admin} \
+      --gzip
+    log "Done: Taking mongo backup"
+    upload_backup "${filename:?}" "mongo_backup"
+  fi
 }
 
 back_up_mysql() {
