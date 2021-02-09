@@ -42,6 +42,15 @@ services:
       - LOCAL_BACKUP_NUMBER
       - BACKUP_LOCAL_PATHS
       - MINIMUM_FREE_SPACE
+
+      # config for HTTP request notifier
+      - HTTP_NOTIFIER_URL
+      - HTTP_NOTIFIER_METHOD
+      - HTTP_NOTIFIER_HEADERS
+      - HTTP_NOTIFIER_PARAMS
+      - HTTP_NOTIFIER_DATA
+      - HTTP_NOTIFIER_KEY_FOR_ERROR_MESSAGE
+
     links:
       - mysql
       - mongo
