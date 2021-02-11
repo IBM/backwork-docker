@@ -7,7 +7,7 @@ services:
   backwork:
     build:
       context: ./backwork
-    image: us.icr.io/snportals/backwork:1.6.0-dev.1
+    image: bigdatauniversity/backwork:1.6.0
     environment:
       - MYSQL_HOST=mysql
       - MYSQL_PORT=3306
