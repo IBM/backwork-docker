@@ -7,7 +7,7 @@ services:
   backwork:
     build:
       context: ./backwork
-    image: bigdatauniversity/backwork:1.5.0
+    image: us.icr.io/snportals/backwork:1.6.0-dev.1
     environment:
       - MYSQL_HOST=mysql
       - MYSQL_PORT=3306
@@ -46,10 +46,13 @@ services:
       # config for HTTP request notifier
       - HTTP_NOTIFIER_URL
       - HTTP_NOTIFIER_METHOD
-      - HTTP_NOTIFIER_HEADERS
+      - HTTP_NOTIFIER_ADD_HEADERS
+      - HTTP_NOTIFIER_BEARER_TOKEN
+      - HTTP_NOTIFIER_BASIC_AUTH_USER
+      - HTTP_NOTIFIER_BASIC_AUTH_PASS
       - HTTP_NOTIFIER_PARAMS
       - HTTP_NOTIFIER_DATA
-      - HTTP_NOTIFIER_KEY_FOR_ERROR_MESSAGE
+      - HTTP_NOTIFIER_KEY
 
     links:
       - mysql

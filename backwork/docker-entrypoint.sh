@@ -4,28 +4,41 @@ set -eo pipefail
 # Docker volume for backups
 export BACKUP_PATH=/backups
 
-NOTIFICATION_NOTIFIERS=("-n")
+NOTIFICATION_NOTIFIERS=(-n)
 NOTIFICATION_SETTINGS=()
 
 # sentry
 if [[ -n ${SENTRY_DSN:-} ]]; then
     # add notifier
-    NOTIFICATION_NOTIFIERS+=("sentry")
+    NOTIFICATION_NOTIFIERS+=(sentry)
     # Sentry DSN
     NOTIFICATION_SETTINGS+=("--sentry-dsn=${SENTRY_DSN:?}")
 fi
 
-# http_requests
+# http notifier
 if [[ -n ${HTTP_NOTIFIER_URL:-} ]]; then
     # add notifier
-    NOTIFICATION_NOTIFIERS+=("http_requests")
+    NOTIFICATION_NOTIFIERS+=(http)
 
     # endpoint url
     NOTIFICATION_SETTINGS+=("--http-notifier-url=${HTTP_NOTIFIER_URL:?}")
 
-    # headers
-    if [[ -n ${HTTP_NOTIFIER_HEADERS:-} ]]; then
-        NOTIFICATION_SETTINGS+=("--http-notifier-headers=${HTTP_NOTIFIER_HEADERS:?}")
+    # auth stuff
+    if [[ -n ${HTTP_NOTIFIER_BEARER_TOKEN:-} ]]; then
+        NOTIFICATION_SETTINGS+=("--http-notifier-bearer=${HTTP_NOTIFIER_BEARER_TOKEN:?}")
+    fi
+
+    if [[ -n ${HTTP_NOTIFIER_BASIC_AUTH_USER:-} ]]; then
+        NOTIFICATION_SETTINGS+=("--http-notifier-basic-user=${HTTP_NOTIFIER_BASIC_AUTH_USER:?}")
+    fi
+
+    if [[ -n ${HTTP_NOTIFIER_BASIC_AUTH_PASS:-} ]]; then
+        NOTIFICATION_SETTINGS+=("--http-notifier-basic-pass=${HTTP_NOTIFIER_BASIC_AUTH_PASS:?}")
+    fi
+
+    # additional headers
+    if [[ -n ${HTTP_NOTIFIER_ADD_HEADERS:-} ]]; then
+        NOTIFICATION_SETTINGS+=("--http-notifier-add-headers=${HTTP_NOTIFIER_ADD_HEADERS:?}")
     fi
 
     # method
@@ -40,12 +53,12 @@ if [[ -n ${HTTP_NOTIFIER_URL:-} ]]; then
 
     # data body
     if [[ -n ${HTTP_NOTIFIER_DATA:-} ]]; then
-        NOTIFICATION_SETTINGS+=("--http-notifier-data=${HTTP_NOTIFIER_DATA:?}")
+        NOTIFICATION_SETTINGS+=("--http-notifier-data='${HTTP_NOTIFIER_DATA:?}'")
     fi
 
     # key for error message
-    if [[ -n ${HTTP_NOTIFIER_KEY_FOR_ERROR_MESSAGE:-} ]]; then
-        NOTIFICATION_SETTINGS+=("--http-key-for-error-message=${HTTP_NOTIFIER_KEY_FOR_ERROR_MESSAGE:?}")
+    if [[ -n ${HTTP_NOTIFIER_KEY:-} ]]; then
+        NOTIFICATION_SETTINGS+=("--http-notifier-key=${HTTP_NOTIFIER_KEY:?}")
     fi
 fi
 
@@ -87,7 +100,7 @@ upload_backup() {
   remote_path="${SOFTLAYER_PATH:?}/$(date +%Y/%m)"
 
   log "Uploading backup"
-  backwork "${NOTIFICATION_NOTIFIERS[@]} ${NOTIFICATION_SETTINGS[@]}" upload softlayer \
+  backwork "${NOTIFICATION_NOTIFIERS[@]}" "${NOTIFICATION_SETTINGS[@]}" upload softlayer \
     --username "${SOFTLAYER_USER:?}" \
     --api-key "${SOFTLAYER_API_KEY:?}" \
     --datacenter "${SOFTLAYER_DATACENTER:?}" \
@@ -134,7 +147,7 @@ upload_backup_cos() {
   fi
 
   log "Uploading backup to IBM COS"
-  backwork "${NOTIFICATION_NOTIFIERS[@]} ${NOTIFICATION_SETTINGS[@]}" upload cos \
+  backwork "${NOTIFICATION_NOTIFIERS[@]}" "${NOTIFICATION_SETTINGS[@]}" upload cos \
     --endpoint-url "${IBM_COS_ENDPOINT_URL}" \
     --instance-id "${IBM_COS_INSTANCE_ID}" \
     --access-key "${IBM_COS_ACCESS_KEY}" \
@@ -170,7 +183,7 @@ back_up_mongo() {
   then
     echo "MONGO_URI is not specified, trying MONGO_HOST"
   else
-    backwork "${NOTIFICATION_NOTIFIERS[@]} ${NOTIFICATION_SETTINGS[@]}" backup mongo \
+    backwork "${NOTIFICATION_NOTIFIERS[@]}" "${NOTIFICATION_SETTINGS[@]}" backup mongo \
       --uri "${MONGO_URI}" \
       --archive="${BACKUP_PATH:?}/${filename}" \
       --gzip
@@ -183,7 +196,7 @@ back_up_mongo() {
   then
     echo "MONGO_HOST is not specified, skipping."
   else
-    backwork "${NOTIFICATION_NOTIFIERS[@]} ${NOTIFICATION_SETTINGS[@]}" backup mongo \
+    backwork "${NOTIFICATION_NOTIFIERS[@]}" "${NOTIFICATION_SETTINGS[@]}" backup mongo \
       -u "${MONGO_BACKUP_USER}" \
       -p "${MONGO_BACKUP_PASSWORD}" \
       --host="${MONGO_HOST}" \
@@ -206,7 +219,7 @@ back_up_mysql() {
   filename=mysql_backup_$(date +"%Y%m%d_%H%M%S").archive.gz
 
   log "Taking mysql backup"
-  backwork "${NOTIFICATION_NOTIFIERS[@]} ${NOTIFICATION_SETTINGS[@]}" backup mysql \
+  backwork "${NOTIFICATION_NOTIFIERS[@]}" "${NOTIFICATION_SETTINGS[@]}" backup mysql \
     --output="${BACKUP_PATH:?}/${filename}" \
     --gzip \
     --all-databases \
@@ -242,7 +255,7 @@ back_up_postgresql() {
 
     filename=postgresql_backup_${database:?}_$(date +"%Y%m%d_%H%M%S").archive.gz
 
-    backwork "${NOTIFICATION_NOTIFIERS[@]} ${NOTIFICATION_SETTINGS[@]}" backup postgresql \
+    backwork "${NOTIFICATION_NOTIFIERS[@]}" "${NOTIFICATION_SETTINGS[@]}" backup postgresql \
       --output="${BACKUP_PATH:?}/${filename}" \
       --gzip \
       "--host=${PGHOST:?}" \
