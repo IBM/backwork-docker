@@ -306,7 +306,8 @@ main() {
     back_up_postgresql
   else
     log "Error: Not Enough Local Storage Space For Backup"
-    sentry-cli send-event -m "Not Enough Local Storage Space For Backup, available space ${available_space_g} GB, minimum free space: ${MINIMUM_FREE_SPACE} GB"
+    # TODO: add sentry and HTTP notifier capability here
+    # sentry-cli send-event -m "Not Enough Local Storage Space For Backup, available space ${available_space_g} GB, minimum free space: ${MINIMUM_FREE_SPACE} GB"
     exit 1
   fi
 }

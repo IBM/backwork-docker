@@ -24,7 +24,7 @@ RUN echo 'http://dl-3.alpinelinux.org/alpine/edge/community' >> /etc/apk/reposit
         ncurses \
         zlib
 
-RUN curl -sL https://sentry.io/get-cli/ | bash
+# RUN curl -sL https://sentry.io/get-cli/ | bash
 
 ##########
 # Backwork
