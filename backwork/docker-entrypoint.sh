@@ -192,7 +192,7 @@ back_up_mongo() {
     return
   fi
 
-  if [[ -z "${MONGO_URI}" ]]
+  if [[ -z "${MONGO_HOST}" ]]
   then
     echo "MONGO_HOST is not specified, skipping."
   else
