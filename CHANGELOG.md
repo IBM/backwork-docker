@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased][]
 
+## [1.6.2][] - 2021-03-05
+
+### Changed
+
+- updated [backwork-notifier-http](https://pypi.org/project/backwork-notifier-http)
+
 ## [1.6.0][] - 2021-02-11
 
 ### Added
