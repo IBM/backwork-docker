@@ -2,7 +2,7 @@ contextlib2==0.5.4
 httplib2==0.9.2
 backwork==0.3.0
 backwork-backup-files==0.3.0
-backwork-backup-mongo==0.3.0
+backwork-backup-mongo==0.3.1
 backwork-backup-mysql==0.3.0
 backwork-backup-postgresql==0.2.1
 backwork-notifier-sentry==0.2.0
