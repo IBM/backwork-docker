@@ -12,7 +12,7 @@ RUN echo 'http://dl-3.alpinelinux.org/alpine/edge/community' >> /etc/apk/reposit
         libressl \
         mariadb-client \
         mongodb-tools \
-        mysql \
+        mysql=5.7.30 \
         postgresql \
         tini \
     && apk add --upgrade --no-cache \
