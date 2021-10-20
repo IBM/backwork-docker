@@ -2,5 +2,4 @@
 
 Automated backups for MySQL, Mongo, and file paths using the Backwork library.
 
-[View backwork on dockerhub](https://hub.docker.com/r/snportals/backwork)
-
+[View backwork on GitHub container registry](https://github.com/IBM/backwork-docker/pkgs/container/backwork)
