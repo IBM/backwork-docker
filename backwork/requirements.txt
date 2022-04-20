@@ -7,5 +7,5 @@ backwork-backup-mysql==0.3.0
 backwork-backup-postgresql==0.2.1
 backwork-notifier-sentry==0.2.0
 backwork-upload-softlayer==0.2.1
-backwork-upload-cos==0.3.0
+backwork-upload-cos==0.3.1
 backwork-notifier-http==0.1.4
