@@ -1,4 +1,4 @@
-FROM python:3.8.6-alpine3.12
+FROM python:3.10-alpine
 LABEL maintainer="leonsp@ca.ibm.com"
 
 # Install database clients
@@ -31,6 +31,8 @@ RUN echo 'http://dl-3.alpinelinux.org/alpine/edge/community' >> /etc/apk/reposit
 ##########
 
 COPY requirements.txt ./
+RUN python -m pip install --upgrade pip
+RUN pip install setuptools==57.5.0
 RUN pip install -r ./requirements.txt
 
 COPY ./docker-entrypoint.sh /
