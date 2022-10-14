@@ -35,7 +35,17 @@ RUN python -m pip install --upgrade pip
 RUN pip install setuptools==57.5.0
 RUN pip install -r ./requirements.txt
 
-COPY ./docker-entrypoint.sh /
+# install sudo as root
+RUN apk add --no-cache --update sudo
+
+# add new user
+RUN adduser -D myapp \
+        && echo "myapp ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/myapp \
+        && chmod 0440 /etc/sudoers.d/myapp
+
+COPY --chown=myapp ./docker-entrypoint.sh /
+
+USER myapp
 
 VOLUME ["/backups"]
 ENTRYPOINT ["/sbin/tini", "--"]
