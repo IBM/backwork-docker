@@ -44,7 +44,7 @@ RUN adduser -D myapp \
         && chmod 0440 /etc/sudoers.d/myapp
 
 COPY --chown=myapp ./docker-entrypoint.sh /
-
+RUN mkdir /backups && chown myapp /backups
 USER myapp
 
 VOLUME ["/backups"]
