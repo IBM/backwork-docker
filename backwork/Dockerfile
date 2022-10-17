@@ -4,9 +4,8 @@ LABEL maintainer="leonsp@ca.ibm.com"
 # Install database clients
 # Apply security patches
 # hadolint ignore=DL3018
-RUN echo 'http://dl-3.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories \
-  && echo 'http://dl-3.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories \
-  && apk add --no-cache \
+RUN apk -U upgrade \
+  && apk add --upgrade --no-cache \
   bash \
   curl \
   libressl \
@@ -15,7 +14,6 @@ RUN echo 'http://dl-3.alpinelinux.org/alpine/edge/community' >> /etc/apk/reposit
   mysql \
   postgresql \
   tini \
-  && apk add --upgrade --no-cache \
   db \
   expat \
   freetype \
