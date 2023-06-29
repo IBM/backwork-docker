@@ -10,3 +10,5 @@ tmp
 !.keep
 
 .DS_Store
+
+venv

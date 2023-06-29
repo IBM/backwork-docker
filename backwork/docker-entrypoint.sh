@@ -7,14 +7,6 @@ export BACKUP_PATH=/backups
 NOTIFICATION_NOTIFIERS=(-n)
 NOTIFICATION_SETTINGS=()
 
-# sentry
-if [[ -n ${SENTRY_DSN:-} ]]; then
-    # add notifier
-    NOTIFICATION_NOTIFIERS+=(sentry)
-    # Sentry DSN
-    NOTIFICATION_SETTINGS+=("--sentry-dsn=${SENTRY_DSN:?}")
-fi
-
 # http notifier
 if [[ -n ${HTTP_NOTIFIER_URL:-} ]]; then
     # add notifier
@@ -306,8 +298,6 @@ main() {
     back_up_postgresql
   else
     log "Error: Not Enough Local Storage Space For Backup"
-    # TODO: add sentry and HTTP notifier capability here
-    # sentry-cli send-event -m "Not Enough Local Storage Space For Backup, available space ${available_space_g} GB, minimum free space: ${MINIMUM_FREE_SPACE} GB"
     exit 1
   fi
 }

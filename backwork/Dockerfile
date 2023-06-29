@@ -1,5 +1,4 @@
-FROM python:3.10-alpine
-LABEL maintainer="leonsp@ca.ibm.com"
+FROM python:3.11-alpine
 
 # Install database clients
 # Apply security patches
@@ -22,15 +21,13 @@ RUN apk -U upgrade \
   ncurses \
   zlib
 
-# RUN curl -sL https://sentry.io/get-cli/ | bash
 
 ##########
 # Backwork
 ##########
 
 COPY requirements.txt ./
-RUN python -m pip install --upgrade pip
-RUN pip install setuptools==57.5.0
+RUN python -m pip install --upgrade pip setuptools
 RUN pip install -r ./requirements.txt
 
 # install sudo as root
